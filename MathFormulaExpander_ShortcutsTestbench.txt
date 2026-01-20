@@ -1,0 +1,501 @@
+'' Last updated: 18Jan2026
+
+'' Change the file extension (of this file) from .txt to a .vb (Visual Basic)
+''   file if you want almost-correct text highlighting.
+
+'' This is a testbench file to see if your changes to the Shortcuts file rules
+''   1) Have messed up any pre-existing rules and
+''   2) To see whether your added rules are working correctly
+
+'' How to use this file:
+'' 1) Open your LibreOffice Writer document, then create a *new* formula box,
+''      then enter the formula editor by clicking on the formula box and
+''      pressing the Enter key on your keyboard.
+'' 2) Copy part of or all of the rules and outputs (this file's later contents)
+''      into a LibreOffice Writer formula box editor.
+'' 3) Run the substitution macro (other file).
+'' 4) See if there are any unexpected results *INSIDE* the formula editor (you
+''      won't be able to see the whole visual appearance in the Writer document
+''      due to the enormously long formula).
+'' 5) If there are unexpected results, one of the rules was created incorrectly
+''      and should be fixed (in the macro file, and this one too if you want to
+''      keep testing via copy-paste en masse).
+
+'' This file is not magic.
+'' You will need to add your new rules to this testbench file if you want to
+''   test them along with ALL the pre-existing rules.
+'' If you just want to test your new rules by themselves, then this file is
+''   not necessary at all.  However, standalone-rules testing does not
+''   guarantee your rules will work correctly.
+
+
+
+
+
+'' Add more shortcuts as needed using the same pattern:
+' %yourShortcutTextInsideTheFormulaEditor
+' %yourShortcutTextInsideTheFormulaEditorWithSpaceAppended
+' %yourShortcutTextInsideTheFormulaEditorWithCommaAppended
+' yourDesiredFormula
+' yourDesiredFormulaWithSpaceAppended
+' yourDesiredFormulaWithCommaAppended
+
+
+
+''
+'' Not gonna lie, I got lazy with these tests around the GreekSymbol group.
+'' I need to write a program to automatically take a file with
+' %yourShortcutTextInsideTheFormulaEditor
+' yourDesiredFormula
+'' and turn it into
+' %yourShortcutTextInsideTheFormulaEditor
+' %yourShortcutTextInsideTheFormulaEditorWithSpaceAppended
+' %yourShortcutTextInsideTheFormulaEditorWithCommaAppended
+' yourDesiredFormula
+' yourDesiredFormulaWithSpaceAppended
+' yourDesiredFormulaWithCommaAppended
+''
+'' like:
+' io1file = File.Open("oneinput_oneOutput_File.txt")
+' io3file = File.Open("threeinput_threeOutput_File.txt")
+' str = io1file.ReadLine()
+' io3file.writeToFile(str+"\n")
+' io3file.writeToFile(str+" \n")
+' io3file.writeToFile(str+",\n\n")
+
+
+'' I also need to write a parser program to automatically take the rule file and strip each rule into 'input' and 'output' like converting
+'    sNewFormula = ReplaceShortcut(sNewFormula, "%aligneqn",   "alignl{a &= b + c ## &= d}",       iNumChanged)
+'' into
+' %aligneqn
+' alignl{a &= b + c ## &= d}
+'' 
+'' Which would be useful when combined with the above block comment
+
+
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'' For easier copying, you can delete ALL the comment text in this file (this
+''   comment block and above) and then press CTRL and A at the same time on
+''   your keyboard to copy all the text at once instead of scrolling a ton and
+''   holding your arrow key for 10+ seconds.
+'' Start copying everything below this line into your formula editor ''
+
+
+
+%% Non-Square matrices
+%mat2x3
+matrix{a # b # c ## d # e # f}
+
+%mat3x2
+matrix{a # b ## c # d ## e # f}
+
+
+%% Square matrices
+%mat2
+left [%nmatrix{%n   a # b%n## c # d%n}%nright ]
+
+%mat3
+left [%nmatrix{%n   a # b # c%n## d # e # f%n## g # h # i%n}%nright ]
+
+%mat4
+left [%nmatrix{%n   a # b # c # d%n## e # f # g # h%n## i # j # k # l%n## m # n # o # p}%nright ]
+
+
+%% Identity matrices
+%idmat2
+left [%nmatrix{%n   1 # 0%n## 1 # 0%n}%nright ]
+
+%idmat3
+left [%nmatrix{%n   1 # 0 # 0%n## 0 # 1 # 0%n## 0 # 0 # 1}%nright ]
+
+%idmat4
+left [%nmatrix{%n   1 # 0 # 0 # 0%n## 0 # 1 # 0 # 0%n## 0 # 0 # 1 # 0%n## 0 # 0 # 0 # 1}%nright ]
+
+
+%% Column vectors (cvec)
+%cvec2
+%cvec2 
+%cvec2,
+stack{a # b}
+stack{a # b} 
+stack{a # b},
+
+%cvec3
+%cvec3 
+%cvec3,
+stack{a # b # c}
+stack{a # b # c} 
+stack{a # b # c},
+
+
+%integral
+%integral 
+%integral,
+int from{a} to{b} f(x) dx
+int from{a} to{b} f(x) dx 
+int from{a} to{b} f(x) dx,
+
+%sum
+%sum 
+%sum,
+sum from{i=1} to{n} a_i
+sum from{i=1} to{n} a_i 
+sum from{i=1} to{n} a_i,
+
+%lim
+%lim 
+%lim,
+lim from{x toward infinity} f(x)
+lim from{x toward infinity} f(x) 
+lim from{x toward infinity} f(x),
+
+%inf
+%inf 
+%inf,
+infinity
+infinity 
+infinity,
+
+%frac
+%frac 
+%frac,
+{{a} over {b}}
+{{a} over {b}} 
+{{a} over {b}},
+
+%rt
+%rt 
+%rt,
+sqrt{x}
+sqrt{x} 
+sqrt{x},
+
+%sqrt
+%sqrt 
+%sqrt,
+sqrt{x}
+sqrt{x} 
+sqrt{x},
+
+%irt2
+%irt2 
+%irt2,
+frac{1}{sqrt{2}}
+frac{1}{sqrt{2}} 
+frac{1}{sqrt{2}},
+
+%invrt2
+%invrt2 
+%invrt2,
+sqrt{frac{1}{2}}
+sqrt{frac{1}{2}} 
+sqrt{frac{1}{2}},
+
+%irt3
+%irt3 
+%irt3,
+frac{1}{sqrt{3}}
+frac{1}{sqrt{3}} 
+frac{1}{sqrt{3}},
+
+%invrt3
+%invrt3 
+%invrt3,
+sqrt{frac{1}{3}}
+sqrt{frac{1}{3}} 
+sqrt{frac{1}{3}},
+
+%pw2
+%pw2 
+%pw2,
+%cases2
+%cases2 
+%cases2,
+
+%piecewise2
+%piecewise2 
+%piecewise2,
+%cases2
+%cases2 
+%cases2,
+
+left {%n  stack{a, x>0 # b, x <= 0}%n right none
+left {%n  stack{a, x>0 # b, x <= 0}%n right none 
+left {%n  stack{a, x>0 # b, x <= 0}%n right none,
+
+%pw4
+%pw4 
+%pw4,
+%piecewise4
+%piecewise4 
+%piecewise4,
+%cases4
+%cases4 
+%cases4,
+
+size*0{ phantom{Piecewise Function 4} }
+stack{%theta`=` # ` # `}
+size *3.75{\lbrace}
+	stack{
+	{x,```i>0}
+	# {y,```i=0}
+	# {z,```i<0}
+	# {%alpha,`i notin setR}
+	# {size *2.5{~}}
+	}
+``````
+
+%aligneqn
+%aligneqn 
+%aligneqn,
+alignl{a &= b + c ## &= d}
+alignl{a &= b + c ## &= d} 
+alignl{a &= b + c ## &= d},
+
+%binom
+%binom 
+%binom,
+binom{n}{k}
+binom{n}{k} 
+binom{n}{k},
+
+%deriv
+%deriv 
+%deriv,
+{{df} over {dx}}
+{{df} over {dx}} 
+{{df} over {dx}},
+
+%part
+%part 
+%part,
+%partial
+%partial 
+%partial,
+{{partial f} over {partial x}}
+{{partial f} over {partial x}} 
+{{partial f} over {partial x}},
+
+
+
+%% Greek letters NEED a % prefix
+%al
+%\alpha
+
+%alp
+%\alpha
+
+%\alpha
+%alpha
+
+
+%Al
+%\ALPHA
+
+%Alp
+%\ALPHA
+
+%AL
+%\ALPHA
+
+%ALP
+%\ALPHA
+
+%\ALPHA
+%ALPHA
+
+
+%be
+%\beta
+
+%bet
+%\beta
+
+%\beta
+%beta
+
+
+%Be
+%\BETA
+
+%Bet
+%\BETA
+
+%BE
+%\BETA
+
+%BET
+%\BETA
+
+%\BETA
+%BETA
+
+
+%ga
+%\gamma
+
+%gam
+%\gamma
+
+%\gamma
+%gamma
+
+
+%Ga
+%\GAMMA
+
+%Gam
+%\GAMMA
+
+%GA
+%\GAMMA
+
+%GAM
+%\GAMMA
+
+%\GAMMA
+%GAMMA
+
+
+%del
+%delta
+
+
+%DEL
+%DELTA
+
+%Del
+%DELTA
+
+%tri 
+%DELTA
+
+%triangle1
+%DELTA
+
+%changein
+%DELTA
+
+
+%si
+%\sigma
+
+%sig
+%\sigma
+
+%\sigma
+%sigma
+
+
+%Si
+%\SIGMA
+
+%Sig
+%\SIGMA
+
+%SI
+%\SIGMA
+
+%SIG
+%\SIGMA
+
+%\SIGMA
+%SIGMA
+
+
+%ome
+%omega
+
+%ohm
+%omega
+
+
+%Ohm
+%\OMEGA
+
+%Ome
+%\OMEGA
+
+%OHM
+%\OMEGA
+
+%OME
+%\OMEGA
+
+%\OMEGA
+%OMEGA
+
+
+%omi
+%omicron
+
+%Omi
+%\OMICRON
+
+%OMI
+%\OMICRON
+
+%\OMICRON
+%OMICRON
+
+
+%the
+%theta
+
+
+%The
+%\THETA
+
+%THE
+%\THETA
+
+%\THETA
+%THETA
+
+
+%ze
+%\zeta
+
+%zet
+%\zeta
+
+%\zeta
+%zeta
+
+
+%Ze
+%\ZETA
+
+%Zet
+%\ZETA
+
+%ZE
+%\ZETA
+
+%ZET
+%\ZETA
+
+%\ZETA
+%ZETA
+
+
+%% nabla should NOT have a % prefix.
+%nab
+nabla
+
+%grad
+nabla
+
+%gradient
+nabla
+
+%gradientof
+nabla
+
+%triangle2
+nabla
+
+
+
+%n
+vbNewLine
