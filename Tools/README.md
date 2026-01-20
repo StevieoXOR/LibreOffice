@@ -1,4 +1,21 @@
-## Purpose
+## Purpose of MathAutoCorrect
+
+AutoCorrect doesn't exist when inside LibreOffice Math Formula Objects, so there is no
+possibility of unofficial LO shortcuts (at least, if you do not want to have to arduously
+click through the GUI to get to your user-defined formulas). This is especially annoying with long equations.
+
+<br>
+
+Also, if you forget certain patterns that LO Writer already uses, this macro lets
+you simply write down the shortcut to some pre-defined rule, like `%idmat2`, that contains
+the native LO Writer Math Formula pattern. Example native LO Writer Math Formula patterns:
+* `left [` SomeContents `right ]`
+* `left [` SomeContents `right none`
+* `stack{` SomeContents `}`
+* `matrix{ My_row1col1 # My_row1col2 ## My_row2 }`
+
+<br>
+
 This macro code lets you substitute keyphrases into their expanded form when the user is
 inside (not merely selecting) the Math Formula Box Editor inside a LibreOffice Writer file, 
 like converting (i.e., substituting)
@@ -48,15 +65,6 @@ like converting (i.e., substituting)
 * `%deriv` into `{{df} over {dx}}`
 * Many more substitutions that have already been implemented.
 
-## Notes
-
-* This does not substitute the visual-only representation of the Math Formula.
-  It substitutes the actual text inside the Math Formula (which then alters the visual representation).
-
-* If desired, the Writer-recognized constants like %SIGMA and %sigma can be replaced
-  with the actual symbols by modifying this macro and copying the actual unicode symbols
-  online (or even from within Writer via the Symbols section).
-
 
 ## File Details
 
@@ -73,6 +81,19 @@ All attempts so far have been unsuccessful.
   rules that you can copy into a Formula Editor, then run the substitution macro to look for any
   unintended changes that would indicate you need to change the position or input string of a
   substitution rule.
+
+
+## Notes
+
+* This does not substitute the visual-only representation of the Math Formula.
+  It substitutes the actual text inside the Math Formula (which then alters the visual representation).
+
+* If desired, the Writer-recognized constants like %SIGMA and %sigma can be replaced
+  with the actual symbols by modifying this macro and copying the actual unicode symbols
+  online (or even from within Writer via the Symbols section).
+
+* Adding new rules only needs to be done in one file, but that still sadly isn't as simple as the native AutoCorrect method. In other words, instead of opening a dialog box to add a (regular paragraph) word substitution (regular AutoCorrect), you must open and modify this Macro file (Math AutoCorrect - `MathFormulaExpander.vb`).
+
 
 
 ### To Do
