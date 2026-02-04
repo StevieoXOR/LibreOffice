@@ -1,3 +1,18 @@
+## Example of MathAutoCorrect
+
+Before substituting key phrases:
+<img alt="Before substituting key phrases" src="Assets/PreSubstitution.png" width=1000 height=600>
+<br>
+
+During substitution of key phrases
+<img alt="During substitution of key phrases" src="Assets/DuringSubstitution.png" width=1000 height=600>
+<br>
+
+After substituting key phrases
+<img alt="After substituting key phrases" src="Assets/AfterSubstitution.png" width=1000 height=600>
+<br>
+<br>
+
 ## Purpose of MathAutoCorrect
 
 AutoCorrect doesn't exist when inside LibreOffice Math Formula Objects, so there is no
@@ -70,7 +85,7 @@ like converting (i.e., substituting)
 
 * `MathFormulaExpander.vb` is the file that contains the macro to run (**"Main_ExpandFormulaShortcuts"**)
   once you're inside a Formula Editor, as well as the macro that details a list of available substitutions
-  (**"ListAvailableShortcuts"**).
+  (**"ListAvailableShortcuts"**) (which can be run either inside the main Writer document or inside the Formula Editor).
   * This is the file where you should add new rules (or modify old ones) to your liking.
 
 * `MathFormulaExpander - GetFormulaObject_Experimenting.vb` is purely a development file that
@@ -92,13 +107,14 @@ All attempts so far have been unsuccessful.
   with the actual symbols by modifying this macro and copying the actual unicode symbols
   online (or even from within Writer via the Symbols section).
 
-* Adding new rules only needs to be done in one file, but that still sadly isn't as simple as the native AutoCorrect method. In other words, instead of opening a dialog box to add a (regular paragraph) word substitution (regular AutoCorrect), you must open and modify this Macro file (Math AutoCorrect - `MathFormulaExpander.vb`).
+* Adding new rules only needs to be done in one file, but that still sadly isn't as simple as the native AutoCorrect method. In other words, instead of opening a dialog box to add a (regular paragraph) word substitution (regular AutoCorrect), you must open and modify this Macro file (Math AutoCorrect - `MathFormulaExpander.vb`) (specifically the `ReplaceAllShortcuts` Function and `ListAvailableShortcuts` Sub).
 
 
 
 ### To Do
 
-* Add quantum equation and qubit shorthands.
+* Add shortcuts for sparse matrices, dot (vertical, horizontal, downright, downleft).
+* Add shortcuts for quantum gate matrix-representations (X,Y,Z,H,CX,CCX/Toffoli,SWAP, RX(theta),RY(theta),RZ(theta)), quantum state |i>, quantum |+> and |-> variants where fractions are separated.
 * Improve this README to detail how to set up a keybind to auto-run the macro after pressing CTRL+SPACE,
   and link to a related macro & keybind tutorial.
 * The To-Dos listed inside the Testbench file for automatically extracting the set of rules from
