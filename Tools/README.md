@@ -113,7 +113,7 @@ All attempts so far have been unsuccessful.
 
 ### To Do
 
-* Add shortcuts for sparse matrices, dot (vertical, horizontal, downright, downleft).
+* Add shortcuts for sparse matrices, dot (vertical, horizontal, downright, downleft), %veps for %varepsilon.
 * Add shortcuts for quantum gate matrix-representations (X,Y,Z,H,CX,CCX/Toffoli,SWAP, RX(theta),RY(theta),RZ(theta)), quantum state |i>, quantum |+> and |-> variants where fractions are separated.
 * Improve this README to detail how to set up a keybind to auto-run the macro after pressing CTRL+SPACE,
   and link to a related macro & keybind tutorial.
