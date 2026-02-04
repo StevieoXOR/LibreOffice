@@ -1,4 +1,5 @@
 REM ** Creation Date: 16Jan2026-19Jan2026
+REM ** Last Updated:  3Feb2026
 REM ** Macro Programming Language: LibreOffice BASIC
 REM ** MACRO NAME:     LibreOffice Math Formula Snippet Expander
 REM ** MACRO PURPOSE:  Expands shorthand codes into full formula markup,
@@ -330,7 +331,9 @@ Function ReplaceAllShortcuts(ByRef sNewFormula As String, ByRef iNumChanged As I
     Dim saTemp(10) As String    ' sa = String array
     Dim sTemp      As String
     Dim vbNewLine  As String
+    Dim vbDubQwo  As String
     vbNewLine = Chr(10)
+    vbDubQwo  = Chr(34)
 
     ' These rules must occur before the rules of the form %mat2, %mat3
     sNewFormula = ReplaceShortcut(sNewFormula, "%mat2x3",   "matrix{a # b # c ## d # e # f}",   iNumChanged,    sRulesUsed)
@@ -340,6 +343,7 @@ Function ReplaceAllShortcuts(ByRef sNewFormula As String, ByRef iNumChanged As I
     sNewFormula = ReplaceShortcut(sNewFormula, "%mat3",     "left [%nmatrix{%n   a # b # c%n## d # e # f%n## g # h # i%n}%nright ]", iNumChanged,    sRulesUsed)
     sNewFormula = ReplaceShortcut(sNewFormula, "%mat4",     "left [%nmatrix{%n   a # b # c # d%n## e # f # g # h%n## i # j # k # l%n## m # n # o # p}%nright ]", iNumChanged,    sRulesUsed)
 
+    ' Identity Matrices (IdMat)
     sNewFormula = ReplaceShortcut(sNewFormula, "%idmat2",   "left [%nmatrix{%n   1 # 0%n## 1 # 0%n}%nright ]",           iNumChanged,    sRulesUsed)
     sNewFormula = ReplaceShortcut(sNewFormula, "%idmat3",   "left [%nmatrix{%n   1 # 0 # 0%n## 0 # 1 # 0%n## 0 # 0 # 1}%nright ]", iNumChanged,    sRulesUsed)
     sNewFormula = ReplaceShortcut(sNewFormula, "%idmat4",   "left [%nmatrix{%n   1 # 0 # 0 # 0%n## 0 # 1 # 0 # 0%n## 0 # 0 # 1 # 0%n## 0 # 0 # 0 # 1}%nright ]", iNumChanged,    sRulesUsed)
@@ -384,9 +388,12 @@ Function ReplaceAllShortcuts(ByRef sNewFormula As String, ByRef iNumChanged As I
 
 
     ' FORMATTING
-    sNewFormula = ReplaceShortcut(sNewFormula, "%aligneqn",   "alignl{a &= b + c ## &= d}",       iNumChanged,    sRulesUsed)
+    ' Note: %n is at the bottom of this substitution Function, and it should stay there.
+    sNewFormula = ReplaceShortcut(sNewFormula, "%aligneqn",   "alignl stack{%na = b #%n`~= c #%n`~= d+e+f%n}",       iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%allbrackets","(x),%n[x],%nInvisible grouping: {x},%n|: mline,%n|x|: lline x rline,%n||x||: ldline x rdline,%n{x}: lbrace x rbrace,%n[[x]]: ldbracket x rdbracket,%n<x>: langle x rangle,%nlfloor x rfloor,%nlceil x rceil,%nScalable:%n> left( x right),%n> left lbrace x right rbrace,%nNon-Scalable:%n> \( x \),%n> \lbrace x \rbrace,%nMustache: InsideTheHouse overbrace GroupName,%n Upside-down Mustache: RegularText underbrace GroupName",       iNumChanged,    sRulesUsed)
 
     sNewFormula = ReplaceShortcut(sNewFormula, "%newline",    "newline",                          iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%tab",        "~~~~",                             iNumChanged,    sRulesUsed)
     sNewFormula = ReplaceShortcut(sNewFormula, "%bigspace",   "~~~~",                             iNumChanged,    sRulesUsed)
     sNewFormula = ReplaceShortcut(sNewFormula, "%medspace",   "~~",                               iNumChanged,    sRulesUsed)
     sNewFormula = ReplaceShortcut(sNewFormula, "%space ",     "~~",                               iNumChanged,    sRulesUsed)
@@ -394,11 +401,11 @@ Function ReplaceAllShortcuts(ByRef sNewFormula As String, ByRef iNumChanged As I
     sNewFormula = ReplaceShortcut(sNewFormula, "%smolspace",  "~",                                iNumChanged,    sRulesUsed)
     sNewFormula = ReplaceShortcut(sNewFormula, "%tinyspace",  "`",                                iNumChanged,    sRulesUsed)
 
-    sNewFormula = ReplaceShortcut(sNewFormula, "%unary=",     "`=`",                              iNumChanged,    sRulesUsed)
-    sNewFormula = ReplaceShortcut(sNewFormula, "%unary<",     "`lt`",                             iNumChanged,    sRulesUsed)
-    sNewFormula = ReplaceShortcut(sNewFormula, "%unary>",     "`gt`",                             iNumChanged,    sRulesUsed)
-    sNewFormula = ReplaceShortcut(sNewFormula, "%unary<=",    "`le`",                             iNumChanged,    sRulesUsed)
-    sNewFormula = ReplaceShortcut(sNewFormula, "%unary>=",    "`ge`",                             iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%text",       "%\rawtext",                        iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%rawtext",    "%\rawtext",                        iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%plaintext",  "%\rawtext",                        iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%nointerpret","%\rawtext",                        iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%\rawtext",   vbDubQwo+"WrapRawTextInDoubleQuotes"+vbDubQwo,        iNumChanged,    sRulesUsed)
 
     sNewFormula = ReplaceShortcut(sNewFormula, "%comment",    "%\comment",                        iNumChanged,    sRulesUsed)
     sNewFormula = ReplaceShortcut(sNewFormula, "%annotation", "%\comment",                        iNumChanged,    sRulesUsed)
@@ -411,7 +418,13 @@ Function ReplaceAllShortcuts(ByRef sNewFormula As String, ByRef iNumChanged As I
     sNewFormula = ReplaceShortcut(sNewFormula, "%--",         "%\comment",                        iNumChanged,    sRulesUsed)
     sNewFormula = ReplaceShortcut(sNewFormula, "%<!--",       "%\comment",                        iNumChanged,    sRulesUsed)
     sNewFormula = ReplaceShortcut(sNewFormula, "%<--",        "%\comment",                        iNumChanged,    sRulesUsed)
-    sNewFormula = ReplaceShortcut(sNewFormula, "%\comment",   "%% This is a comment. You may want phantom{IamHidden} instead.",  iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%\comment",   "%% This is a comment. You may want `phantom{IamHidden}` instead.",  iNumChanged,    sRulesUsed)
+    
+    sNewFormula = ReplaceShortcut(sNewFormula, "%nullary=",     "`=`",                            iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%nullary<",     "`lt`",                           iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%nullary>",     "`gt`",                           iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%nullary<=",    "`le`",                           iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%nullary>=",    "`ge`",                           iNumChanged,    sRulesUsed)
 
     sNewFormula = ReplaceShortcut(sNewFormula, "%binom",      "binom{n}{k}",                      iNumChanged,    sRulesUsed)
     sNewFormula = ReplaceShortcut(sNewFormula, "%deriv",      "{{df} over {dx}}",                 iNumChanged,    sRulesUsed)
@@ -421,11 +434,6 @@ Function ReplaceAllShortcuts(ByRef sNewFormula As String, ByRef iNumChanged As I
 
 
     ' QUANTUM
-    sNewFormula = ReplaceShortcut(sNewFormula, "%ket ",       "left lline <?> right rangle",      iNumChanged,    sRulesUsed)
-    sNewFormula = ReplaceShortcut(sNewFormula, "%ketpsi",     "left lline %psi right rangle",     iNumChanged,    sRulesUsed)
-    sNewFormula = ReplaceShortcut(sNewFormula, "%ketPsi",     "left lline %PSI right rangle",     iNumChanged,    sRulesUsed)
-    sNewFormula = ReplaceShortcut(sNewFormula, "%ketPSI",     "left lline %PSI right rangle",     iNumChanged,    sRulesUsed)
-
     sNewFormula = ReplaceShortcut(sNewFormula, "%q ",         "%\qubit1",    iNumChanged,    sRulesUsed)
     sNewFormula = ReplaceShortcut(sNewFormula, "%qubit ",     "%\qubit1",    iNumChanged,    sRulesUsed)
     sNewFormula = ReplaceShortcut(sNewFormula, "%q1 ",        "%\qubit1",    iNumChanged,    sRulesUsed)
@@ -453,6 +461,19 @@ Function ReplaceAllShortcuts(ByRef sNewFormula As String, ByRef iNumChanged As I
     sNewFormula = ReplaceShortcut(sNewFormula, "%q2col ",     "%% |qq> ColVec%nleft(  stack{%alpha # %beta # %gamma # %delta}  right)",                  iNumChanged,    sRulesUsed)
     sNewFormula = ReplaceShortcut(sNewFormula, "%q3col ",     "%% |qqq> ColVec%nleft(  stack{%alpha # %beta # %gamma # %delta # w # x # y # z}  right)", iNumChanged,    sRulesUsed)
     sNewFormula = ReplaceShortcut(sNewFormula, "%q4col ",     "%% |qqqq>%n%% ColVec, NOT matrix!!!%nleft(%nstack{%n  a0 # b1 # c2 # d3   #%n  e4 # f5 # g6 # h7   #%n  i8 # j9 # k10 # l11   #%n  m12 # n13 # o14 # p15%n}%nright)", iNumChanged,    sRulesUsed)
+
+    sNewFormula = ReplaceShortcut(sNewFormula, "%ket ",       "left lline <?> right rangle",      iNumChanged,    sRulesUsed)
+
+    sNewFormula = ReplaceShortcut(sNewFormula, "%ketpsi",     "left lline %psi right rangle",     iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%ketPsi",     "left lline %PSI right rangle",     iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%ketPSI",     "left lline %PSI right rangle",     iNumChanged,    sRulesUsed)
+
+    sNewFormula = ReplaceShortcut(sNewFormula, "%ket0 ",      "left lline 0 right rangle",        iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%ket1 ",      "left lline 1 right rangle",        iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%ket+ ",      "left lline %dq+%dq right rangle",  iNumChanged,    sRulesUsed)
+
+    ' NOTE: – IS NOT THE SAME SYMBOL AS -.     [Regular -]           [Longer dash]
+    sNewFormula = ReplaceShortcut(sNewFormula, "%ket- ",      "left lline – right rangle",        iNumChanged,    sRulesUsed)
 
     sNewFormula = ReplaceShortcut(sNewFormula, "%qp ",        "%\qplus",     iNumChanged,    sRulesUsed)
     sNewFormula = ReplaceShortcut(sNewFormula, "%q+ ",        "%\qplus",     iNumChanged,    sRulesUsed)
@@ -567,6 +588,9 @@ Function ReplaceAllShortcuts(ByRef sNewFormula As String, ByRef iNumChanged As I
     sNewFormula = ReplaceShortcut(sNewFormula, "%n",        vbNewLine,    iNumChanged,    sRulesUsed)
     ' MsgBox "Post-%n #rulesApplied=" & iNumChanged,  MB_ICONINFORMATION
 
+    ' Double quote substitution
+    sNewFormula = ReplaceShortcut(sNewFormula, "%dq",        vbDubQwo,    iNumChanged,    sRulesUsed)
+
 	ReplaceAllShortcuts = sNewFormula
 End Function
 
@@ -580,20 +604,23 @@ Sub ListAvailableShortcuts()
     ' As you add more substitutions, you must increase the storage size of the arrays.
     Dim sMessagePg1       As String
     Dim sMessagePg2       As String
-    Dim sMessagePg3       As String
-    Dim saMsgFormat(20)   As String
-    Dim saMsgMatrix(8)   As String
+    Dim saMsgFormat(7)    As String
+    Dim saMsgSpacing(10)  As String
+    Dim saMsgSoloOperators(5)   As String
+    Dim saMsgMatrix(9)   As String
     Dim saMsgVector(4)   As String
     Dim saMsgCases(3)    As String
     Dim saMsgAlgebra(7)  As String
     Dim saMsgCalculus(5) As String
-    Dim saMsgSymbol(20)  As String
-    Dim saMsgQuantum(14)  As String
+    Dim saMsgSymbol(19)  As String
+    Dim saMsgQuantum(21)  As String
 
     Dim vbNewLine As String
     Dim vbTab As String
+    Dim vbDubQwo As String
     vbNewLine = Chr(10) ' Keyword: vbNewLine
-    vbTab = Chr(9)      ' Keyword: vbTab
+    vbTab     = Chr(9)  ' Keyword: vbTab
+    vbDubQwo  = Chr(34)
     ' Why so many arrays? Because it's:
     ' 1) Far fewer time-consuming memory allocations than appending every individual String, and
     ' 2) Is more unitizable (can easily swap entire categories in/out if needed)
@@ -602,26 +629,33 @@ Sub ListAvailableShortcuts()
     sMessagePg1 = sMessagePg1 & "<> (apostrophes indicate a required space character)" & vbNewLine & vbNewLine
 
     saMsgFormat(0) = "Formatting Shortcuts"
-    saMsgFormat(1) = "> %aligneqn -->  Aligned equation template"
-    saMsgFormat(2) = "> %newline  -->  Inserts new visual line (newline) in displayed equation"
-    saMsgFormat(3) = "> %n"+vbTab+"--> Inserts new line (vbNewLine) inside the formula editor"
-    saMsgFormat(4) = "> %comment, %annotation, %description  -->  %% This is a comment"
-    saMsgFormat(5) = "> %noshow, %hide, %hidetext            -->  %% This is a comment"
-    saMsgFormat(6) = "> %--,   %<!--,   %<--,   %/*,   %//   -->  %% This is a comment"+vbNewLine
-    saMsgFormat(7)  = "Get rid of red ? when using multi-line equations"
-    saMsgFormat(8)  = "> %unary=    -->   `=`"
-    saMsgFormat(9)  = "> %unary<    -->   `lt`"
-    saMsgFormat(10)  = "> %unary>    -->   `gt`"
-    saMsgFormat(11)  = "> %unary<=  -->   `le`"
-    saMsgFormat(12) = "> %unary>=  -->   `ge`"+vbNewLine
-    saMsgFormat(13) = "Spacing Shortcuts"
-    saMsgFormat(14) = "> %bigspace"+vbTab+vbTab+"-->   ~~~~"
-    saMsgFormat(15) = "> '%medspace '  -->   ~~"
-    saMsgFormat(16) = "> '%space '"+vbTab+vbTab+vbTab+"-->   ~~"
-    saMsgFormat(17) = "> '%sp '"+vbTab+vbTab+vbTab+vbTab+"-->   ~~"
-    saMsgFormat(18) = "> %smolspace"+vbTab+"-->   ~"
-    saMsgFormat(19) = "> %tinyspace"+vbTab+vbTab+"-->   `"
-    saMsgFormat(20) = vbNewLine + vbNewLine
+    saMsgFormat(1) = "> %aligneqn"+vbTab+"-->  Aligned equation template"
+    saMsgFormat(2) = "> %allbrackets -->  Shows all inbuilt grouping operators like (), lbrace, etc"
+    saMsgFormat(3) = "> %text, %rawtext, %plaintext, %nointerpret  -->  Wrap the text in double quotes. "+vbDubQwo+"raw{}"+vbDubQwo
+    saMsgFormat(4) = "> %comment, %annotation, %description"+vbTab+"-->  %% This is a comment"
+    saMsgFormat(5) = "> %noshow, %hide, %hidetext"+vbTab+vbTab+vbTab+vbTab+vbTab+vbTab+"-->  %% This is a comment"
+    saMsgFormat(6) = "> %--,   %<!--,   %<--,   %/*,   %//"+vbTab+vbTab+vbTab+vbTab+vbTab+"-->  %% This is a comment"
+    saMsgFormat(7) = vbNewLine
+
+    saMsgSpacing(0) = "Spacing Shortcuts"
+    saMsgSpacing(1) = "> %newline  -->  Inserts new visual line (newline) in ***displayed equation***"
+    saMsgSpacing(2) = "> %n"+vbTab+"--> Inserts new visual line (vbNewLine) inside the ***formula editor***"
+    saMsgSpacing(3) = "> %tab"+vbTab+vbTab+vbTab+vbTab+"-->   ~~~~"
+    saMsgSpacing(4) = "> %bigspace"+vbTab+vbTab+"-->   ~~~~"
+    saMsgSpacing(5) = "> '%medspace '  -->   ~~"
+    saMsgSpacing(6) = "> '%space '"+vbTab+vbTab+vbTab+"-->   ~~"
+    saMsgSpacing(7) = "> '%sp '"+vbTab+vbTab+vbTab+vbTab+"-->   ~~"
+    saMsgSpacing(8) = "> %smolspace"+vbTab+"-->   ~"
+    saMsgSpacing(9) = "> %tinyspace"+vbTab+vbTab+"-->   `"
+    saMsgSpacing(10) = vbNewLine
+
+    saMsgSoloOperators(0) = "Standalone Operators:  Get rid of red ? error when using multi-line equations"
+    saMsgSoloOperators(1) = "> %nullary=    -->   `=`"
+    saMsgSoloOperators(2) = "> %nullary<    -->   `lt`"
+    saMsgSoloOperators(3) = "> %nullary>    -->   `gt`"
+    saMsgSoloOperators(4) = "> %nullary<=  -->   `le`"
+    saMsgSoloOperators(5) = "> %nullary>=  -->   `ge`"
+    ' saMsgSoloOperators(6) = vbNewLine
 
     saMsgMatrix(0) = "Matrix Shortcuts"
     saMsgMatrix(1) = "> %mat2   - 2x2 matrix"
@@ -632,7 +666,7 @@ Sub ListAvailableShortcuts()
     saMsgMatrix(6) = "> %idmat2 - 2x2 identity matrix"
     saMsgMatrix(7) = "> %idmat3 - 3x3 identity matrix"
     saMsgMatrix(8) = "> %idmat4 - 4x4 identity matrix"
-    'saMsgMatrix(9) = vbNewLine
+    saMsgMatrix(9) = vbNewLine
 
     saMsgVector(0) = "Vector Shortcuts"
     saMsgVector(1) = "> %binom - Binomial coefficient ('choose')"
@@ -656,10 +690,10 @@ Sub ListAvailableShortcuts()
 
     saMsgCalculus(0) = "Calculus Shortcuts"
     saMsgCalculus(1) = "> %integral - definite integral"
-    saMsgCalculus(2) = "> %sum   - summation Σ"
-    saMsgCalculus(3) = "> %lim   - limit"
-    saMsgCalculus(4) = "> %deriv - derivative  df/dx"
-    saMsgCalculus(5) = "> %partial, %part - partial derivative  ∂f/∂x"
+    saMsgCalculus(2) = "> %sum"+vbTab+vbTab+"- summation Σ"
+    saMsgCalculus(3) = "> %lim"+vbTab+vbTab+vbTab+"- limit"
+    saMsgCalculus(4) = "> %deriv"+vbTab+vbTab+"- derivative  df/dx"
+    saMsgCalculus(5) = "> %partial, %part  -  partial derivative  ∂f/∂x"
     ' saMsgCalculus(6) = vbNewLine
 
     saMsgSymbol(0)  = "Greek Symbol Shortcuts"
@@ -679,37 +713,44 @@ Sub ListAvailableShortcuts()
     saMsgSymbol(14) = "> %Omi, '%OMI '"+vbTab+"-> %OMICRON"
     saMsgSymbol(15) = "> '%the '"+vbTab+vbTab+vbTab+vbTab+"-> %theta"
     saMsgSymbol(16) = "> %The, '%THE '"  +vbTab+"-> %THETA"
-    saMsgSymbol(17) = "> '%ze ', '%zet '"+vbTab+vbTab+vbTab+vbTab+vbTab+vbTab+"-> %zeta"
-    saMsgSymbol(18) = "> '%Ze ', '%Zet ', '%ZE ', '%ZET ' -> %ZETA"
+    saMsgSymbol(17) = "> '%ze ', '%zet '"+vbTab+vbTab+vbTab+vbTab+vbTab+vbTab+vbTab+"-> %zeta"
+    saMsgSymbol(18) = "> '%Ze ', '%Zet ', '%ZE ', '%ZET '"+vbTab+"-> %ZETA"
     saMsgSymbol(19) = "> %nab, %grad, %gradient, %gradientof -> nabla"
-    saMsgSymbol(20) = vbNewLine
+    ' saMsgSymbol(20) = vbNewLine
 
-    saMsgQuantum(0) = "Quantum Shortcuts"
+    saMsgQuantum(0) = "Quantum Shortcuts"+vbNewLine
     saMsgQuantum(1) = "|q〉"
     saMsgQuantum(2) = "* > '%q1 ', '%q1exp ', '%q1ket ', '%q1dirac ', '%qubit1 ', '%qubit ', '%q '"+vbNewLine+"  -->  α|0〉 + β|1〉"
     saMsgQuantum(3) = "|qq〉"
     saMsgQuantum(4) = "* > '%q2 ', '%q2exp ', '%q2ket ', '%q2dirac ', '%qubit2 '"+vbNewLine+"  -->  α|00〉 + β|01〉 + γ|10〉 + δ|11〉"
     saMsgQuantum(5) = "|qqq〉"
     saMsgQuantum(6) = "* > '%q3 ', '%q3exp ', '%q3ket ', '%q3dirac ', '%qubit3 '"+vbNewLine+"  -->  α|000〉 + β|001〉 + γ|010〉 + δ|011〉 + w|100〉 + x|101〉 + y|110〉 + z|111〉"+vbNewLine
-    saMsgQuantum(7) = "> '%q1col '"+vbTab+"--> (columnVector2{α # β})"+vbTab+vbTab+vbTab +"--   |q〉"
-    saMsgQuantum(8) = "> '%q2col '"+vbTab+"--> (columnVector4{α # β # γ # δ})"+vbTab+vbTab+"--   |qq〉"
-    saMsgQuantum(9) = "> '%q3col '"+vbTab+"--> (columnVector8{α # β # γ # δ # w # x # y # z})   --   |qqq〉"
-    saMsgQuantum(10) = "> '%q+ ', '%qp '"+vbTab+vbTab+vbTab+vbTab+vbTab+"--> 1/sqrt2 ( |0〉+|1〉 )   --   |+〉"
-    saMsgQuantum(11) = "> '%q- ', '%qn ', '%qm '"+vbTab+vbTab+"--> 1/sqrt2 ( |0〉 -|1〉 )   --   | -〉"
-    saMsgQuantum(12) = "> '%ket '"+vbTab+vbTab+vbTab+"-->  |?〉"
-    saMsgQuantum(13) = "> %ketpsi"+vbTab+vbTab+vbTab+"-->  |ψ〉"
-    saMsgQuantum(14) = "> %ketPsi, %ketPSI"+vbTab+"-->  |Ψ〉"
-    ' saMsgQuantum(15) = vbNewLine
+    saMsgQuantum(7) = "|q〉"
+    saMsgQuantum(8) = "* > '%q1col '"+vbTab+"--> (columnVector2{α # β})"
+    saMsgQuantum(9) = "|qq〉"
+    saMsgQuantum(10) = "* > '%q2col '"+vbTab+"--> (columnVector4{α # β # γ # δ})"
+    saMsgQuantum(11) = "|qqq〉"
+    saMsgQuantum(12) = "* > '%q3col '"+vbTab+"--> (columnVector8{α # β # γ # δ # w # x # y # z})"+vbNewLine
+    saMsgQuantum(13) = "> '%q+ ', '%qp '"+vbTab+vbTab+vbTab+vbTab+vbTab+"--> 1/sqrt2 ( |0〉+|1〉 )   --   |+〉"
+    saMsgQuantum(14) = "> '%q- ', '%qn ', '%qm '"+vbTab+vbTab+"--> 1/sqrt2 ( |0〉 – |1〉 )   --   |–〉"+vbNewLine
+    saMsgQuantum(15) = "> '%ket '"+vbTab+vbTab+"-->  |?〉"
+    saMsgQuantum(16) = "> '%ket0 '"+vbTab+vbTab+"-->  |0〉"
+    saMsgQuantum(17) = "> '%ket1 '"+vbTab+vbTab+"-->  |1〉"
+    saMsgQuantum(18) = "> '%ket+ '"+vbTab+vbTab+vbTab+"-->  |+〉"
+    saMsgQuantum(19) = "> '%ket- '"+vbTab+vbTab+vbTab+vbTab+"-->  |–〉"
+    saMsgQuantum(20) = "> %ketpsi"+vbTab+vbTab+vbTab+vbTab+"-->  |ψ〉"
+    saMsgQuantum(21) = "> %ketPsi, %ketPSI"+vbTab+"-->  |Ψ〉"
+    ' saMsgQuantum() = vbNewLine
 
-    sMessagePg1 = sMessagePg1 & Join(saMsgFormat,  vbNewLine) & Join(saMsgMatrix,   vbNewLine)
+    sMessagePg1 = sMessagePg1 & Join(saMsgFormat,        vbNewLine) & Join(saMsgSpacing, vbNewLine)
+    sMessagePg1 = sMessagePg1 & Join(saMsgSoloOperators, vbNewLine)
 
-    sMessagePg2 = Join(saMsgVector,  vbNewLine) & Join(saMsgCases,    vbNewLine)
-    sMessagePg2 = sMessagePg2 & Join(saMsgAlgebra, vbNewLine) & Join(saMsgCalculus, vbNewLine)
+    sMessagePg2 = Join(saMsgMatrix,  vbNewLine) & Join(saMsgVector,  vbNewLine) & Join(saMsgCases,    vbNewLine)
+    sMessagePg2 =                   sMessagePg2 & Join(saMsgAlgebra, vbNewLine) & Join(saMsgCalculus, vbNewLine)
 
-    sMessagePg3 = Join(saMsgSymbol, vbNewLine) & Join(saMsgQuantum, vbNewLine)
-    
-    MsgBox sMessagePg1, MB_ICONINFORMATION, "Formula Shortcuts (1/3) - Formatting, Matrix"
-    MsgBox sMessagePg2, MB_ICONINFORMATION, "Formula Shortcuts (2/3) - Vector, Cases, Algebra, Calculus"
-    MsgBox sMessagePg3, MB_ICONINFORMATION, "Formula Shortcuts (3/3) - Greek Symbol, Quantum"
+    MsgBox sMessagePg1, MB_ICONINFORMATION, "Formula Shortcuts (1/4) - Format, Newline/Tab/Space, 0-arg Operators"
+    MsgBox sMessagePg2, MB_ICONINFORMATION, "Formula Shortcuts (2/4) - Matrix, Vector, Cases, Algebra, Calculus"
+    MsgBox Join(saMsgSymbol,  vbNewLine), MB_ICONINFORMATION, "Formula Shortcuts (3/4) - Greek Symbol"
+    MsgBox Join(saMsgQuantum, vbNewLine), MB_ICONINFORMATION, "Formula Shortcuts (4/4) - Quantum"
     
 End Sub
