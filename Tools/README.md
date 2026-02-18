@@ -137,20 +137,81 @@ You can copy the actual unicode symbols online (or even from within Writer via t
 
 
 
-## To Do
+# To Do ("to implement")
+
+#### Legend
+* ✅: The physical task itself (not the thinking behind it) will take 30 minutes at most, usually taking 3 minutes.
+* ⏳: Will take a non-negligible amount of time.
+* 🧠: Requires brain cells (i.e., logical thinking of modifications affecting either the program or an average user in unintended ways, or Google/StackOverflow/Claude searches).
+* Repeated symbols indicate "more" of that specific symbol (i.e., more brain cells required 🧠🧠🧠, more time required ⏳⏳⏳, speedier (more quick) to accomplish ✅✅✅).
 
 ### High Priority
 * ✅ Modify rule ``"alignl stack{%na = b #%n`~= c #%n`~= d+e+f%n}"`` to incorporate more spacing characters (`` ` ``,`~`, `phantom{invisible text that takes up space in the computed formula's visual output}`)
-* ✅ Add shortcuts for sparse matrices, dot sequences (vertical, horizontal, downright, downleft), `%veps` for `%varepsilon`.
-* ⏳ Add shortcuts for quantum gate matrix-representations (X,Y,Z,H, CX, CCX/Toffoli, SWAP, RX(theta), RY(theta), RZ(theta)).
-* ⏳ Add shortcuts for quantum state |i>, quantum |+> and |-> variants where fractions are separated.
-* ⏳🧠 Make an in-macro selection variable that determines whether symbols get fully resolved to single characters or just resolved to LibreOffice-recognized symbols. Also, implement the rule substitution functionality to make that variable useful. E.g.,
-  * `SubFullyToSingleChar=True:   "%del" -> "%\delta" -> "%delta" -> "δ"`
+* Add shortcuts for:
+  * ✅🧠🧠 `%\n` ➡️ `newline`
+    * This should be put at the very end of the file, around where `%n` already is.
+    * Note: The rule `%newline` ➡️ `newline` already exists.
+    * I thought about swapping the association from {`%\n` ➡️ (displayed to rendered formula but textually written inside formula editor) `newline`,  `%n` ➡️ (displayed inside formula editor, not textually written anywhere) vbNewLine} to {`%n` ➡️ `newline` and `%\n` ➡️ `vbNewline`}, but it's a tradeoff between Programmers being familiar with %`\n` (for escaped newline chars in strings) and Regular people thinking `%n` is more intuitive.  I haven't decided which should be used.
+  * ✅ Nullary logic operators (used when you want to get the rendered symbol, like "or" rendering as "V", but without needing inputs to the left and/or right sides of the symbol)
+    * `%nullaryor`  ➡️ `` `or` ``
+    * `%nullaryand` ➡️ `` `and` ``
+    * `%nullarynot`, `%nullaryneg` ➡️ ``neg` ``
+    * The capitalized versions as inputs, like `%nullaryNEG`
+    * Note: In order to render the backticks on this README file, Github's Markdown is forcing me to add extra spaces that shouldn't exist in the actual conversions.
+  * ✅ Plain-text logic operators, exponent operator (no visual change in rendered formula)
+    * `%text^`   ➡️ `%dq^%dq` (`"^"`)
+    * `%textor`  ➡️ `%dqor%dq` (`"or"`)
+    * `%textand` ➡️ `%dqand%dq` (`"and"`)
+    * `%textneg` ➡️ `%dqneg%dq` (`"neg"`)
+  * Function composition (writing execution-order-deependent functions in a linear way rather than a complicated nested way)
+    * E.g., Unix pipes `|`, Scala/JS doing functional programming like `SomeInput.map(inA,inB => inA+inB).filter(...).truncate(...).reduce(...)`
+    * In math: `SomeInput circ f1 circ f2 circ f3` instead of `f3(f2(f1(SomeInput)))`
+    * ⏳ `%fcom `, `%fcomp `, `%fcompose`, `%fncom `, `%fncomp `,`%fncompose`, `%funccomp`, `%compose`, `%composition`, `%antinest`, `%invnest`, `%fnonest`, `%fnonnest`, `%fnonnested`, `%fnotnested` ➡️ `circ`
+  * ✅✅ `%veps`, `%@eps`, `%vareps ` ➡️ `%varepsilon`
+  * ✅ Sparse matrices, dot sequences (vertical, horizontal, downright, downleft).
+  * ✅ Magnitude/Length of vectors:
+    * `%mag`, `%vlen` (for "vector length"), {`%genpyth`, `%genpythag`, `%genpythagoras`, `%genpythagorean`}, {`%genericpyth`, `%genericpythag`, `%genericpythagoras`, `%genericpythagorean`}, {`%generalpyth`, `%generalpythag`, `%generalpythagoras`, `%generalpythagorean`} ➡️ `"Length"_{"UsingAllDimensions"} = sqrt{{axis1}^2 + {axis2}^2 + {axis3}^2 + ...}`
+  * Pythagorean Theorem:
+    * ✅ `%pyth`, `%pythag`, `%pythagoras`, `%pythagorean` ➡️ `c^2 = a^2 + b^2`
+    * ⏳ PythagoreanVariantSubstitutionName ➡️ `c = sqrt{a^2 + b^2}`
+      * **Variant Naming issue:** "%pyth1"? "%pythv1"? "%pythvar1"?
+  * ⏳ Vector overarrow: `%veca` and `%vecarr`, both meaning "vector arrow".
+    * This should ideally compensate for `widevec` being too stretched, hence the ⏳ due to resolving variant name issues.
+      * **Variant Naming issue:** %veca for the default (minimal characters inside the overarrow), but continuing on?  %veca1 (%veca2 %veca3)?  %vecav (%vecavv %vecavvv)?   %vecav1 (%vecav2 %vecav3)?
+  * ✅ Normalized vector:
+    * `%nvec`, `%normvec`, `%normalvec`, `%normalizedvec`, `%nrmlzdvec`, `%uvec`, `%unitvec` ➡️ `frac{vec}{lline vec rline}`
+    * ⏳ NormalizedVectorVariantSubstitutionName ➡️ `frac{vec}{%vlen}`
+      * **Variant Naming issue**
+  * ✅ Law of Sines
+    * `%formulalawofsines` ➡️ `%% Law Of Sines (relationship between angles and their corresponding opposite (physically distant) sides%nleft lbrace%n  matrix{%n""phantom{ stack{.#.#.} }%nfrac{sin(AngleA)}{length`a}=%nfrac{sin(AngleB)}{length`b}=%nfrac{sin(AngleC)}{length`c}%n##%n""frac{length`a}{sin(AngleA)}=%nfrac{length`b}{sin(AngleB)}=%nfrac{length`c}{sin(AngleC)}%n  }%nright none`
+  * ✅ Cosine-to-Sine Conversion `%formulacos2sin` ➡️ `""cos(x) = {sin(90-x)}_{"degrees implied"} = sin(90°-x) = sin(90" deg"_{"degrees"}-x) %\n%n""~~~~~~~= {sin({frac{%pi}{2}}-x)}_{"radians implied"} ``= sin({%pi/2" rad"_{"radians"}} - x) %\n
+"Acknowledge that " %pi/2 approx frac{3.14}{2} = 1.57 " does NOT = 90. This is why the \"implied\" part is important"`
+  * ⏳ Quantum gate matrix-representations (X,Y,Z,H, CX, CCX/Toffoli, SWAP, RX(theta), RY(theta), RZ(theta)).
+  * ✅🧠 Quantum state *variants* where fractions are separated, for `|+>` and `|->`, `|i>` and `-|i>`.
+    * How to name the variants in an extensible manner? `"%ketiv1"`? `"%ketivar1"`?
+      * Should *not* be "%keti1" due to possible human misinterpretation as (or desire for it to be) "|i1>" (which is the completely different two-qubit-wide meaning "|i>|1>").
+      * Maybe I'll assign a special following-the-%-character for each type of variant, like @.
+        * This would create "%keti" for regular, "%@keti" for variant 1, "%@@keti" for variant 2. I like this.
+        * `@` shouldn't be a suffix. Reasoning: Any later searching of substitutions performed.
+          * E.g., "check char2, iterate until not hitting @" vs "getStrLen, minus1, iterate backwards until not hitting @"
+        * `v` shouldn't be a (pseudo-)prefix. Reasoning: Ambiguous human interpretations, such as:
+          * %vlen (Vector length? Variant of length?)
+          * %vvlen (Length of nested vector? matrix length? Variant 1 of vlen? Variant 2 of len?)
+* ✅🧠 Figure out how to not show all `Sub`s and `Function`s to the user executing the macro, so there's no confusion about private functions/subs that are never supposed to be directly executed by a user.
+  * This is probably a very simple fix, but I'm very new to VB and didn't spend much time thinking much about that UX issue. Try Python-like nested function definitions?
+  * I.e., remove the possibility that a user can run `GetFormulaObject`, `ReplaceAllShortcuts`, `ReplaceShortcuts`.
+* ⏳🧠🧠 Make an in-macro selection variable that determines whether symbols get fully resolved to single characters or just resolved to LibreOffice-recognized symbols. Also, implement the rule substitution functionality to make that variable useful. E.g.,
+  * `SubFullyToSingleChar=False:  "%del " -> "%\delta" -> "%delta"`
+  * `SubFullyToSingleChar=True:   "%del " -> "%\delta" -> "%delta" -> "δ"`
     * Do not be tempted to remove the `"%delta"` step, as it will miss all pre-existing correct symbols in the formula editor.
-  * `SubFullyToSingleChar=False:  "%del" -> "%\delta" -> "%delta"`
-* ✅🧠 Figure out how to not show all `Sub`s and `Function`s to the user executing the macro, so there's no confusion about private functions/subs that are never supposed to be directly executed by a user. This is probably a very simple fix, but I'm very new to VB and didn't spend much time thinking much about that UX issue.
-* ⏳🧠 Add option to manually disable the verbose printing of the "sink" rules that were executed (e.g., The ability to *not* show `"%/sigma" -> "%sigma"` in the dialog box after running the substitution). This verbose printing should be left as "Enabled By Default" however, due to its great help in debugging any unintended rule modifications.
-* ⏳🧠 Add functionality to show how many times *each* exact rule was used, rather than the current functionality of merely showing an overall count of the number of substitutions performed.
+    * A special function could be made to allow the following situation:
+      * `"%del " -> "%\delta" -> "δ"` and `"%delta" remains unchanged`
+      * This would only convert the *shortcuts* to the actual symbol, *preserving* the LO-auto-recognized `"%delta"` symbol.
+* ⏳🧠🧠 Add option to manually disable the verbose printing of the "sink" rules that were executed.
+  * E.g., The ability to *not* show `"%/sigma" -> "%sigma"` in the dialog box after running the substitution).
+  * This verbose printing should remain "enabled by default", due to its great help in debugging any unintended rule modifications.
+* ⏳🧠 Add functionality to show how many times *each exact rule* was used, rather than the current functionality of merely showing an overall count of the number of substitutions performed (also has a numbered list of the types of substitutions performed).
+  * <img alt="During substitution of key phrases - Dialog box shows numbered list of substitutions performed, with the number of substitutions performed listed at the top of the dialog box" src="Assets/DuringSubstitution-DialogBox.PNG" width=400>
 ### 🤷‍♂️
 * ⏳⏳ Improve this README to detail how to set up a keybind to auto-run the macro after pressing CTRL+SPACE,
   and link to a related macro & keybind tutorial.
