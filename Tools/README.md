@@ -1,4 +1,4 @@
-# Example of MathAutoCorrect
+# Example of MathAutoCorrect in action
 
 Before substituting key phrases:
 <img alt="Before substituting key phrases" src="Assets/PreSubstitution.png" width=1000 height=600>
@@ -107,6 +107,7 @@ like converting (i.e., substituting)
   All attempts so far have been unsuccessful.
   * *Unless you are extending/improving this repository in some way* (or are a LibreOffice "employee" trying
     to see where people struggle when trying to improve LibreOffice code), ***this specific file will not be useful to you.***
+<br>
 
 # Notes
 This *does not* substitute the visual-only representation of the Math Formula.  
@@ -134,8 +135,28 @@ You can copy the actual unicode symbols online (or even from within Writer via t
       * Some substitutions in the file require spaces at the end of the phrases (e.g., `%sig ` instead of `%sig`)
       * Intermediate "sink" rules are used (e.g., `"%sig" -> "%/sigma" -> "%sigma"` instead of direct conversion: `"%sig" -> "%sigma"`)
       * Certain rules cannot exist at all as shortcuts due to non-determinism (ambiguity) at shorter substitution-phrase lengths.
+<br>
 
+## Naming conventions of variants of shortcuts
+How should we name variants?
 
+How do we name variants in an extensible manner, so that we can have more than just a single variant?
+
+Let's take `%keti` as an example. What do we name a variant format/representation of the same overall concept?
+* Since the regular form and the variant form 1) both refer to the same concept and 2) would be very confusing if we renamed it to a different concept, the variant doesn't merit a wholly new, unique name, but it still needs to be unique to the computer and the user who wants exactly one of the forms. I.e., deterministic processing should be preserved.
+* Do we name it `%variantketi1`? `%ketiv1`? `%ketivar1`? `%varketi1`?  `%var1keti`?   `%1varketi`?    `%1vketi`?
+* It should *not* be `%keti1` due to possible human misinterpretation as (or desire for it to be) `|i1>` (which is the completely different two-qubit-wide qubit-string meaning `|i>|1>`).
+* `v` shouldn't be a (pseudo-)prefix. Reasoning: Ambiguous human interpretations, such as:
+  * %vlen (Vector length? Variant of length? Roman-numeral-5 times the length?)
+  * %vvlen (Length of nested vector? matrix length? Variant 1 of vlen? Variant 2 of len?)
+* What if we assign a special following-the-%-character for each type of variant, like `@`?
+  * This would create `%keti` for regular/typical usage, `%@keti` for variant 1, `%@@keti` for variant 2.
+    * This is very clear to read, and doesn't create a new pattern to learn for every single shortcut that has a variant. I.e., this pattern works for all types of variants.
+  * `@` shouldn't be a suffix. Reasoning: Any later searching of substitutions performed.
+    * E.g., "check char2, iterate until not hitting @" vs "getStrLen, minus1, iterate backwards until not hitting @"
+
+**This project uses** `@` **as a way to implement and use variants** for the reasons explained above.
+<br>
 
 # To Do ("to implement")
 
@@ -146,9 +167,11 @@ You can copy the actual unicode symbols online (or even from within Writer via t
 * Repeated symbols indicate "more" of that specific symbol (i.e., more brain cells required 🧠🧠🧠, more time required ⏳⏳⏳, speedier (more quick) to accomplish ✅✅✅).
 
 ### High Priority
-* ✅ Modify rule ``"alignl stack{%na = b #%n`~= c #%n`~= d+e+f%n}"`` to incorporate more spacing characters (`` ` ``,`~`, `phantom{invisible text that takes up space in the computed formula's visual output}`)
+* Modify rules for:
+  * ✅ `"%aligneqn"` currently becomes ``"alignl stack{%na = b #%n`~= c #%n`~= d+e+f%n}"``.
+    * More types of spacing characters (`` ` ``,`~`, `phantom{invisible text that takes up space in the computed formula's visual output}`) should be incorporated.
 * Add shortcuts for:
-  * ✅🧠🧠 `%\n` ➡️ `newline`
+  * (✅ xor ⏳⏳), 🧠🧠 `%\n` ➡️ `newline`
     * This should be put at the very end of the file, around where `%n` already is.
     * Note: The rule `%newline` ➡️ `newline` already exists.
     * I thought about swapping the association from {`%\n` ➡️ (displayed to rendered formula but textually written inside formula editor) `newline`,  `%n` ➡️ (displayed inside formula editor, not textually written anywhere) vbNewLine} to {`%n` ➡️ `newline` and `%\n` ➡️ `vbNewline`}, but it's a tradeoff between Programmers being familiar with %`\n` (for escaped newline chars in strings) and Regular people thinking `%n` is more intuitive.  I haven't decided which should be used.
@@ -163,40 +186,35 @@ You can copy the actual unicode symbols online (or even from within Writer via t
     * `%textor`  ➡️ `%dqor%dq` (`"or"`)
     * `%textand` ➡️ `%dqand%dq` (`"and"`)
     * `%textneg` ➡️ `%dqneg%dq` (`"neg"`)
-  * Function composition (writing execution-order-deependent functions in a linear way rather than a complicated nested way)
+  * ⏳ Function composition (writing execution-order-deependent functions in a linear way rather than a complicated nested way)
     * E.g., Unix pipes `|`, Scala/JS doing functional programming like `SomeInput.map(inA,inB => inA+inB).filter(...).truncate(...).reduce(...)`
     * In math: `SomeInput circ f1 circ f2 circ f3` instead of `f3(f2(f1(SomeInput)))`
-    * ⏳ `%fcom `, `%fcomp `, `%fcompose`, `%fncom `, `%fncomp `,`%fncompose`, `%funccomp`, `%compose`, `%composition`, `%antinest`, `%invnest`, `%fnonest`, `%fnonnest`, `%fnonnested`, `%fnotnested` ➡️ `circ`
+    * `%fcom `, `%fcomp `, `%fcompose`, `%fncom `, `%fncomp `,`%fncompose`, `%funccomp`, `%compose`, `%composition`, `%antinest`, `%invnest`, `%fnonest`, `%fnonnest`, `%fnonnested`, `%fnotnested` ➡️ `circ`
   * ✅✅ `%veps`, `%@eps`, `%vareps ` ➡️ `%varepsilon`
   * ✅ Sparse matrices, dot sequences (vertical, horizontal, downright, downleft).
   * ✅ Magnitude/Length of vectors:
     * `%mag`, `%vlen` (for "vector length"), {`%genpyth`, `%genpythag`, `%genpythagoras`, `%genpythagorean`}, {`%genericpyth`, `%genericpythag`, `%genericpythagoras`, `%genericpythagorean`}, {`%generalpyth`, `%generalpythag`, `%generalpythagoras`, `%generalpythagorean`} ➡️ `"Length"_{"UsingAllDimensions"} = sqrt{{axis1}^2 + {axis2}^2 + {axis3}^2 + ...}`
   * Pythagorean Theorem:
-    * ✅ `%pyth`, `%pythag`, `%pythagoras`, `%pythagorean` ➡️ `c^2 = a^2 + b^2`
-    * ⏳ PythagoreanVariantSubstitutionName ➡️ `c = sqrt{a^2 + b^2}`
-      * **Variant Naming issue:** "%pyth1"? "%pythv1"? "%pythvar1"?
-  * ⏳ Vector overarrow: `%veca` and `%vecarr`, both meaning "vector arrow".
-    * This should ideally compensate for `widevec` being too stretched, hence the ⏳ due to resolving variant name issues.
-      * **Variant Naming issue:** %veca for the default (minimal characters inside the overarrow), but continuing on?  %veca1 (%veca2 %veca3)?  %vecav (%vecavv %vecavvv)?   %vecav1 (%vecav2 %vecav3)?
+    * ✅ `%pyth`,   `%pythag`,  `%pythagoras`,  `%pythagorean` ➡️ `c^2 = a^2 + b^2`
+    * ✅  `%@pyth`, `%@pythag`, `%@pythagoras`, `%@pythagorean` ➡️ `c = sqrt{a^2 + b^2}`  (variant)
+  * ⏳🧠 Vector overarrow (arrow over top of a variable that indicates the variable is a multi-valued vector and not a single-valued scalar):
+    * `%veca`, `%vecarr`, `%vecarrow`, all meaning "vector arrow".
+      * Should convert to something like `size*3{widevec{size*.2{%n  VeryLongVarName%n}}}`.
+    * This should ideally compensate for `widevec`'s overarrow being stretched horizontally by an appropriate amount but it not stretching vertically, hence the ⏳.
+      * Variant Naming:
+        * `%veca` for the default-sized overarrow (minimal characters inside the overarrow, usually 1 to 5 characters wide)
+        * `%@veca` (slightly larger-scale overarrow, meant for longer variable names)
+        * `%@@veca` (even bigger)
+        * `%@@@veca3` (overarrow needs to span a whole page width)
   * ✅ Normalized vector:
-    * `%nvec`, `%normvec`, `%normalvec`, `%normalizedvec`, `%nrmlzdvec`, `%uvec`, `%unitvec` ➡️ `frac{vec}{lline vec rline}`
-    * ⏳ NormalizedVectorVariantSubstitutionName ➡️ `frac{vec}{%vlen}`
-      * **Variant Naming issue**
-  * ✅ Law of Sines
-    * `%formulalawofsines` ➡️ `%% Law Of Sines (relationship between angles and their corresponding opposite (physically distant) sides%nleft lbrace%n  matrix{%n""phantom{ stack{.#.#.} }%nfrac{sin(AngleA)}{length`a}=%nfrac{sin(AngleB)}{length`b}=%nfrac{sin(AngleC)}{length`c}%n##%n""frac{length`a}{sin(AngleA)}=%nfrac{length`b}{sin(AngleB)}=%nfrac{length`c}{sin(AngleC)}%n  }%nright none`
-  * ✅ Cosine-to-Sine Conversion `%formulacos2sin` ➡️ `""cos(x) = {sin(90-x)}_{"degrees implied"} = sin(90°-x) = sin(90" deg"_{"degrees"}-x) %\n%n""~~~~~~~= {sin({frac{%pi}{2}}-x)}_{"radians implied"} ``= sin({%pi/2" rad"_{"radians"}} - x) %\n
+    * {`%nvec`, `%normvec`, `%normalvec`, `%normalizedvec`, `%nrmlzdvec`}, {`%uvec`, `%unitvec`, `%unitlenvec`, `%vunitlen`, `%vecunitlen`}, {`%vlen1`, `%veclen1`, `%vlength1`, `%veclength1`} ➡️ `frac{vec}{lline vec rline}`
+    * {`%@nvec`, `%@normvec`, `%@normalvec`, `%@normalizedvec`, `%@nrmlzdvec`}, {`%@uvec`, `%@unitvec`, `%@unitlenvec`, `%@vunitlen`, `%@vecunitlen`}, {`%@vlen1`, `%@veclen1`, `%@vlength1`, `%@veclength1`} ➡️ `frac{vec}{%vlen}`
+  * ✅✅ Law of Sines
+    * `%formulalawofsines` ➡️ ``%% Law Of Sines (relationship between angles and their corresponding opposite (physically distant) sides)%nleft lbrace%n  matrix{%n""phantom{ stack{.#.#.} }%nfrac{sin(AngleA)}{length`a}=%nfrac{sin(AngleB)}{length`b}=%nfrac{sin(AngleC)}{length`c}%n##%n""frac{length`a}{sin(AngleA)}=%nfrac{length`b}{sin(AngleB)}=%nfrac{length`c}{sin(AngleC)}%n  }%nright none``
+  * ✅✅ Cosine-to-Sine Conversion `%formulacos2sin` ➡️ `""cos(x) = {sin(90-x)}_{"degrees implied"} = sin(90°-x) = sin(90" deg"_{"degrees"}-x) %\n%n""~~~~~~~= {sin({frac{%pi}{2}}-x)}_{"radians implied"} ``= sin({%pi/2" rad"_{"radians"}} - x) %\n
 "Acknowledge that " %pi/2 approx frac{3.14}{2} = 1.57 " does NOT = 90. This is why the \"implied\" part is important"`
   * ⏳ Quantum gate matrix-representations (X,Y,Z,H, CX, CCX/Toffoli, SWAP, RX(theta), RY(theta), RZ(theta)).
   * ✅🧠 Quantum state *variants* where fractions are separated, for `|+>` and `|->`, `|i>` and `-|i>`.
-    * How to name the variants in an extensible manner? `"%ketiv1"`? `"%ketivar1"`?
-      * Should *not* be "%keti1" due to possible human misinterpretation as (or desire for it to be) "|i1>" (which is the completely different two-qubit-wide meaning "|i>|1>").
-      * Maybe I'll assign a special following-the-%-character for each type of variant, like @.
-        * This would create "%keti" for regular, "%@keti" for variant 1, "%@@keti" for variant 2. I like this.
-        * `@` shouldn't be a suffix. Reasoning: Any later searching of substitutions performed.
-          * E.g., "check char2, iterate until not hitting @" vs "getStrLen, minus1, iterate backwards until not hitting @"
-        * `v` shouldn't be a (pseudo-)prefix. Reasoning: Ambiguous human interpretations, such as:
-          * %vlen (Vector length? Variant of length?)
-          * %vvlen (Length of nested vector? matrix length? Variant 1 of vlen? Variant 2 of len?)
 * ✅🧠 Figure out how to not show all `Sub`s and `Function`s to the user executing the macro, so there's no confusion about private functions/subs that are never supposed to be directly executed by a user.
   * This is probably a very simple fix, but I'm very new to VB and didn't spend much time thinking much about that UX issue. Try Python-like nested function definitions?
   * I.e., remove the possibility that a user can run `GetFormulaObject`, `ReplaceAllShortcuts`, `ReplaceShortcuts`.
