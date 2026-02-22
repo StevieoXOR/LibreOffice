@@ -1,0 +1,89 @@
+################################
+3-layer Inverted File structure:
+################################
+
+DictionaryFile.txt
+
+(The default group, where a user doesn't assign a shortcut an actual GroupName, internally-in-code named as "Misc", should come last since that will be the largest group in most cases, allowing merely appending to a file rather than complete rewrite of file for any modifications of that group)
+
+(The above statement also allows every row to not only have a fixed-line-length for fast lookup BUT ALSO the ability to let #RelevantPostingsToThisGroup have 3 digits (999 rules)(for every user-made group) while still allowing the very last row (Misc, the default mega-group) to have 6 digits for storing up to 999,999 postings for that specific group, saving potentially many Bytes if many user-defined groups exist, since allowing 6 digits for the Misc/Last group no longer means we'd have to let EVERY group write 6 digits if we wanted to preserve fixed-line-length for fast lookup)
+
+(The value of Ptr_StartingRowInPostingsFile:int depends on the previous row's #RelevantPostingsToThisGroup:int)
+
+<User-Assigned GroupName:str>      <Ptr_StartingRowInPostingsFile:int>   <#RelevantPostingsToThisGroup:int>
+Quantum............................0.....................................7..
+GreekSymbols.......................7.....................................0..
+FormulaAlignment...................7.....................................0..
+TextComment........................7.....................................2..<Could be up to 999 postings in the GroupName TextComment, or any GroupName before it>
+Misc...............................9.....................................106...<Could be up to 999,999 postings in the GroupName Misc>
+
+| ^
+V |
+
+PostingsFile.txt
+<ImplicitAndNotWrittenInActualFile>.......<SpecificShortcutRuleName:str>....<Ptr_UniqueIntIDForSpecificRuleToBeConvertedTo>
+<RuleForQuantumGroup,line#0>..............%q+ ..............................0...<Ptr_UniqueIntIDFor SinkRuleFor%\qplus>
+<RuleForQuantumGroup,line#1>..............%qp ..............................0...
+<RuleForQuantumGroup,line#2>..............%qplus ...........................0...
+<RuleForQuantumGroup,line#3>..............%q- ..............................1...<Ptr_UniqueIntIDFor SinkRuleFor%\qminus>
+<RuleForQuantumGroup,line#4>..............%qm ..............................1...
+<RuleForQuantumGroup,line#5>..............%qn ..............................1...
+<RuleForQuantumGroup,line#6>..............%qminus ..........................1...
+<RuleForTextCommentGroup,line#7>..........%comment .........................2...<Ptr_UniqueIntIDFor SinkRuleFor%\comment>
+<RuleForTextCommentGroup,line#8>..........%annotate ........................2...
+<Crazy,ButLegal,RuleForAnyGroup,line#9>...%VeryLongShortcutRuleNameVeryLongS9999<Ptr to row #9,999 (==10,000th row) in MapFile>
+<[105 other rules belonging to GroupName Misc]>
+
+| ^
+V |
+
+MapFile.txt
+<ImplicitAndNotWrittenInActualFile>.....<FinalConversionOfRule>
+<SinkRuleFor%\qplus,  line0>............%%|->%nfrac{1}{sqrt{2}} left(`%n    left lline 0 right rangle  +  left lline 1 right rangle%n`right)...................
+<SinkRuleFor%\qminus, line1>............%%|->%nfrac{1}{sqrt{2}} left(`%n    left lline 0 right rangle  -  left lline 1 right rangle%n`right)...................
+<SinkRuleFor%\comment,line2>............%% This is a LibreOffice comment, starting with \"%%\" on the left.....................................................
+<[Assume there are exactly 9996 other full-line-length rules right here, despite there not really being a reason for it aside from the last entry in PostingsFile.txt]>
+........................................% This rule has a maximally long InputRule name, and happens to be the 10,000th unique final rule conversion...........
+
+
+
+
+
+
+####################################################
+#  How to use these three files (Dict, Post, Map)  #
+####################################################
+
+The goal is to map:
+1) PotentiallyA_ShortcutRule -> ifShortcutExists{return <*FinalRule*_couldBeASinkRule, TheSoleSingle*Group*ThatTheShortcutBelongsTo>} else{return EmptyStringThatIndicates"WasNotAShortcut"}
+2) SingleGroupName -> return list(<*SpecificShortcut*_InThatSingleGroupName, *FinalRule*_CorrespondingToThatSpecificShortcutInThatSingleGroupName>)
+  * Goal#2 is allowed to be a lot slower than the Goal#1 because Goal#1 needs to run a LOT of times, and on a LOT of text to consider a LOT of possible shortcuts, but Goal#2 will only run when editing the list of shortcuts.
+
+
+The following would work decently for editing the list of shortcuts, but it would be far from optimal if trying to apply shortcuts to text in a quick manner:
+[[
+Make a HashTable that is just barely big enough to have 70% of its buckets be full AFTER inserting all "GroupName"s (not inserting ANY extra info like specific shortcuts nor final rule substitutions). This will be called the Global HashTable, or GHT for short.
+* I.e., each GroupName gets its own bucket.
+* Counterintuitively when thinking about 1000s of possible rules, the GHT itself will be pretty small since there likely won't be many GroupNames.
+* To make a GHT that's the correct size, use
+  *     #LinesInDictionaryFile = 70% * #bucketsInGHT
+  * ->  #LinesInDictionaryFile/0.7 = #bucketsInGHT
+
+After looking at a specific rule's GroupName and hashing that GroupName to find which bucket the rule will belong to, create another brand new HashTable just barely big enough to have 70% of its buckets be full AFTER inserting all ShortcutRuleNames belonging to that GroupName, *including* fitting all that GroupName's "sink" rules. This "inner" HashTable will be called Local HashTable, or LHT for short.
+* To make a LHT that's the correct size, use
+  *     #LinesInPostingsFile = 70% * #bucketsInLHT
+  * ->  #LinesInPostingsFile/0.7 = #bucketsInLHT
+* Unlike the single GHT, there will be as many LHTs as there are GroupNames.
+]]
+
+
+[WIP]:
+Here's the desired method:
+To prioritize Goal#1 rather than Goal#2, flip the structure of the HashTables inside out, making the outermost/initial HashTables take a single Shortcut as input, and output to a bucket that contains exactly one tuple, specifically <SomeCorrespondingSingleGroupName, *FinalRule*_CorrespondingToThatSpecificShortcutInThatSingleGroupName>.
+* If that bucket already contains an item (==tuple), and that bucket gets mapped to by a another/new Shortcut, then an error upon saving the rule is thrown up into a Dialog box as "Can't save rule that either belongs to more than one group or has multiple output mappings Pre-existing rule={}, Conflicting rule={}".
+* I haven't figured out yet how to write this to Disk/file, but it shouldn't be crazy hard.
+
+
+
+
+
