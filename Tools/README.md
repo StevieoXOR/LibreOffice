@@ -215,9 +215,8 @@ Let's take `%keti` as an example. What do we name a variant format/representatio
 "Acknowledge that " %pi/2 approx frac{3.14}{2} = 1.57 " does NOT = 90. This is why the \"implied\" part is important"`
   * ⏳ Quantum gate matrix-representations (X,Y,Z,H, CX, CCX/Toffoli, SWAP, RX(theta), RY(theta), RZ(theta)).
   * ✅🧠 Quantum state *variants* where fractions are separated, for `|+>` and `|->`, `|i>` and `-|i>`.
-* ✅🧠 Figure out how to not show all `Sub`s and `Function`s to the user executing the macro, so there's no confusion about private functions/subs that are never supposed to be directly executed by a user.
-  * This is probably a very simple fix, but I'm very new to VB and didn't spend much time thinking much about that UX issue. Try Python-like nested function definitions?
-  * I.e., remove the possibility that a user can run `GetFormulaObject`, `ReplaceAllShortcuts`, `ReplaceShortcuts`.
+* ✅✅✅ Hide all helper `Sub`s and `Function`s from the user executing the macro. I.e., remove the possibility that a user can run `GetFormulaObject`, `ReplaceAllShortcuts`, `ReplaceShortcuts`.
+  * Fix: Add `Private` in front of the `Sub`s/`Function`s to hide from the macro's executer.
 * ⏳🧠🧠 Make an in-macro selection variable that determines whether symbols get fully resolved to single characters or just resolved to LibreOffice-recognized symbols. Also, implement the rule substitution functionality to make that variable useful. E.g.,
   * `SubFullyToSingleChar=False:  "%del " -> "%\delta" -> "%delta"`
   * `SubFullyToSingleChar=True:   "%del " -> "%\delta" -> "%delta" -> "δ"`
@@ -230,6 +229,55 @@ Let's take `%keti` as an example. What do we name a variant format/representatio
   * This verbose printing should remain "enabled by default", due to its great help in debugging any unintended rule modifications.
 * ⏳🧠 Add functionality to show how many times *each exact rule* was used, rather than the current functionality of merely showing an overall count of the number of substitutions performed (also has a numbered list of the types of substitutions performed).
   * <img alt="During substitution of key phrases - Dialog box shows numbered list of substitutions performed, with the number of substitutions performed listed at the top of the dialog box" src="Assets/DuringSubstitution-DialogBox.PNG" width=400>
+* ⏳⏳⏳🧠🧠🧠 Look into `Edit Macros -> Application Macros & Dialogs`
+  * ` -> ScriptForge -> _CodingConventions`
+    * E.g., Using prefix char `p` for "parameter passed into function/sub", and data type prefix chars like `s` for string, `i` for integer, `l` for long. Mentions tons of other useful stuff too, like adding `eof` at the end of each (module?) file.
+  * ` -> Tools -> Strings`
+  * ` -> ScriptForge -> SF_String`
+    * Contains RegEx stuff, for if I want to look into that in the far future.
+  * Could be useful for saving/writing/Marshaling and loading/reading/Unmarshaling a user's MathAutoCorrect formulas to a plaintext file like `MathAutoCorrectFormulas.xml`: `%abc\tstack{Alphabetic # Consortium}\n%wat\tH_{2}O\n<EOF>`
+    * ` -> ScriptForge -> SF_TextStream`
+    * ` -> Tools -> UCB`
+      * CreateFolder, SaveDataToFile, LoadDataFromFile
+  * Could be useful for creating a dialog box similar to Writer's native AutoCorrect module. These modules could be useful in explaining how AutoCorrect works under the hood.
+    * ` -> ScriptForge -> SF_Dialog`
+    * ` -> Tools -> ListBox`
+    * ` -> Tools -> Misc`
+    * ` -> SFDialogs -> SF_Dialog`
+    * ` -> SFDialogs -> SF_DialogControl`
+    * ` -> SFDialogs -> SF_DialogListener`
+    * ` -> SFDocuments -> SF_Document`
+    * ` -> SFDocuments -> SF_DocumentListener`
+    * ` -> SFDocuments -> SF_Form`
+    * ` -> SFDocuments -> SF_FormControl`
+    * ` -> SFDocuments -> SF_FormDocument`
+    * ` -> SFDocuments -> SF_Writer`
+    * ` -> SFWidgets -> SF_Menu`
+    * ` -> SFWidgets -> SF_MenuListener`
+    * ` -> SFWidgets -> SF_PopupMenu`
+    * Could be useful for making/adding a toolbar button that calls the MathAutoCorrect substitution macro:
+      * ` -> SFWidgets -> SF_Toolbar`
+      * ` -> SFWidgets -> SF_ToolbarButton`
+* ⏳⏳⏳🧠🧠🧠 Creating a dialog box similar to Writer's native AutoCorrect module:
+  * Wait, why reinvent the wheel? Just look for where Writer implemented their native AutoCorrect and see what can be copied and what needs tweaking. No idea where it is though.
+    * That being said, I want to add an *option* to assign each shortcut to a user-named group rather than the default fast-to-add-and-findOrDelete-but-only-if-known functionality that native AutoCorrect has. The user should have to go slightly out of their way to press `<TAB>` to type in a group name if they want, preserving the default fast-to-add-... functionality that (both Writer's and MS Word's) native AutoCorrect has. Notably, doing this will mean that Storing/Loading will discard the current flat-file format and will (effectively) **require** some form of a tree structured format (e.g., non-flat XML), though it could be just 2 layers deep if groups are prohibited from being nested.
+    * Possibilities for the grouped-rule-based data structure + searching algorithm:
+        1) **Constant-pointer Constant-line-length 3-layer Inverted File structure** + search algorithm
+           * 3 data storage files + codeForSearching file
+           * Each row of Dictionary file: `<User-Assigned GroupName:str>      <Ptr_StartingRowInPostingsFile:int>   <#RelevantPostingsToThisGroup:int>`
+           * -> Dereference `Ptr_StartingRowInPostingsFile` to get `82`, `#Releva...` has `2` -> ReadRows#82-#83InPostingsFile
+           * -> (Section of Postings file:) `%comment   <Ptr_UniqueIntIDFor %\sinkRuleForComment>``\n``%annotate   <Ptr_UniqueIntIDFor %\sinkRuleForComment>`
+           * -> Dereference `Ptr_UniqueIntIDFor %\sinkRuleForComment` to get `4` -> ReadRow#4InMapFile
+           * -> (Section of Map file:) `%% This is a LibreOffice comment, starting with \"%%\" on the left`   
+           * Slowly re-indexes entire shortcut list each time the ruleset is modified then saved.
+           * Very fast to use/read (well, at least among Disk operations) due to implicit neighboring-data-in-file caching benefit and no required knowledge about *all* previous entries's byte offsets into file (which is not Random Access O(1), but rather is Linear Search: O(n)), but is still slower than the current only-one-file flat-file architecture due to this algorithm three separate-file accesses (which can take far longer than O(1) navigation to any line in the file). Is inherently built to allow saving to file on Disk.
+           * HashTables can be combined with this Disk format to greatly speed up the in-RAM version of this, which is what really matters.
+        2) **Linked List** data structure + search algorithm
+           * Very easy to code, (*would have been*) very fast and simple to add rules to RAM (if I didn't have to first check for duplicate rules...).
+           * Extremely slow to use/read rules for large #s of rules, and is inherently unparallelizable without having multiple LinkedLists at multiples of 25% record# offsets (i.e., ptrs to starts of quartiles of all records).
+           * Is In-RAM-Only (can't store pointers' virtual addresses and still expect they'll be valid upon loading those addresses), but write-out to Disk is very simply iterating through the list, checking if the `<GroupName, Rule, FinalConvertedRule>`  triplet is unique, and, if that triplet is unique, then writing that triplet to a file *using some delimiter that no rule (including sink rules) nor final rule nor GroupName uses*.
+             * "Some delimiter that no Shortcut/Substitution/GroupName uses" prevents a newline/comma/period/etc from being the Disk delimiter, but maybe not some other unprintable ASCII Control Characters like `<BELL>`, or heavily repeated permutation of newline/comma/period/etc, like `delim = \n.,.,`, using an extra and different delimiter for "end of line" just to be safe in case some rule ends up having a matching delimiter that causes EVERY future record to be wrongly interpreting `<GroupName, Rule, FinalConvertedRule>, <GroupName, Rule, FinalConvertedRule>` as something like ``<GroupName, WronglyConcatenated_Rule_FinalConvertedRule, GroupName>, <Rule, FinalConvertedRule, INVALID>  -> Error: `FinalConvertedRule` expected input but reached EOF, or Error: `FinalConvertedRule` has unexpected value ""``. This raises potential security vulnerability/data integrity concerns about maliciously/poorly crafted rules due to the ability to have any-length rules.
+            * This is also how the file would be read back (from Disk) into RAM.
 ### 🤷‍♂️
 * ⏳⏳ Improve this README to detail how to set up a keybind to auto-run the macro after pressing CTRL+SPACE,
   and link to a related macro & keybind tutorial.
