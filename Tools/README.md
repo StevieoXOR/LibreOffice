@@ -258,7 +258,7 @@ Let's take `%keti` as an example. What do we name a variant format/representatio
     * Could be useful for making/adding a toolbar button that calls the MathAutoCorrect substitution macro:
       * ` -> SFWidgets -> SF_Toolbar`
       * ` -> SFWidgets -> SF_ToolbarButton`
-* ⏳⏳⏳🧠🧠🧠 Creating a dialog box similar to Writer's native AutoCorrect module:
+* ⏳⏳⏳🧠🧠🧠 Creating a dialog box and shortcut-storage-file similar to Writer's native AutoCorrect module:
   * Wait, why reinvent the wheel? Just look for where Writer implemented their native AutoCorrect and see what can be copied and what needs tweaking. No idea where it is though.
     * That being said, I want to add an *option* to assign each shortcut to a user-named group rather than the default fast-to-add-and-findOrDelete-but-only-if-known functionality that native AutoCorrect has. The user should have to go slightly out of their way to press `<TAB>` to type in a group name if they want, preserving the default fast-to-add-... functionality that (both Writer's and MS Word's) native AutoCorrect has. Notably, doing this will mean that Storing/Loading will discard the current flat-file format and will (effectively) **require** some form of a tree structured format (e.g., non-flat XML), though it could be just 2 layers deep if groups are prohibited from being nested.
     * Possibilities for the grouped-rule-based data structure + searching algorithm:
