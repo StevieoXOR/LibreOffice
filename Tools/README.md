@@ -186,7 +186,7 @@ Let's take `%keti` as an example. What do we name a variant format/representatio
     * `%textor`  ➡️ `%dqor%dq` (`"or"`)
     * `%textand` ➡️ `%dqand%dq` (`"and"`)
     * `%textneg` ➡️ `%dqneg%dq` (`"neg"`)
-  * ⏳ Function composition (writing execution-order-deependent functions in a linear way rather than a complicated nested way)
+  * ⏳ Function composition (writing execution-order-dependent functions in a linear way rather than a complicated nested way)
     * E.g., Unix pipes `|`, Scala/JS doing functional programming like `SomeInput.map(inA,inB => inA+inB).filter(...).truncate(...).reduce(...)`
     * In math: `SomeInput circ f1 circ f2 circ f3` instead of `f3(f2(f1(SomeInput)))`
     * `%fcom `, `%fcomp `, `%fcompose`, `%fncom `, `%fncomp `,`%fncompose`, `%funccomp`, `%compose`, `%composition`, `%antinest`, `%invnest`, `%fnonest`, `%fnonnest`, `%fnonnested`, `%fnotnested` ➡️ `circ`
@@ -205,7 +205,7 @@ Let's take `%keti` as an example. What do we name a variant format/representatio
         * `%veca` for the default-sized overarrow (minimal characters inside the overarrow, usually 1 to 5 characters wide)
         * `%@veca` (slightly larger-scale overarrow, meant for longer variable names)
         * `%@@veca` (even bigger)
-        * `%@@@veca3` (overarrow needs to span a whole page width)
+        * `%@@@veca` (overarrow needs to span a whole page width)
   * ✅ Normalized vector:
     * {`%nvec`, `%normvec`, `%normalvec`, `%normalizedvec`, `%nrmlzdvec`}, {`%uvec`, `%unitvec`, `%unitlenvec`, `%vunitlen`, `%vecunitlen`}, {`%vlen1`, `%veclen1`, `%vlength1`, `%veclength1`} ➡️ `frac{vec}{lline vec rline}`
     * {`%@nvec`, `%@normvec`, `%@normalvec`, `%@normalizedvec`, `%@nrmlzdvec`}, {`%@uvec`, `%@unitvec`, `%@unitlenvec`, `%@vunitlen`, `%@vecunitlen`}, {`%@vlen1`, `%@veclen1`, `%@vlength1`, `%@veclength1`} ➡️ `frac{vec}{%vlen}`
