@@ -216,7 +216,7 @@ Let's take `%keti` as an example. What do we name a variant format/representatio
   * ⏳ Quantum gate matrix-representations (X,Y,Z,H, CX, CCX/Toffoli, SWAP, RX(theta), RY(theta), RZ(theta)).
   * ✅🧠 Quantum state *variants* where fractions are separated, for `|+>` and `|->`, `|i>` and `-|i>`.
 * ✅✅✅ Hide all helper `Sub`s and `Function`s from the user executing the macro. I.e., remove the possibility that a user can run `GetFormulaObject`, `ReplaceAllShortcuts`, `ReplaceShortcuts`.
-  * Fix: Add `Private` in front of the `Sub`s/`Function`s to hide from the macro's executer.
+  * **INVALID FIX:** Adding `Private` in front of the `Sub`s/`Function`s to hide from the macro's executer. In reality, `Private` might only work for independent libraries or independent modules (not sure which, or if both).
 * ⏳🧠🧠 Make an in-macro selection variable that determines whether symbols get fully resolved to single characters or just resolved to LibreOffice-recognized symbols. Also, implement the rule substitution functionality to make that variable useful. E.g.,
   * `SubFullyToSingleChar=False:  "%del " -> "%\delta" -> "%delta"`
   * `SubFullyToSingleChar=True:   "%del " -> "%\delta" -> "%delta" -> "δ"`
@@ -236,6 +236,48 @@ Let's take `%keti` as an example. What do we name a variant format/representatio
   * ` -> ScriptForge -> SF_String`
     * Contains RegEx stuff, for if I want to look into that in the far future.
   * Could be useful for saving/writing/Marshaling and loading/reading/Unmarshaling a user's MathAutoCorrect formulas to a plaintext file like `MathAutoCorrectFormulas.xml`: `%abc\tstack{Alphabetic # Consortium}\n%wat\tH_{2}O\n<EOF>`
+    * `C:/Users/<NAME_OF_USER_OF_COMPUTER>/AppData/Roaming/LibreOffice/4/user/autocorr/acor_enUS.dat`, then open the `.dat` archive file using 7zip or add the file extension `.zip` to the filename.
+      * Inside that zip file, the `DocumentList.xml` file contains all the autocorrect data (that which you added and that which already existed, like emoji shortcuts via colon-enclosed text like `:heart:` and regular textual shorthands (case-sensitive) that the user made like `acn't`->`can’t`).
+        * Real example: `<block-list:block block-list:abbreviated-name="acn't" block-list:name="can't"/>`
+    * `C:/Users/<NAME_OF_USER_OF_COMPUTER>/AppData/Roaming/LibreOffice/4/user/registrymodifications.xcu`, then open the file in a browser for easier-to-read pretty-printed XML (or use VSCode if browsers don’t work for some reason).
+      * Contains stuff like:
+        * Most recent destination file directory that user used to export the current document to PDF
+          * Maybe useful for storing the user's user-altered path for these formulas?
+          * Example: `<item oor:path="/org.openoffice.Office.Common/Misc/FilePickerLastDirectory"><node oor:name="WriterSaveAs" oor:op="replace"><prop oor:name="LastPath" oor:op="fuse"><value>file:///C:/Users/<NAME_OF_USER_OF_COMPUTER>/OneDrive%20-%20<USERNAME></value></prop></node></item>`
+        * Keybinds to commands. Real examples:
+          * `<item oor:path="/org.openoffice.Office.Accelerators/PrimaryKeys/Modules/org.openoffice.Office.Accelerators:Module['com.sun.star.text.TextDocument']"><node oor:name="F2" oor:op="replace"><prop oor:name="Command" oor:op="fuse"><value xml:lang="en-US">.uno:InsertObjectStarMath</value></prop></node></item>`
+            * "When user presses the `F2` key on the keyboard, run inbuilt LO command InsertEditableMathEquationObject"
+          * `<item oor:path="/org.openoffice.Office.Accelerators/PrimaryKeys/Modules/org.openoffice.Office.Accelerators:Module['com.sun.star.text.TextDocument']/org.openoffice.Office.Accelerators:Key['F3']/Command"><value xml:lang="en-US">.uno:AutoCorrectDlg</value></item>`
+          * `<item oor:path="/org.openoffice.Office.Accelerators/PrimaryKeys/Modules/org.openoffice.Office.Accelerators:Module['com.sun.star.text.TextDocument']"><node oor:name="SPACE_MOD1" oor:op="replace"><prop oor:name="Command" oor:op="fuse"><value xml:lang="en-US">.uno:RunMacro</value></prop></node></item>`
+          * `<item oor:path="/org.openoffice.Office.Accelerators/SecondaryKeys/Modules/org.openoffice.Office.Accelerators:Module['com.sun.star.text.TextDocument']"><node oor:name="EQUAL_MOD2" oor:op="replace"><prop oor:name="Command" oor:op="fuse"><value xml:lang="en-US">.uno:InsertObjectStarMath</value></prop></node></item>`
+          * `<item oor:path="/org.openoffice.Office.Accelerators/SecondaryKeys/Modules/org.openoffice.Office.Accelerators:Module['com.sun.star.text.TextDocument']"><node oor:name="E_SHIFT_MOD2" oor:op="replace"><prop oor:name="Command" oor:op="fuse"><value xml:lang="en-US">.uno:InsertObjectStarMath</value></prop></node></item>`
+        * Toolbars that are in/active
+        * Components inside each tooolbar
+          * Maybe I could add this macro to the toolbar?
+        * LastTipOfTheDayID
+          * Maybe I could add a `Tip of the Day` that explains how to run this macro?
+          * Real Example: `<item oor:path="/org.openoffice.Office.Common/Misc"><prop oor:name="LastTipOfTheDayID" oor:op="fuse"><value>102</value></prop></item>`
+        * User-made math formulas (do `CTRL`+`F` for `<item oor:path="/org.openoffice.Office.Math/User-Defined">`)
+          * Real Example:
+            ```
+            <item oor:path="/org.openoffice.Office.Math/User-Defined"><node oor:name="mat3x3" oor:op="replace"><prop oor:name="FormulaText" oor:op="fuse"><value>size*3.5{
+            [
+              size*.3 matrix{
+                 a # b # c
+              ## d # e # f
+              ## g # h # i
+              ## size*.3{~} # size*.3{~} # size*.3{~}
+              }
+            ]
+            }
+            
+            
+            </value></prop></node></item>```
+    * `C:/Program Files/LibreOffice/share/registry/math.xcd`
+      * XML file that contains list of `Math` properties that LO Math can use.
+      * Browser won't pretty-print this since it doesn't recognize `.xcu` as an XML file format. So, run this file through [CyberChef's `XML Beautify` recipe](https://cyberchef.org/#recipe=XML_Beautify('%5C%5Ct')) first, then save the output to a file and then open the output file in any text editor (preferably VSCode for text highlighting).
+    * Inside LO Writer: `Tools` tab on toolbar -> `Options` in dropdown -> `LibreOffice` category in left sidebar -> `Paths` subcategory
+      * Shows all core paths that LibreOffice uses
     * ` -> ScriptForge -> SF_TextStream`
     * ` -> Tools -> UCB`
       * CreateFolder, SaveDataToFile, LoadDataFromFile
