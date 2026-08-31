@@ -157,6 +157,45 @@ Let's take `%keti` as an example. What do we name a variant format/representatio
 
 **This project uses** `@` **as a way to implement and use variants** for the reasons explained above.
 <br>
+<br>
+
+# How to copy file `MathFormulaExpander.<ext>` into your Writer Document as a runnable Macro
+## How NOT to copy it:
+DO NOT DOWNLOAD THIS FILE AND THEN IMPORT IT AS A MACRO.  
+YOU MUST COPY THE FILE'S CONTENTS DIRECTLY INTO A NEW MACRO.  
+* I.e., do **NOT** do `Tools`->`Macros`->`Edit Macros`  ==>  \<Deleting code scaffolding template in brand new Macro file due to non-overwriting imports\> -> `File`->`Import BASIC...`->`All Filetypes`->`MathFormulaExpander.<...>`.
+* **Reasoning:** LibreOffice automatically encodes any special characters (likely for making macros *generally* safer), such as:
+  * Greek letters
+    * `α|0〉 + β|1〉` -> ` Î±|0âŒª + Î²|1âŒª`
+    * `{α # β # γ # δ}`	-> `{Î± # Î² # Î³ # Î´}`
+    * `ψ` -> 
+  * Atypical angle brackets:
+    * `|?〉` ->  ` |?âŒª`
+    * `left lline <?> right rangle`-> `|?âŒª`
+  * EN/EM dashes: `|–〉` -> `|â€“âŒª`
+  * Partial derivative symbols: `partial` -> `âˆ‚`
+
+## How to copy and use it properly:
+1) **COPY:**
+* `Tools`->`Macros`->`Organize Macros`->`Basic...`  ==>
+* (new `LibreOffice Basic` application window opens) `Macro From` (column) ->
+* `My Macros` ->
+* `Standard` ->
+* `Module1` ->
+* (after inside the `Module1` "folder") `New` ->
+* \<Delete the 5-6 lines of code scaffolding template in brand new Macro file\> ->
+* \<Paste the code you copied from `MathFormulaExpander.<...>`\> ->
+* \<Save the Macro with CTRL+S keybind (unless you've reconfigured that keybind)\> ->
+* \<Exit the Macro application entirely (big red X)\>
+2) **USE:** Back in the regular Writer document:
+* `Tools`->`Macros`->`Run Macro...` ->
+* `My Macros` -> `Standard` -> `Module1` ->
+* (after inside the `Module1` "folder") `Main_ExpandFormulaShortcuts` ->
+* `Run`
+
+<br>
+
+
 
 # To Do ("to implement")
 
