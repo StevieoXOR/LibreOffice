@@ -175,8 +175,8 @@ Let's take `%keti` as an example. What do we name a variant format/representatio
 
 # How to copy file `MathFormulaExpander.<ext>` into your Writer Document as a runnable Macro
 ## How NOT to copy it:
-DO NOT DOWNLOAD THIS FILE AND THEN IMPORT IT AS A MACRO.  
-YOU MUST COPY THE FILE'S CONTENTS DIRECTLY INTO A NEW MACRO.  
+DO NOT *DOWNLOAD* THIS FILE AND THEN *IMPORT* IT AS A MACRO.  
+**YOU MUST *COPY-PASTE*** THE FILE'S CONTENTS DIRECTLY INTO A NEW MACRO.  
 * I.e., do **NOT** do `Tools`->`Macros`->`Edit Macros`  ==>  \<Deleting code scaffolding template in brand new Macro file due to non-overwriting imports\> -> `File`->`Import BASIC...`->`All Filetypes`->`MathFormulaExpander.<...>`.
 * **Reasoning:** LibreOffice automatically encodes any special characters (likely for making macros *generally* safer), such as:
   * Greek letters
@@ -190,7 +190,7 @@ YOU MUST COPY THE FILE'S CONTENTS DIRECTLY INTO A NEW MACRO.
   * Partial derivative symbols: `partial` -> `âˆ‚`
 
 ## How to copy and use it properly:
-1) **COPY ("save" the macro):**
+### 1) **COPY (how to "save" the macro):**
 * `Tools`->`Macros`->`Organize Macros`->`Basic...`  ==>
 * \<new `LibreOffice Basic` application window opens\>
 * Now inside the `LibreOffice Basic` window, click `Macro From` (column) ->
@@ -202,13 +202,17 @@ YOU MUST COPY THE FILE'S CONTENTS DIRECTLY INTO A NEW MACRO.
 * Paste the code you copied from `MathFormulaExpander.<...>`.
 * Save the Macro with CTRL+S keybind (unless you've reconfigured that keybind).
 * Exit the Macro application entirely (big red X).
-2) **USE:** Back in the regular Writer document:
-#### 2.1) Manually run ("execute") the macro  (laborious - *8* clicks each time you run the macro)
+
+### 2) **USE:** (how to use the macro):
+### 2.1) Option 1: Manual
+**Manually run ("execute") the macro  (laborious - *8* clicks each time you run the macro)**
+* Back in the regular Writer document:
 * `Tools`->`Macros`->`Run Macro...` ->
 * `My Macros` -> `Standard` -> `Module1` ->
 * (after inside the `Module1` "folder") `Main_ExpandFormulaShortcuts` ->
 * `Run`
-#### 2.2) Make the Macro runnable by clicking a button on the Toolbar (just *1* click each time you run the macro, after doing below steps)
+### 2.2) Option 2: Toolbar Button
+**Make the Macro runnable by clicking a button on the Toolbar (just *1* click each time you run the macro, after doing below steps)**
 NOTE: This Toolbar button will (conveniently or inconveniently) only appear when the macro is usable, which is inside the `Math`/`Formula Editor` Toolbar.
 * `File`->`New`->`Formula`
   * A `LibreOffice Math` window should now be open.
@@ -227,11 +231,12 @@ NOTE: This Toolbar button will (conveniently or inconveniently) only appear when
   * If you accidentally added the wrong item to the Math Toolbar, that's what the very large leftward-pointing arrow (in between the two columns) is for. BUT, be careful about which item currently on the Math Toolbar is selected/highlighted.
 * 2.2.3) If you want to make the item on the Math Toolbar have a shorter name than what's used in the actual Macro, then right-click on the item that is already inside the Math Toolbar, and click `Rename...`.
   * This is especially useful if your Math Toolbar is crammed with many items already and you need to save horizontal space on the Toolbar.
+  * I renamed `Main_ExpandFormulaShortcuts` to `ExpandMathShortcuts`, but you don't have to do this.
 * Repeat the previous three steps (2.2.{1,2,3}) until you have your 0-3 desired Math Toolbar shortcuts.
-* Feel free to now close the `LibreOffice Math` window.
+* Feel free to now close the `LibreOffice Math` window (press the big red X).
   * If you accidentally typed something into the Formula Editor box, LO Math will ask you whether to save when closing the file.
   * This process (specifically the entire `2.2)` section) doesn't require saving any files.
-* **Now, whenever you're inside a Formula Editor (whether in Writer or Math any other LO application), you can run the Macro (which you added to the Math Toolbar) by clicking the named button on the Math Toolbar.**
+* **Now, whenever you're inside a Formula Editor (whether in Writer or Math any other LO application), you can now run the Macro (which you added to the Math Toolbar) by clicking the named button on the Math Toolbar.**
   * **This method is *not* as fast as a keybind**, but this method is still *far* faster than the main alternative (8 clicks).
 
 
@@ -241,7 +246,7 @@ NOTE: This Toolbar button will (conveniently or inconveniently) only appear when
 
 # To Do ("to implement")
 
-#### Legend
+### Legend
 * ✅: The physical task itself (not the thinking behind it) will take 30 minutes at most, usually taking 3 minutes.
 * ⏳: Will take a non-negligible amount of time.
 * 🧠: Requires brain cells (i.e., logical thinking of modifications affecting either the program or an average user in unintended ways, or Google/StackOverflow/Claude searches).
@@ -401,7 +406,7 @@ NOTE: This Toolbar button will (conveniently or inconveniently) only appear when
            * Is In-RAM-Only (can't store pointers' virtual addresses and still expect they'll be valid upon loading those addresses), but write-out to Disk is very simply iterating through the list, checking if the `<GroupName, Rule, FinalConvertedRule>`  triplet is unique, and, if that triplet is unique, then writing that triplet to a file *using some delimiter that no rule (including sink rules) nor final rule nor GroupName uses*.
              * "Some delimiter that no Shortcut/Substitution/GroupName uses" prevents a newline/comma/period/etc from being the Disk delimiter, but maybe not some other unprintable ASCII Control Characters like `<BELL>`, or heavily repeated permutation of newline/comma/period/etc, like `delim = \n.,.,`, using an extra and different delimiter for "end of line" just to be safe in case some rule ends up having a matching delimiter that causes EVERY future record to be wrongly interpreting `<GroupName, Rule, FinalConvertedRule>, <GroupName, Rule, FinalConvertedRule>` as something like ``<GroupName, WronglyConcatenated_Rule_FinalConvertedRule, GroupName>, <Rule, FinalConvertedRule, INVALID>  -> Error: `FinalConvertedRule` expected input but reached EOF, or Error: `FinalConvertedRule` has unexpected value ""``. This raises potential security vulnerability/data integrity concerns about maliciously/poorly crafted rules due to the ability to have any-length rules.
             * This is also how the file would be read back (from Disk) into RAM.
-### 🤷‍♂️
+### 🤷‍♂️ (Lower Priority)
 * ⏳⏳ Improve this README to detail how to set up a keybind to auto-run the macro after pressing CTRL+SPACE,
   and link to a related macro & keybind tutorial.
 * ⏳⏳⏳🧠🧠 The To-Dos listed inside the Testbench file for automatically extracting the set of rules from
