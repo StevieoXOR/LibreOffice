@@ -80,7 +80,9 @@ like converting (i.e., substituting)
   ```
 * `%deriv` into `{{df} over {dx}}`
 * Many more substitutions that have already been implemented.
-
+<br>
+<br>
+<br>
 
 ## File Details
 ⭐✅ `MathFormulaExpander.vb`
@@ -108,6 +110,9 @@ like converting (i.e., substituting)
   * *Unless you are extending/improving this repository in some way* (or are a LibreOffice "employee" trying
     to see where people struggle when trying to improve LibreOffice code), ***this specific file will not be useful to you.***
 <br>
+<br>
+<br>
+
 
 # Notes
 ## What does this macro act on?
@@ -117,20 +122,29 @@ It substitutes the *actual text* inside the Math Formula (which then alters the 
 ## After running `ListAvailableShortcuts`, is there a fast way to get through the informational varied-size boxes?
 Yes!  
 Just press `ESC` (escape) on your keyboard for each popup box that you want to close out without having to carefully move your mouse to the big X.
+<br>
+<br>
+<br>
+<br>
 
 
-# LO Math References
+
+# LO Math - Website References
 ### [Quick insertion of formulas - LO Books](https://books.libreoffice.org/en/GS73/GS7309-GettingStartedWithMath.html#toc66)
 * This explains how to type equation text directly in Writer and then convert that equation text directly into a Math object, rather than having to open a Formula Editor.
-* You still need to manually type every character of the equation.
+* **Con:** You still need to manually type every character of the equation.
 
 ### [Catalog Customization - LO Books](https://books.libreoffice.org/en/GS73/GS7309-GettingStartedWithMath.html#toc77)
 * `If you regularly use a symbol that is not available in Math, you can add it to the Symbols dialog by using the Edit Symbols dialog.`
   `You can add symbols to a symbol set, edit symbol sets, or modify symbol notations. You can also define new symbol sets, assign names to symbols, or modify existing symbol sets.`
 * `When a new symbol is added to the catalog, you can type a percentage sign (%) followed by the new name into the markup language in the Formula Editor and your new symbol will appear in the formula. Remember that symbol names are case sensitive, for example, %prime is a different symbol to %Prime.`
-* This all sounds great and perfect (i.e., it sounds like there's no need for this project), but these are single-character symbols and therefore do not work for extensive Math equations.
-  * Additionally, it is laborious to pick even just one symbol from the GUIs, let alone picking dozens of them in rapid succession.
-  * Further, these symbols don't export into other Writer documents! They're specific to each document!
+* This all sounds great and perfect (i.e., it sounds like there's no need for this project), but:
+  * **Con:** These are single-character symbols and therefore do not work for extensive (long) Math equations.
+  * **Con:** It is laborious to pick even just one symbol from the GUIs, let alone picking dozens of them in rapid succession.
+  * **Con:** At least by default, these new symbols won't work when other people open your file in LO Writer! These symbols/fonts are specific to each document! So, these symbols must be exported along with the saved document.
+<br>
+<br>
+<br>
 
 
 ## Preferences: Modifying rules to obtain single-char symbol
@@ -143,6 +157,11 @@ You can copy the actual unicode symbols online (or even from within Writer via t
   * Add the single-character symbols as their own rules where the "sink" rules are input and your new
   symbol rule is what it gets converted to.
      * E.g., keeping the existing `ReplaceShortcut(sNewFormula, "%\delta", "%delta", ...)` rule and making a brand new rule  `ReplaceShortcut(sNewFormula, "%delta", "δ", ...)` that immediately follows the former rule.
+<br>
+<br>
+<br>
+
+
 
 ## ⚠️ Adding or Modifying rules
 * Adding new Math AutoCorrect rules only needs to be done in one file, but that still sadly isn't as simple as the native (i.e., non-formula) AutoCorrect method.
@@ -156,6 +175,11 @@ You can copy the actual unicode symbols online (or even from within Writer via t
       * Intermediate "sink" rules are used (e.g., `"%sig" -> "%/sigma" -> "%sigma"` instead of direct conversion: `"%sig" -> "%sigma"`)
       * Certain rules cannot exist at all as shortcuts due to non-determinism (ambiguity) at shorter substitution-phrase lengths.
 <br>
+<br>
+<br>
+
+
+
 
 ## Naming conventions of variants of shortcuts
 How should we name variants?
@@ -178,6 +202,9 @@ Let's take `%keti` as an example. What do we name a variant format/representatio
 **This project uses** `@` **as a way to implement and use variants** for the reasons explained above.
 <br>
 <br>
+<br>
+
+
 
 # How to copy file `MathFormulaExpander.<ext>` into your Writer Document as a runnable Macro
 ## How NOT to copy it:
@@ -247,7 +274,8 @@ NOTE: This Toolbar button will (conveniently or inconveniently) only appear when
 
 
 <br>
-
+<br>
+<br>
 
 
 # To Do ("to implement")
