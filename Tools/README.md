@@ -110,8 +110,14 @@ like converting (i.e., substituting)
 <br>
 
 # Notes
+## What does this macro act on?
 This *does not* substitute the visual-only representation of the Math Formula.  
 It substitutes the *actual text* inside the Math Formula (which then alters the visual representation).
+
+## After running `ListAvailableShortcuts`, is there a fast way to get through the informational varied-size boxes?
+Yes!  
+Just press `ESC` (escape) on your keyboard for each popup box that you want to close out without having to carefully move your mouse to the big X.
+
 
 # LO Math References
 ### [Quick insertion of formulas - LO Books](https://books.libreoffice.org/en/GS73/GS7309-GettingStartedWithMath.html#toc66)
