@@ -255,7 +255,8 @@ NOTE: This Toolbar button will (conveniently or inconveniently) only appear when
   * This specific value for `Scope` is not shown when inside Writer.
 * Set `Target` box to `Tools`.
 * Click on the last/vertically-lowest option under the `Assigned Commands` (in the right column), ensuring it's highlighted.
-* In the left column, change the `Category` selection box from `All commands` listbox (which has an extremely large number of entries that is practically unsearchable) to `Macros`.
+* In the left column, change the `Category` selection box (above the list of entries) from `All commands` to `Macros`.
+  * This step exists because the `All commands` category's listbox has an extremely large number of entries that is practically unsearchable.
 * Still in the left column, inside the `Available Commands` listbox, click `My Macros` -> `Standard` -> `Module1`.
 * 2.2.1) Still inside the `Module1` "folder", click ONLY ONE of whichever of `ListAvailableShortcuts`, `Main_ExpandFormulaShortcuts`, `Main_ExpandFormulaShortcutsQuiet` you would like to add to the Math toolbar.
   * Multi-selection does not exist AFAIK, so you need to do this one at a time.
@@ -272,6 +273,11 @@ NOTE: This Toolbar button will (conveniently or inconveniently) only appear when
 * **Now, whenever you're inside a Formula Editor (whether in Writer or Math any other LO application), you can now run the Macro (which you added to the Math Toolbar) by clicking the named button on the Math Toolbar.**
   * **This method is *not* as fast as a keybind**, but this method is still *far* faster than the main alternative (8 clicks).
 
+### 2.3) Option 3: Keyboard keybind (Button-pressing Combination)
+* LO Writer -> `Tools`->`Customize...`->`Keyboard`(it's a tab near the top)->
+* In the upper right side, you have two RadioButton-style options {`LibreOffice`, `Writer`}. I picked `Writer`.
+* Inside the `Category` listbox (in the lower left of the popup), click `Application Macros`'s little dropdown arrow (or just double-click the entry)
+* Inside that, click `My Macros`->`Standard`->`Module1`
 
 <br>
 <br>
