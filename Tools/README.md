@@ -113,6 +113,20 @@ like converting (i.e., substituting)
 This *does not* substitute the visual-only representation of the Math Formula.  
 It substitutes the *actual text* inside the Math Formula (which then alters the visual representation).
 
+# LO Math References
+### [Quick insertion of formulas - LO Books](https://books.libreoffice.org/en/GS73/GS7309-GettingStartedWithMath.html#toc66)
+* This explains how to type equation text directly in Writer and then convert that equation text directly into a Math object, rather than having to open a Formula Editor.
+* You still need to manually type every character of the equation.
+
+### [Catalog Customization - LO Books](https://books.libreoffice.org/en/GS73/GS7309-GettingStartedWithMath.html#toc77)
+* `If you regularly use a symbol that is not available in Math, you can add it to the Symbols dialog by using the Edit Symbols dialog.`
+  `You can add symbols to a symbol set, edit symbol sets, or modify symbol notations. You can also define new symbol sets, assign names to symbols, or modify existing symbol sets.`
+* `When a new symbol is added to the catalog, you can type a percentage sign (%) followed by the new name into the markup language in the Formula Editor and your new symbol will appear in the formula. Remember that symbol names are case sensitive, for example, %prime is a different symbol to %Prime.`
+* This all sounds great and perfect (i.e., it sounds like there's no need for this project), but these are single-character symbols and therefore do not work for extensive Math equations.
+  * Additionally, it is laborious to pick even just one symbol from the GUIs, let alone picking dozens of them in rapid succession.
+  * Further, these symbols don't export into other Writer documents! They're specific to each document!
+
+
 ## Preferences: Modifying rules to obtain single-char symbol
 If desired, the LO-Writer-autorecognized constants like `%SIGMA` and `%sigma` can be replaced with the
 actual single-character symbols (e.g., `α`, `β`, `δ`, `Ψ`, `ψ`) by modifying this macro.
@@ -176,22 +190,50 @@ YOU MUST COPY THE FILE'S CONTENTS DIRECTLY INTO A NEW MACRO.
   * Partial derivative symbols: `partial` -> `âˆ‚`
 
 ## How to copy and use it properly:
-1) **COPY:**
+1) **COPY ("save" the macro):**
 * `Tools`->`Macros`->`Organize Macros`->`Basic...`  ==>
-* (new `LibreOffice Basic` application window opens) `Macro From` (column) ->
-* `My Macros` ->
-* `Standard` ->
-* `Module1` ->
-* (after inside the `Module1` "folder") `New` ->
-* \<Delete the 5-6 lines of code scaffolding template in brand new Macro file\> ->
-* \<Paste the code you copied from `MathFormulaExpander.<...>`\> ->
-* \<Save the Macro with CTRL+S keybind (unless you've reconfigured that keybind)\> ->
-* \<Exit the Macro application entirely (big red X)\>
+* \<new `LibreOffice Basic` application window opens\>
+* Now inside the `LibreOffice Basic` window, click `Macro From` (column) ->
+  * `My Macros` ->
+  * `Standard` ->
+  * `Module1` ->
+* After you're inside the `Module1` "folder", click `New`.
+* Delete the 5-6 lines of code scaffolding template in brand new Macro file.
+* Paste the code you copied from `MathFormulaExpander.<...>`.
+* Save the Macro with CTRL+S keybind (unless you've reconfigured that keybind).
+* Exit the Macro application entirely (big red X).
 2) **USE:** Back in the regular Writer document:
+#### 2.1) Manually run ("execute") the macro  (laborious - *8* clicks each time you run the macro)
 * `Tools`->`Macros`->`Run Macro...` ->
 * `My Macros` -> `Standard` -> `Module1` ->
 * (after inside the `Module1` "folder") `Main_ExpandFormulaShortcuts` ->
 * `Run`
+#### 2.2) Make the Macro runnable by clicking a button on the Toolbar (just *1* click each time you run the macro, after doing below steps)
+NOTE: This Toolbar button will (conveniently or inconveniently) only appear when the macro is usable, which is inside the `Math`/`Formula Editor` Toolbar.
+* `File`->`New`->`Formula`
+  * A `LibreOffice Math` window should now be open.
+* Inside the `LibreOffice Math` window, click `Tools`->`Customize...`->`Toolbars`(near the top of the popup)
+* Ensure `Scope` box is set to `LibreOffice Math`.
+  * *This step* is why this can't be done from inside a Writer document, requiring the extra step of entering a Math document.
+  * This specific value for `Scope` is not shown when inside Writer.
+* Set `Target` box to `Tools`.
+* Click on the last/vertically-lowest option under the `Assigned Commands` (in the right column), ensuring it's highlighted.
+* In the left column, change the `Category` selection box from `All commands` listbox (which has an extremely large number of entries that is practically unsearchable) to `Macros`.
+* Still in the left column, inside the `Available Commands` listbox, click `My Macros` -> `Standard` -> `Module1`.
+* 2.2.1) Still inside the `Module1` "folder", click ONLY ONE of whichever of `ListAvailableShortcuts`, `Main_ExpandFormulaShortcuts`, `Main_ExpandFormulaShortcutsQuiet` you would like to add to the Math toolbar.
+  * Multi-selection does not exist AFAIK, so you need to do this one at a time.
+* 2.2.2) Click the very large arrow that exists in between the two columns that is pointing toward the right column.
+  * This adds the selected Macro function to the Math Toolbar.
+  * If you accidentally added the wrong item to the Math Toolbar, that's what the very large leftward-pointing arrow (in between the two columns) is for. BUT, be careful about which item currently on the Math Toolbar is selected/highlighted.
+* 2.2.3) If you want to make the item on the Math Toolbar have a shorter name than what's used in the actual Macro, then right-click on the item that is already inside the Math Toolbar, and click `Rename...`.
+  * This is especially useful if your Math Toolbar is crammed with many items already and you need to save horizontal space on the Toolbar.
+* Repeat the previous three steps (2.2.{1,2,3}) until you have your 0-3 desired Math Toolbar shortcuts.
+* Feel free to now close the `LibreOffice Math` window.
+  * If you accidentally typed something into the Formula Editor box, LO Math will ask you whether to save when closing the file.
+  * This process (specifically the entire `2.2)` section) doesn't require saving any files.
+* **Now, whenever you're inside a Formula Editor (whether in Writer or Math any other LO application), you can run the Macro (which you added to the Math Toolbar) by clicking the named button on the Math Toolbar.**
+  * **This method is *not* as fast as a keybind**, but this method is still *far* faster than the main alternative (8 clicks).
+
 
 <br>
 
