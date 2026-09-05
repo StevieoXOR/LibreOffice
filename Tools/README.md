@@ -114,14 +114,104 @@ like converting (i.e., substituting)
 <br>
 
 
-# Notes
-## What does this macro act on?
-This *does not* substitute the visual-only representation of the Math Formula.  
-It substitutes the *actual text* inside the Math Formula (which then alters the visual representation).
+# Notes/FAQ
+## What does this project/macro act on, or modify?
+* This *does not* substitute the visual-only representation of the Math Formula.  
+* It substitutes the *actual text* inside the Math Formula (which then alters the visual representation).
 
-## After running `ListAvailableShortcuts`, is there a fast way to get through the informational varied-size boxes?
+## After running `ListAvailableShortcuts`, is there a fast way to get through the informational boxes of various sizes?
 Yes!  
-Just press `ESC` (escape) on your keyboard for each popup box that you want to close out without having to carefully move your mouse to the big X.
+Just press `ESC` (escape) or `ENTER` (enter/return) on your keyboard for each popup box that you want to close out without having to carefully move your mouse to each of the big `X`s.
+<br>
+<br>
+
+## Why not just make a macro that uses the pre-existing LO feature AutoText?
+Note: `AutoText` is *not* to be confused with `AutoCorrect` nor `Spelling` nor `Automatic Spell Checking`.  
+I haven't yet dug into these features nor explored how they can be *quickly* applied by a user in a "flow state".  
+  
+Also, see question that is immediately below this question.  
+<br>
+
+## Why not just make a macro that creates and imports Math Equation files?
+Actually, this seems like a possible logical next step for this project - the automation of writing, modifying, and importing of Math Formula files.  
+
+Also, see question that is immediately below this question.  
+  
+**Naming and Locating of Files and Folders, GUI interactions, Opening of new `LibreOffice Math` window rather than a popup**
+Without further modifications, a user must use the GUI each time open a new `LibreOffice Math` window (a flow-disruptor from being in Writer), then type the full (non-shortcut) equation, then save the file (as either `.odf` or `.mml`), naming the correct file in the correct path (which may require creation of folders) to save and load, and then finding that path and file to import/load it.
+* I could *instead* create a macro along with some keybinds to automatically save a highlighted selection as a `.odf`/`.mml` file or to import a `.odf`/`.mml` file via a user-provided filename and the user's cursor position inside the Formula Editor OLE Object.
+  * **Con:** Searching for the correct folder that houses the equation and searching for the correct filename of the desired equation becomes a time-consuming bottleneck.
+    * **Possible Fix:** A possible design choice is to **force the shortcut** (that the user types into the Formula Editor (e.g., `%mat2x2`)) **to have the same name that is given to the file** where that equation (and only that equation) is stored (e.g., `%mat2x2.odf`/`%mat2x2.mml`), since users needing to type a full filepath (or even a relative filepath!) isn't much of a *short*cut.
+      * **Con:** However, this *still* makes it difficult to search for available shortcuts despite not having any nested folders of equations.
+        * **Possible Fix:** Make a macro that lists every `.odt`/`.mml` filename in a new "OnlyMathFormulasGoHere" folder, where the macro could be named `ListAllAvailableMathShortcuts` (sort of) like in this project, and where the user doesn't need to specify the folder due to the macro automatically creating that "OnlyMathFormulasGoHere" folder.
+<br>
+<br>
+
+
+
+## How is this project different than using User-Defined Formulas (UDF)?
+**1)** UDF has no ability to subcategorize formulas created by a user, though each formula *can* be named.  
+All these UDFs (and a bunch of other stuff) are stored inside just one file, `.../LibreOffice/4/user/registrymodifications.xcu`. The data inside that file cannot be edited, as the next usage of the edited file (e.g., spurred by opening a new or old Writer document) will somehow detect modifications to that file and restore a previous backup of that specific file, without even notifying the user.
+* However, a user can create a new/empty Formula Editor box in Writer, then enter it, then select an already-existing UDF (after navigating the GUI for a while), then make modifications to the formula while inside the Formula Editor, then save the formula as a UDF with the exact same formula name as the UDF that the user originally picked, then accept the prompt that warns about overwriting the previous UDF, and now the UDF has successfully been modified by the user.
+  * However, this does *not* affect the order of the UDF equations that get displayed to the user, and deleting a UDF and creating a new UDF that is a copy of the old UDF just puts the copied UDF at the bottom of the list of UDFs displayed to the user.    
+* Unlike UDF, this project allows categorization via the `ListAvailableShortcuts` macro, even though the shortcuts themselves aren't truly categorized except by rule processing of what order to perform formula substitutions in.
+
+**2)** UDF's GUI display of formulas cannot be reordered by the user.
+The order of available UDFs displayed to the user does **NOT** rely on the alphabetical order of the names of the UDFs.  
+Instead, the order of available UDFs displayed to the user relies on the ordering of the time of creation/definition of the UDFs.
+* I.e., the first-to-ever-be-defined and most-recently-defined UDFs come first and last, respectively, in the list of UDFs displayed to the user in the UDF's list-of-equations GUI.  
+* E.g., the ordering of formulas displayed to the user is as follows, from top to bottom:  
+  OldestCreatedFormula (top), Semi-recentlyCreatedFormula, MostRecentlyCreatedFormula (bottom)  
+  
+The ordering of the UDFs present in `registrymodifications.xcu` (which has no effect on the ordering of formulas displayed to the user) *IS* alphabetical, but never how an average user would expect. The alphabetical ordering is implemented by sorting formula names via ASCII value, meaning that all formulas whose name starts with an uppercase letter come before all formulas whose name starts with a lowercase letter.
+* E.g., the ordering of formulas present in `registrymodifications.xcu` is as follows, from top to bottom:  
+  AFormula (top), BFormula, CFormula, DFormula, ZFormula, aFormula, bFormula, cFormula, dFormula, zFormula (bottom)
+
+Without further modifications, a user must use the GUI each time to create and import a UDF, requiring mouse-cursor precision and scrolling through a likely undesirably-ordered list of UDFs.
+
+With this project, the bottleneck is:  
+  A) not being able to easily expand the list of Math shortcuts (must edit the code file, carefully too) and  
+  B) remembering the keybind that maps to ListAvailableShortcuts.
+
+* I could *instead* create a macro along with some keybinds to automatically save a highlighted selection as a UDF or to import a UDF via a user-provided formula name and the user's cursor position inside the Formula Editor OLE Object.
+  * **Con:** Searching for/Memorizing the correct formula name becomes a time-consuming bottleneck.
+<br>
+<br>
+<br>
+
+
+## The usage guide of these macros seems like a ton of steps. Can't you do this for me with another macro?
+Maybe? And if it's possible, then it won't be done anytime soon.  
+I'm unsure of LO's macro permissioning in terms of the ability to:  
+* Automatically create and/or modify *files* (in a nondestructive way)
+* Automatically create and/or modify *LO paths and folders* (in a nondestructive way)
+* Automatically create and/or modify *global LO keybinds* (in a nondestructive way)
+* Automatically create and/or modify *`Writer` and `Math` Toolbars* (in a nondestructive way)  
+
+Some interesting LO Macros that might help with these are located at:
+* `LO Basic` window -> `Application Macros & Dialogs` -> `Tools` -> `Misc`
+  * -> `CreateNewDocument`
+  * -> `RetrieveFileName`
+  * -> `OpenDocument`
+  * -> `GetDocumentType`
+* `LO Basic` window -> `Application Macros & Dialogs` -> `Tools` -> `ModuleControls`
+  * -> `GetFolderName`
+  * -> `GetFileName`
+  * -> `StoreDocument`
+  * -> `SetOVERWRITEToQuery`
+* `LO Basic` window -> `Application Macros & Dialogs` -> `Tools` -> `UCB` -> ALL of the macros:
+  * -> `ReadDirectories`
+  * -> `AddFoldertoList`
+  * -> `AddFileNameToList`
+  * -> `RetrieveDocTitle`
+  * -> `GetRealFileContent`
+  * -> `ShowHelperDialog`
+  * -> `SaveDataToFile`
+  * -> `LoadDataFromFile`
+  * -> `CreateFolder`
+* `LO Basic` window -> `Application Macros & Dialogs` -> `SFWidgets`
+  * -> `SF_ToolbarButton`
+  * -> `SF_Toolbar`
 <br>
 <br>
 <br>
@@ -141,7 +231,7 @@ Just press `ESC` (escape) on your keyboard for each popup box that you want to c
 * This all sounds great and perfect (i.e., it sounds like there's no need for this project), but:
   * **Con:** These are single-character symbols and therefore do not work for extensive (long) Math equations.
   * **Con:** It is laborious to pick even just one symbol from the GUIs, let alone picking dozens of them in rapid succession.
-  * **Con:** At least by default, these new symbols won't work when other people open your file in LO Writer! These symbols/fonts are specific to each document! So, these symbols must be exported along with the saved document.
+  * **Con:** At least by default, these new symbols won't work when other people open your file in LO Writer! These symbols/fonts are specific to each document! So, these symbols must be exported along with (i.e., inside) the saved document.
 <br>
 <br>
 <br>
@@ -265,7 +355,7 @@ NOTE: This Toolbar button will (conveniently or inconveniently) only appear when
   * If you accidentally added the wrong item to the Math Toolbar, that's what the very large leftward-pointing arrow (in between the two columns) is for. BUT, be careful about which item currently on the Math Toolbar is selected/highlighted.
 * 2.2.3) If you want to make the item on the Math Toolbar have a shorter name than what's used in the actual Macro, then right-click on the item that is already inside the Math Toolbar, and click `Rename...`.
   * This is especially useful if your Math Toolbar is crammed with many items already and you need to save horizontal space on the Toolbar.
-  * I renamed `Main_ExpandFormulaShortcuts` to `ExpandMathShortcuts`, but you don't have to do this.
+  * I renamed `Main_ExpandFormulaShortcuts` to `Apply_FormulaShortcuts`, but you don't have to do this.
 * Repeat the previous three steps (2.2.{1,2,3}) until you have your 0-3 desired Math Toolbar shortcuts.
 * Feel free to now close the `LibreOffice Math` window (press the big red X).
   * If you accidentally typed something into the Formula Editor box, LO Math will ask you whether to save when closing the file.
@@ -273,12 +363,18 @@ NOTE: This Toolbar button will (conveniently or inconveniently) only appear when
 * **Now, whenever you're inside a Formula Editor (whether in Writer or Math any other LO application), you can now run the Macro (which you added to the Math Toolbar) by clicking the named button on the Math Toolbar.**
   * **This method is *not* as fast as a keybind**, but this method is still *far* faster than the main alternative (8 clicks).
 
-### 2.3) Option 3: Keyboard keybind (Button-pressing Combination)
+### 2.3) Option 3: Keybinds (keyboard)
+**Run a macro by having the user physically press a combination of keys on keyboard**  
 * LO Writer -> `Tools`->`Customize...`->`Keyboard`(it's a tab near the top)->
-* In the upper right side, you have two RadioButton-style options {`LibreOffice`, `Writer`}. I picked `Writer`.
+* In the upper right side, you have two RadioButton-style options {`LibreOffice`, `Writer`}. Ensure `LibreOffice` is selected.
+  * I originally picked `Writer`, which worked fine until I was inside a Formula Editor, which then was no longer executing `Writer`-only logic, meaning all the Writer-scoped keybinds no longer applied, meaning the macros no longer worked.
 * Inside the `Category` listbox (in the lower left of the popup), click `Application Macros`'s little dropdown arrow (or just double-click the entry)
 * Inside that, click `My Macros`->`Standard`->`Module1`
-
+* Still inside the `Module1` "folder" in the `Category` listbox, you should now look inside the `Function` listbox.
+* Click ONLY ONE of whichever of `ListAvailableShortcuts`, `Main_ExpandFormulaShortcuts`, `Main_ExpandFormulaShortcutsQuiet` you would like to run with some keybind.
+* Now that the `Category` and `Function` have specific selections, look inside the `Shortcut Keys` listbox, and scroll down to the keypress-combination you want to bind to the macro you selected to run. Click on that keypress-combination, then click the `Assign` button.
+  * E.g., I selected the macro `Main_ExpandFormulaShortcuts` inside the `Function` listbox. Then, inside the `Shortcut Keys` listbox, I scrolled down and clicked on the `Alt+Shift+.` (i.e., that keybind is where you simultaneously press the `ALT` *and* `SHIFT` *and* `.` keys on keyboard) row, then clicked `Assign`.
+    * I also bound `Alt+Shift+L` to `ListAvailableShortcuts`, and bound `Alt+Shift+,` to `Main_ExpandFormulaShortcutsQuiet`.
 <br>
 <br>
 <br>
