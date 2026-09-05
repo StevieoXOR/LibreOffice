@@ -125,14 +125,24 @@ Just press `ESC` (escape) or `ENTER` (enter/return) on your keyboard for each po
 <br>
 <br>
 
-## Why didn't you just make a macro that uses the pre-existing LO feature AutoText?
+## What's the catch with this project?
+With this project, the bottlenecks are:  
+* Not being able to *easily* expand the list of Math shortcuts.
+  * To add or modify a Math shortcut, the user either must be a programmer, be great at reading the file's documentation and interpreting it, or be relatively lucky when making changes.
+  * *There is no shortcut-editing GUI*, whether in Writer or otherwise, for editing the set of shortcuts. (Maybe `LibreOffice Basic` application is an exception.)
+* Laborious to set up in the first place, at least if you want easy-to-use functionality with keybinds/toolbars.
+* Difficulty remembering the keybinds that map to `ListAvailableShortcuts`, `Main_ExpandFormulaShortcuts`, `Main_ExpandFormulaShortcutsQuiet`.
+* Remembering to ***not*** use the other `Sub`s/`Function`s present in the macro file due to them being purely helper functions.
+
+
+## Why didn't this project just make a macro that uses the pre-existing LO feature AutoText?
 Note: `AutoText` is *not* to be confused with `AutoCorrect` nor `Spelling` nor `Automatic Spell Checking`.  
 I haven't yet dug into these features nor explored how they can be *quickly* applied by a user in a "flow state".  
   
 Also, see question that is immediately below this question.  
 <br>
 
-## Why didn't you just make a macro that creates and imports Math Equation files?
+## Why didn't this project just make a macro that creates and imports Math Equation files?
 Actually, this seems like a possible logical next step for this project - the automation of writing, modifying, and importing of Math Formula files.  
 
 Also, see question that is immediately below this question.  
@@ -168,10 +178,6 @@ The ordering of the UDFs present in `registrymodifications.xcu` (which has no ef
   AFormula (top), BFormula, CFormula, DFormula, ZFormula, aFormula, bFormula, cFormula, dFormula, zFormula (bottom)
 
 Without further modifications, a user must use the GUI each time to create and import a UDF, requiring mouse-cursor precision and scrolling through a likely undesirably-ordered list of UDFs.
-
-With this project, the bottleneck is:  
-  A) not being able to easily expand the list of Math shortcuts (must edit the code file, carefully too) and  
-  B) remembering the keybind that maps to ListAvailableShortcuts.
 
 * I could *instead* create a macro along with some keybinds to automatically save a highlighted selection as a UDF or to import a UDF via a user-provided formula name and the user's cursor position inside the Formula Editor OLE Object.
   * **Con:** Searching for/Memorizing the correct formula name becomes a time-consuming bottleneck.
