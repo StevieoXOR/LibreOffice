@@ -125,14 +125,14 @@ Just press `ESC` (escape) or `ENTER` (enter/return) on your keyboard for each po
 <br>
 <br>
 
-## Why not just make a macro that uses the pre-existing LO feature AutoText?
+## Why didn't you just make a macro that uses the pre-existing LO feature AutoText?
 Note: `AutoText` is *not* to be confused with `AutoCorrect` nor `Spelling` nor `Automatic Spell Checking`.  
 I haven't yet dug into these features nor explored how they can be *quickly* applied by a user in a "flow state".  
   
 Also, see question that is immediately below this question.  
 <br>
 
-## Why not just make a macro that creates and imports Math Equation files?
+## Why didn't you just make a macro that creates and imports Math Equation files?
 Actually, this seems like a possible logical next step for this project - the automation of writing, modifying, and importing of Math Formula files.  
 
 Also, see question that is immediately below this question.  
