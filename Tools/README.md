@@ -125,7 +125,7 @@ Just press `ESC` (escape) or `ENTER` (enter/return) on your keyboard for each po
 <br>
 <br>
 
-## What's the catch with this project?
+# What's the catch with this project?
 With this project, the bottlenecks are:  
 * Not being able to *easily* expand the list of Math shortcuts.
   * To add or modify a Math shortcut, the user either must be a programmer, be great at reading the file's documentation and interpreting it, or be relatively lucky when making changes.
@@ -133,27 +133,29 @@ With this project, the bottlenecks are:
 * Laborious to set up in the first place, at least if you want easy-to-use functionality with keybinds/toolbars.
 * Difficulty remembering the keybinds that map to `ListAvailableShortcuts`, `Main_ExpandFormulaShortcuts`, `Main_ExpandFormulaShortcutsQuiet`.
 * Remembering to ***not*** use the other `Sub`s/`Function`s present in the macro file due to them being purely helper functions.
+<br>
+<br>
 
-
-## Why didn't this project just make a macro that uses the pre-existing LO feature AutoText?
+## Why didn't this project just make a macro that uses the pre-existing LO feature AutoText?  
 Note: `AutoText` is *not* to be confused with `AutoCorrect` nor `Spelling` nor `Automatic Spell Checking`.  
 I haven't yet dug into these features nor explored how they can be *quickly* applied by a user in a "flow state".  
   
 Also, see question that is immediately below this question.  
 <br>
 
-## Why didn't this project just make a macro that creates and imports Math Equation files?
+## Why didn't this project just make a macro that creates and imports Math Equation files?  
 Actually, this seems like a possible logical next step for this project - the automation of writing, modifying, and importing of Math Formula files.  
 
 Also, see question that is immediately below this question.  
   
-**Naming and Locating of Files and Folders, GUI interactions, Opening of new `LibreOffice Math` window rather than a popup**
-Without further modifications, a user must use the GUI each time open a new `LibreOffice Math` window (a flow-disruptor from being in Writer), then type the full (non-shortcut) equation, then save the file (as either `.odf` or `.mml`), naming the correct file in the correct path (which may require creation of folders) to save and load, and then finding that path and file to import/load it.
-* I could *instead* create a macro along with some keybinds to automatically save a highlighted selection as a `.odf`/`.mml` file or to import a `.odf`/`.mml` file via a user-provided filename and the user's cursor position inside the Formula Editor OLE Object.
-  * **Con:** Searching for the correct folder that houses the equation and searching for the correct filename of the desired equation becomes a time-consuming bottleneck.
-    * **Possible Fix:** A possible design choice is to **force the shortcut** (that the user types into the Formula Editor (e.g., `%mat2x2`)) **to have the same name that is given to the file** where that equation (and only that equation) is stored (e.g., `%mat2x2.odf`/`%mat2x2.mml`), since users needing to type a full filepath (or even a relative filepath!) isn't much of a *short*cut.
-      * **Con:** However, this *still* makes it difficult to search for available shortcuts despite not having any nested folders of equations.
-        * **Possible Fix:** Make a macro that lists every `.odt`/`.mml` filename in a new "OnlyMathFormulasGoHere" folder, where the macro could be named `ListAllAvailableMathShortcuts` (sort of) like in this project, and where the user doesn't need to specify the folder due to the macro automatically creating that "OnlyMathFormulasGoHere" folder.
+**Naming and Locating of Files and Folders, GUI interactions, Opening of new `LibreOffice Math` window rather than a popup**  
+
+Without further modifications, a user must use the GUI each time open a new `LibreOffice Math` window (a flow-disruptor from being in Writer), then type the full (non-shortcut) equation, then save the file (as either `.odf` or `.mml`), naming the correct file in the correct path (which may require creation of folders) to save and load, and then finding that path and file to import/load it.  
+* I could *instead* create a macro along with some keybinds to automatically save a highlighted selection as a `.odf`/`.mml` file or to import a `.odf`/`.mml` file via a user-provided filename and the user's cursor position inside the Formula Editor OLE Object.  
+  * **Con:** Searching for the correct folder that houses the equation and searching for the correct filename of the desired equation becomes a time-consuming bottleneck.  
+    * **Possible Fix:** A possible design choice is to **force the shortcut** (that the user types into the Formula Editor (e.g., `%mat2x2`)) **to have the same name that is given to the file** where that equation (and only that equation) is stored (e.g., `%mat2x2.odf`/`%mat2x2.mml`), since users needing to type a full filepath (or even a relative filepath!) isn't much of a *short*cut.  
+      * **Con:** However, this *still* makes it difficult to search for available shortcuts despite not having any nested folders of equations.  
+        * **Possible Fix:** Make a macro that lists every `.odt`/`.mml` filename in a new "OnlyMathFormulasGoHere" folder, where the macro could be named `ListAllAvailableMathShortcuts` (sort of) like in this project, and where the user doesn't need to specify the folder due to the macro automatically creating that "OnlyMathFormulasGoHere" folder.  
 <br>
 <br>
 
