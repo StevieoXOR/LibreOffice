@@ -48,13 +48,41 @@ I *might* eventually create an accompanying file that lists most of my *MS Word*
     * More useful than above link (from MS) in my opinion.
     * Contains non-default MS Word Math symbols that you can create.  
 
-##### Helpful Info
+##### Helpful Info - Creating Rules That Contain Nested Objects/Rules
 * Avoid the urge to use grouping operators `()`, `[]`, `{}` when creating *Math AutoCorrect* **parseable** formulas in both *Word* and *Writer*\*.
   * Here are the intended (and therefore *reliable*) grouping operators in:
     * *MS Word:* `├` and `┤ `  
     * *LO Writer:* ` left<?>` and ` right<?>`  
   * E.g., don't expect `Replace`: `(((1/(\sqrt (2)) )/1/x^2)) ` to work correctly when *not* manually typing it out (i.e., when relying on *Word*'s *Math AutoCorrect*). You'll need to assign (almost) every grouping-related character either an adjacent space/` ` character or an adjacent "leftmost-part-ends-here signal"/`├` character.
-  * \* Well, `{}` ***is*** actually the correct thing to use in *Writer* for functions' parameters/inputs, but ***not*** for parsing the correct nesting order of objects. This project is concerned with the latter and not the former, so the original statement is still true.  
-* You *shouldn't* ever need to use (specifically) `┤ `, but if you find a use case that *requires* it, please let me know!  
+  * \* Well, `{}` ***is*** actually the correct thing to use in *Writer* for functions' parameters/inputs (e.g., `frac{topText}{bottomText}`), but ***not*** for parsing the correct nesting order of objects.  
+    This project is concerned with the latter and not the former, so the original statement is still true.  
+* You *shouldn't* ever need to use (specifically) `┤ `, but if you find a scenario that *requires* it, please let me know!  
   * You'll always either be 1) using `├` or 2) relying on typical grouping operators like parentheses and/or brackets.  
 * When the parser tries to group an opening symbol (like any of the following: `({[├`  ) and closing symbol (like `)}]┤`  ) together, the parser "looks" from right to left until it finds a corresponding symbol (it looks for an opening symbol like `[` if it starts on a closing symbol like `)`), so the parser matches the first "Open,Close" symbol ***pair*** that it finds, turning that *pair* into a single object.  
+
+##### How do I chain multiple *Word* `Math AutoCorrect` rules together, like `\specificShortcut1` and `\specificShortcut2` both becoming `\sink_mainShortcutToUse`, which then becomes `x+y-z`?
+```
+Example that's written out as a flowchart:
+
+\qp   \q+  \qplus \quantum_plus    (Rules 1 through 4, whose output is directly below)
+  |     |    |      |
+  \___  | ___/______/
+      \ /
+       V
+\quantum_ket_plus                          (Rule 5, whose output is directly below)
+  |
+  V
+|+>
+```
+
+That's the neat part! You don't!  
+<sub>You can't.</sub>  
+
+The closest you can get to chaining multiple *Word*'s `Math AutoCorrect` rules together is by using spacebar characters ***inside a single rule***.  
+* E.g., `1/√2 (■(1&1@1&-1)) `  
+  * Notice how the square root ***symbol*** is there rather than the Word shortcut `\sqrt `
+    * `\sqrt ` has a space character at the end in an attempt to apply the rule (i.e., to perform the substitution), but it won't work since it's inside another rule.  
+  * That *symbol* (rather than the *rule* that creates that symbol) **must** be there due to the same "no chaining of rules" issue.  
+
+My project/macro (`MathFormulaExpander`) does ***not*** have this limitation since its rule parsing is not completely flat due to its reliance of *sequential* (non-parallel) calls to perform RegEx substitution rather than something like hashing/global LUTs ("Lookup Tables").  
+
