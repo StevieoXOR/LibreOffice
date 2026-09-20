@@ -33,9 +33,10 @@
 
 ## More resources for *MS Word*'s `Math AutoCorrect` tool  
 
+### Where (on GitHub) is your list of *MS Word* `Math AutoCorrect` shortcuts?
 I *might* eventually create an accompanying file that lists most of my *MS Word* Math shortcuts, but good luck copying and pasting them into your own Word environment...
 * That's a significant part of the reason I switched over from *Word* to *LibreOffice* (as a whole).  
-  I can't back up nor share (en masse/"all at once") those shortcuts with other people, and I'm screwed if I lose access to my MS account for whatever reason (like getting locked out of my MS profile). Word uses a binary format that I don't know how to parse, and apparently other people haven't figured out how to parse it either.  
+* I can't back up nor share (en masse/"all at once") those shortcuts with other people, and I'm screwed if I lose access to my MS account for whatever reason (like getting locked out of my MS profile). Word uses a binary format that I don't know how to parse, and apparently other people (according to forums I've looked at) haven't figured out how to parse it either.  
   That format *may(?)* also be proprietary, so there *may* be some legal concerns around publishing how to parse the stored equations (which would be an *extremely* stupid thing for MS to sue over, unless they're covering up something else that is somehow associated to the format in which they store this equation data).  
 
 #### Regardless, here are some helpful links and info:  
@@ -48,9 +49,12 @@ I *might* eventually create an accompanying file that lists most of my *MS Word*
     * Contains non-default MS Word Math symbols that you can create.  
 
 ##### Helpful Info
-* Avoid the urge to use grouping operators `()`, `[]`, `{}` when creating *Math AutoCorrect* **parseable** formulas in both *Word* and *Writer*\*. That's what `├` and `┤ ` are designed to do in MS Word, and that's what ` left<?>` and ` right<?>` are designed to do in LO Writer.
-  * E.g., don't expect `Replace`: `(((1/(\sqrt (2)) )/1/x^2)) ` to work correctly when *not* manually typing it out (i.e., when relying on *Math AutoCorrect*). You'll need to assign (almost) every grouping-related character either an adjacent space character or an adjacent "leftmost-part-ends-here signal"/`├` character.
+* Avoid the urge to use grouping operators `()`, `[]`, `{}` when creating *Math AutoCorrect* **parseable** formulas in both *Word* and *Writer*\*.
+  * Here are the intended (and therefore *reliable*) grouping operators in:
+    * *MS Word:* `├` and `┤ `  
+    * *LO Writer:* ` left<?>` and ` right<?>`  
+  * E.g., don't expect `Replace`: `(((1/(\sqrt (2)) )/1/x^2)) ` to work correctly when *not* manually typing it out (i.e., when relying on *Word*'s *Math AutoCorrect*). You'll need to assign (almost) every grouping-related character either an adjacent space/` ` character or an adjacent "leftmost-part-ends-here signal"/`├` character.
   * \* Well, `{}` ***is*** actually the correct thing to use in *Writer* for functions' parameters/inputs, but ***not*** for parsing the correct nesting order of objects. This project is concerned with the latter and not the former, so the original statement is still true.  
 * You *shouldn't* ever need to use (specifically) `┤ `, but if you find a use case that *requires* it, please let me know!  
-  You'll always be using either `├` or relying on typical grouping operators like parentheses and/or brackets.  
-* When the editor tries to group an opening symbol (like `({[├`  ) and closing symbol (like `)}]┤`  ) together, the editor “looks” from right to left until it finds a corresponding symbol (it looks for an opening symbol like `[` if it starts on a closing symbol like `)`), so the editor matches the first Open,Close symbol ***pair*** that it finds, turning that *pair* into a single object.  
+  * You'll always either be 1) using `├` or 2) relying on typical grouping operators like parentheses and/or brackets.  
+* When the parser tries to group an opening symbol (like any of the following: `({[├`  ) and closing symbol (like `)}]┤`  ) together, the parser "looks" from right to left until it finds a corresponding symbol (it looks for an opening symbol like `[` if it starts on a closing symbol like `)`), so the parser matches the first "Open,Close" symbol ***pair*** that it finds, turning that *pair* into a single object.  
