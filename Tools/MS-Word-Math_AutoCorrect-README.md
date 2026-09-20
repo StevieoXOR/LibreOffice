@@ -84,7 +84,7 @@ The closest you can get to chaining multiple `Math AutoCorrect` rules together *
   * That ***symbol*** (rather than the ***rule*** that creates that symbol) ***absolutely MUST*** be there due to the same "no chaining of rules" issue.  
 
 **This project/macro (`MathFormulaExpander`) does *not* have this "no chaining of rules" limitation** since this project's rule parsing is not completely "flat" (i.e., *is* at least somewhat hierarchical).  
-* This non-limitation is due to this project's reliance on *sequential* (non-parallel) calls to perform RegEx substitution (at the cost of <sub>unnoticeably</sub> slower substitutions), rather than using something like hashing/global LUTs ("Lookup Tables").
+* This non-limitation is due to this project's reliance on *sequential* (non-parallel) calls to perform RegEx substitution (at the cost of <sub>unnoticeably</sub> slower substitutions), rather than using a hashtable/global LUT (Lookup Table) of each rule *along with a guarantee that all rules in the rule database are mutually exclusive/deterministic-when-substituting/non-conflicting*.
   * Note: Though **the set of all *calls*** to a RegEx replace function (in this project) occurs sequentially, **each individual/standalone rule (i.e., RegEx replacement)** can still be allowed to compute (i.e., search and replace) in parallel, <sub>which is likely ***only*** beneficial for ***very large*** substitution searches/inputs ***(that happen within a single rule)***.</sub>
     * However, this project uses the default `LO Basic` RegEx library functions, so whether or not each individual RegEx action is performed in parallel is up to the `LO Basic` programming language, not to some specialized implementation done by this project.
 
