@@ -115,9 +115,19 @@ like converting (i.e., substituting)
 
 
 # Notes/FAQ
-## What does this project/macro act on, or modify?
-* This *does not* substitute the visual-only representation of the Math Formula.  
-* It substitutes the *actual text* inside the Math Formula (which then alters the visual representation).
+<br>
+<br>
+
+## I'm looking for how to add shortcuts to ***Microsoft Word***, not *LibreOffice Writer*. How do I add a Math shortcut to *MS Word*?
+This is what I started out doing before I switched to LibreOffice Writer!  
+
+See [MS-Word-Math_AutoCorrect-README.md](./MS-Word-Math_AutoCorrect-README.md)  
+<br>
+
+## What does this LO project/macro act on, or modify?
+* This *does not* substitute the visual-only representation of the LO Math Formula.  
+* It substitutes the *actual text* inside the LO Math Formula (which then alters the visual representation).
+<br>
 
 ## After running `ListAvailableShortcuts`, is there a fast way to get through the informational boxes of various sizes?
 Yes!  
@@ -127,9 +137,9 @@ Just press `ESC` (escape) or `ENTER` (enter/return) on your keyboard for each po
 
 # What's the catch with this project?
 With this project, the bottlenecks are:  
-* Not being able to *easily* expand the list of Math shortcuts.
-  * To add or modify a Math shortcut, the user either must be a programmer, be great at reading the file's documentation and interpreting it, or be relatively lucky when making changes.
-  * *There is no shortcut-editing GUI*, whether in Writer or otherwise, for editing the set of shortcuts. (Maybe `LibreOffice Basic` application is an exception.)
+* Not being able to *easily* expand the list of LO Math shortcuts.
+  * To add or modify a LO Math shortcut, the user either must be a programmer, be great at reading the macro file's documentation and interpreting it, or be relatively lucky when making changes to the macro file.
+  * *There is no shortcut-editing GUI for the macro*, whether in *Writer* or otherwise, for editing the set of shortcuts. (Maybe the `LibreOffice Basic` application is an exception - but it's very "general purpose" and does nothing to guide you nor to prevent you from shooting yourself in the foot *when altering this project's macro*.)
 * Laborious to set up in the first place, at least if you want easy-to-use functionality with keybinds/toolbars.
 * Difficulty remembering the keybinds that map to `ListAvailableShortcuts`, `Main_ExpandFormulaShortcuts`, `Main_ExpandFormulaShortcutsQuiet`.
 * Remembering to ***not*** use the other `Sub`s/`Function`s present in the macro file due to them being purely helper functions.
@@ -148,7 +158,7 @@ Actually, this seems like a possible logical next step for this project - the au
 
 Also, see question that is immediately below this question.  
   
-**Reasons: Naming and Locating of Files and Folders, GUI interactions, Opening of new `LibreOffice Math` window rather than a popup**  
+**Reasons: Naming and Locating of Files and Folders, GUI interactions, Opening of new `LibreOffice Math` window rather than a popup/dialog box**  
 
 Without further modifications, a user must use the GUI each time to open a new `LibreOffice Math` window (a flow-disruptor from being in Writer), then type the full (non-shortcut) equation, then save the file (as either `.odf` or `.mml`), naming the correct file in the correct path (which may require creation of folders) to save and load, and then finding that path and file to import/load it.  
 * I could *instead* create a macro along with some keybinds to automatically save a user-highlighted selection of Equation Editor text (in Writer) as a `.odf`/`.mml` file or to import a `.odf`/`.mml` file via a user-provided filename and the user's cursor position inside the Formula Editor OLE Object.  
@@ -161,7 +171,7 @@ Without further modifications, a user must use the GUI each time to open a new `
 
 
 
-## How is this project different than using User-Defined Formulas (UDF)?
+## How is this project different than using LO's User-Defined Formulas (UDF)?
 **1)** UDF has no ability to subcategorize formulas created by a user, though each formula *can* be named.  
 All these UDFs (and a bunch of other stuff) are stored inside just one file, `.../LibreOffice/4/user/registrymodifications.xcu`. The data inside that file cannot be edited, as the next usage of the edited file (e.g., spurred by opening a new or old Writer document) will somehow detect modifications to that file and restore a previous backup of that specific file, without even notifying the user that a file backup has been activated/used/copied into the main environment.
 * However, a user can create a new/empty Formula Editor box in Writer, then enter it, then select an already-existing UDF (after navigating the GUI for a while), then make modifications to the formula while inside the Formula Editor, then save the formula as a UDF with the exact same formula name as the UDF that the user originally picked, then accept the prompt that warns about overwriting the previous UDF, and now the UDF has successfully been modified by the user.
@@ -196,6 +206,7 @@ I'm unsure of LO's macro permissioning in terms of the ability to:
 * Automatically create and/or modify *global LO keybinds* (in a nondestructive way)
 * Automatically create and/or modify *`Writer` and `Math` Toolbars* (in a nondestructive way)  
 
+### If you want to take the initiative yourself
 Some interesting LO Macros that might help with these are located at:
 * `LO Basic` window -> `Application Macros & Dialogs` -> `Tools` -> `Misc`
   * -> `CreateNewDocument`
