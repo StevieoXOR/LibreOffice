@@ -12,6 +12,11 @@
   * Well, ... . See sections below.  
     * (you can add substitutions for equations/formulas as long as they obey Word's weird Equation formatting and syntax, like using `&` and `@` for matrix spacers for rows and columns respectively, and using spacebar characters to tell *Word* *"please convert the characters that come BEFORE this space into an object, factoring in however I used the "left-side-ends signifier/marker" symbol (├) and "right-side-ends signifier/marker" symbol (┤) to group math objects in the correct nesting order."*)  
 
+### TL;DR
+Word -> Toolbar -> `Insert` tab -> `Symbols`/`Equation` button -> `Equation` tab -> `Conversions`/Small box in corner with arrow inside -> New popup/dialog box -> `Math AutoCorrect` button -> New popup/dialog box -> Enter your substitution rules here.
+<br>
+<br>
+
 ## How to MODIFY the `Math AutoCorrect` shortcuts *in MS Word*  
 * You might need to copy-paste some special characters you find online (like in this README!)...  
 * Example: I want to make a shortcut for a column vector that has 6 slots:  
