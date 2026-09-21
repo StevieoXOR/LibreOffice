@@ -68,15 +68,15 @@ I *might* eventually create an accompanying file that lists most of my *MS Word*
 ```
 Example that's written out as a flowchart:
 
-\qp   \q+  \qplus \quantum_plus    (Rules 1 through 4, whose output is directly below)
-  |     |    |      |
-  \___  | ___/______/
+\qp   \q+  \qplus  \quantum_plus    (Rules 1 through 4, whose output is directly below)
+  |     |      |        |
+  \___  | _____/________/
       \ /
        V
-\quantum_ket_plus                          (Rule 5, whose output is directly below)
-  |
-  V
-|+>
+\quantum_ket_plus                    (Rule 5, whose output is directly below)
+     |
+     V
+1/√2(|0〉+|1〉)
 ```
 
 That's the neat part! You don't!  
