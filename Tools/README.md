@@ -4,21 +4,24 @@ Before substituting key phrases:
 <img alt="Before substituting key phrases" src="Assets/PreSubstitution.png" width=1000 height=600>
 <br>
 
-During substitution of key phrases
+During substitution of key phrases:
 <img alt="During substitution of key phrases" src="Assets/DuringSubstitution.png" width=1000 height=600>
 <br>
 
-After substituting key phrases
+After substituting key phrases:
 <img alt="After substituting key phrases" src="Assets/AfterSubstitution.png" width=1000 height=600>
 <br>
 <br>
 
-# Purpose of MathAutoCorrect
+
+# Purpose of This Project - MathAutoCorrect
 
 AutoCorrect doesn't exist when inside LibreOffice Math Formula Objects, so there is no
 possibility of unofficial LO shortcuts (at least, if you do not want to have to arduously
-click through the GUI to get to your user-defined formulas).
-This is especially annoying with long equations.
+click through the GUI to get to your clicking-heavy user-defined formulas). <sub>If you 
+believe this statement is inaccurate and/or misleading, please see this README's Notes/FAQ section.</sub>  
+
+Having no easy method to quickly insert equation shortcuts is *especially* annoying with long equations that require typing dozens of characters.  
 
 <br>
 
@@ -34,7 +37,7 @@ the native LO Writer Math Formula pattern. Example native LO Writer Math Formula
 
 This macro code lets you substitute keyphrases into their expanded form when the user is
 inside (not merely selecting) the Math Formula Box Editor inside a LibreOffice Writer file, 
-like converting (i.e., substituting)
+like converting (i.e., substituting):
 * `%al ` into `%alpha`
 * `%the ` into `%theta`
 * `%sig ` into `%sigma`
@@ -85,16 +88,16 @@ like converting (i.e., substituting)
 <br>
 
 ## File Details
-⭐✅ `MathFormulaExpander.vb`
+⭐✅ `MathFormulaExpander.bas`
 * *The* file that contains:
   * The macro to run (**"Main_ExpandFormulaShortcuts"**)
     * Should only be run after you're ***inside*** a Formula Editor.
   * The macro that details a list of available substitutions (**"ListAvailableShortcuts"**)
     * Can be run either inside the main Writer document or inside the Formula Editor.
-* This is the file where you should add new rules (or modify old ones) to your liking.
+* **This is the file where you should add new rules (or modify old ones) to your liking.**
 * This file also includes an extra macro (**"Main_ExpandFormulaShortcutsQuiet"**) that does the exact same set of
-  substitutions, but *doesn't* create a popup box informing you of the text replacements that it used, which is very
-  useful once you get acquainted with how the rule-substitution system works.
+  substitutions, but *doesn't* create a popup ("dialog") box informing you of the text replacements that it used, which is very
+  useful once you get acquainted with how the rule-substitution system works (and don't want to press `ESC` each time you apply the substitution).
 
 ❔ `MathFormulaExpander_ShortcutsTestbench.txt`
 * A file that *should* (not "does", but "should") contain all the substitution
@@ -131,23 +134,29 @@ See [MS-Word-Math_AutoCorrect-README.md](./MS-Word-Math_AutoCorrect-README.md)
 
 ## After running `ListAvailableShortcuts`, is there a fast way to get through the informational boxes of various sizes?
 Yes!  
-Just press `ESC` (escape) or `ENTER` (enter/return) on your keyboard for each popup box that you want to close out without having to carefully move your mouse to each of the big `X`s.
+Just press `ESC` (escape) or `ENTER` (enter/return) on your keyboard for each popup dialog box that you want to close out without having to carefully move your mouse to each of the big `X`s.
+* This also applies to MS Word too.
 <br>
 <br>
 
 # What's the catch with this project?
 With this project, the bottlenecks are:  
-* Not being able to *easily* expand the list of LO Math shortcuts.
+* Not being able to *easily* expand (nor alter) the list of LO Math shortcuts.
   * To add or modify a LO Math shortcut, the user either must be a programmer, be great at reading the macro file's documentation and interpreting it, or be relatively lucky when making changes to the macro file.
-  * *There is no shortcut-editing GUI for the macro*, whether in *Writer* or otherwise, for editing the set of shortcuts. (Maybe the `LibreOffice Basic` application is an exception - but it's very "general purpose" and does nothing to guide you nor to prevent you from shooting yourself in the foot *when altering this project's macro*.)
-* Laborious to set up in the first place, at least if you want easy-to-use functionality with keybinds/toolbars.
+  * ***There is no shortcut-editing GUI for the macro***, whether in *Writer* or otherwise.
+    * If you want to add/update/delete shortcuts from the macro, then open any IDE such as VSCode, Notepad, Notepad++, or the `LibreOffice Basic` application, and then utilize that chosen IDE's text highlighting features.
+    * This project has minimal (not extensive) *hard* safety guardrails to prevent you from making invalid MathAutoCorrect shortcuts. Modifying shortcuts will require somewhat laborious (depending on your skill level) trial and error of 1) modifying the macro, 2) ensuring that that *modified* macro (not the old macro) is actually used in LO Writer, 3) opening a Formula Editor with your relevant shortcut, 4) running the macro, 5) checking validity, hoping it replaced text that used your new shortcut while not simultaneously corrupting the usage of other shortcuts.
+    * The commented explanation of how the rules work (inside the macro file itself) is the source of truth for knowing good shortcuts vs bad shortcuts.
+* Laborious to set up in the first place.
+  * At least if you want easy-to-use functionality with keybinds/toolbars.
 * Difficulty remembering the keybinds that map to `ListAvailableShortcuts`, `Main_ExpandFormulaShortcuts`, `Main_ExpandFormulaShortcutsQuiet`.
+  * At least if you want easy-to-use functionality with keybinds, rather than using the toolbar or manually runninng a macro.
 * Remembering to ***not*** use the other `Sub`s/`Function`s present in the macro file due to them being purely helper functions.
 <br>
 <br>
 
 ## Why didn't this project just make a macro that uses the pre-existing LO feature AutoText?  
-Note: `AutoText` is *not* to be confused with `AutoCorrect` nor `Spelling` nor `Automatic Spell Checking`.  
+Note: LO `AutoText` is *not* to be confused with LO `AutoCorrect` nor LO `Spelling` nor LO `Automatic Spell Checking`.  
 I haven't yet dug into these features nor explored how they can be *quickly* applied by a user in a "flow state".  
   
 Also, see question that is immediately below this question.  
@@ -319,7 +328,7 @@ Let's take `%keti` as an example. What do we name a variant format/representatio
 ## How NOT to copy it:
 DO NOT *DOWNLOAD* THIS FILE AND THEN *IMPORT* IT AS A MACRO.  
 **YOU MUST *COPY-PASTE*** THE FILE'S CONTENTS DIRECTLY INTO A NEW MACRO.  
-* I.e., do **NOT** do `Tools`->`Macros`->`Edit Macros`  ==>  \<Deleting code scaffolding template in brand new Macro file due to non-overwriting imports\> -> `File`->`Import BASIC...`->`All Filetypes`->`MathFormulaExpander.<...>`.
+* I.e., do **NOT** do `Tools`->`Macros`->`Edit Macros`  ==>  \<Deleting code scaffolding template in brand new Macro file due to non-overwriting imports\> -> `File`->`Import BASIC...`->`All Filetypes`->`MathFormulaExpander.bas`.
 * **Reasoning:** LibreOffice automatically encodes any special characters (likely for making macros *generally* safer), such as:
   * Greek letters
     * `α|0〉 + β|1〉` -> ` Î±|0âŒª + Î²|1âŒª`
