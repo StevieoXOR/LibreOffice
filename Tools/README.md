@@ -259,7 +259,16 @@ Some interesting LO Macros that might help with these are located at:
 * This all sounds great and perfect (i.e., it sounds like there's no need for this project), but:
   * **Con:** These are single-character symbols and therefore do not work for extensive (long) Math equations.
   * **Con:** It is laborious to pick even just one symbol from the GUIs, let alone picking dozens of them in rapid succession.
-  * **Con:** At least by default, these new symbols won't work when other people open your file in LO Writer! These symbols/fonts are specific to each document! So, these symbols must be exported along with (i.e., inside) the saved document.
+  * **Con:** At least by default, these new symbols won't work when other people open your file in LO Writer! These symbols/fonts are specific to each document! So, these symbols must be exported along with (i.e., inside) the saved document.  
+### [LibreOffice 7.2 Math Guide (PDF) - LO Documentation](https://documentation.libreoffice.org/assets/Uploads/Documentation/en/MG72/MG72-MathGuide.pdf)
+  * PDF. Pretty comprehensive. Pretty useful.
+  * Easy-to-read, unlike most of the LO help sites that focus on ultra-specific topics, somehow without going into the important details on those specific topics (sometimes).
+  * Everything is in a reasonable location inside the PDF, unlike LO's help sites.
+  * If you're still confused about LO's Math syntax, *why* certain things work (and don't work!), *how* to do certain things (even the basics!), what capabilities LO Math has, then this PDF is the very first (and maybe only) resource you need.
+  * Formula Library: saving & using formulas - Pgs 32-33
+  * Importing a formula using keyboard shortcuts - Pgs 47-49
+    * This part's picture explanation is a bit outdated, as the UNO `Formula` and `Formula` commands are now displayed by their UNO Service, making them appear unique (which they always were).
+  * List of Math syntax/commands (`Appendix A, Commands Reference`) - Pgs 57-72(endOfPDF)
 <br>
 <br>
 <br>
