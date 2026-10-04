@@ -475,6 +475,7 @@ NOTE: This Toolbar button will (conveniently or inconveniently) only appear when
 "Acknowledge that " %pi/2 approx frac{3.14}{2} = 1.57 " does NOT = 90. This is why the \"implied\" part is important"`
   * ⏳ Quantum gate matrix-representations (X,Y,Z,H, CX, CCX/Toffoli, SWAP, RX(theta), RY(theta), RZ(theta)).
   * ✅🧠 Quantum state *variants* where fractions are separated, for `|+>` and `|->`, `|i>` and `-|i>`.
+  * ✅⏳ `| ... |`: `%verticallinepair`, `%verticallines`, `%vertlinepair`, `%vertlines`, `%lrverticallines`, `%lrvertlines`, `%lrlines`, `%dublines`, `%doublelines`, `%dubbars`, `%doublebars`, `%vlines`, `%vlpair` -> `left lline <?> right rline`
 * ✅✅✅ Hide all helper `Sub`s and `Function`s from the user executing the macro. I.e., remove the possibility that a user can run `GetFormulaObject`, `ReplaceAllShortcuts`, `ReplaceShortcuts`.
   * **INVALID FIX:** Adding `Private` in front of the `Sub`s/`Function`s to hide from the macro's executer. In reality, `Private` might only work for independent libraries or independent modules (not sure which, or if both).
 * ⏳⏳⏳🧠🧠🧠 Add a memory capability inside the Formula Editor to support an UNDO (Ctrl+Z) operation. I.e., be able to undo the MathAutoCorrect text substitution.
