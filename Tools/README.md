@@ -477,6 +477,9 @@ NOTE: This Toolbar button will (conveniently or inconveniently) only appear when
   * ✅🧠 Quantum state *variants* where fractions are separated, for `|+>` and `|->`, `|i>` and `-|i>`.
 * ✅✅✅ Hide all helper `Sub`s and `Function`s from the user executing the macro. I.e., remove the possibility that a user can run `GetFormulaObject`, `ReplaceAllShortcuts`, `ReplaceShortcuts`.
   * **INVALID FIX:** Adding `Private` in front of the `Sub`s/`Function`s to hide from the macro's executer. In reality, `Private` might only work for independent libraries or independent modules (not sure which, or if both).
+* ⏳⏳⏳🧠🧠🧠 Add a memory capability inside the Formula Editor to support an UNDO (Ctrl+Z) operation. I.e., be able to undo the MathAutoCorrect text substitution.
+  * If I can't find LO's way to deal with `undo` in LO Basic, I could modify the Expansion macro to start storing the original string (of the entire Formula Editor box, not just what's modified, since transformations are sometimes irreversible) *before any transformations* happen, save that string to a temporary file (where?)(do *not* save to clipboard - user expects their clipboard data to stay intact after using the macro), and then create a new macro function/subroutine to load that file's data into the Formula Editor when *both* inside a Formula Editor and the user presses `CTRL`+`Z`.
+    * Maybe I could keep the 5 most recent strings that exist right before the shortcut substitution macro executes, storing them into a max of 5 temporary files?
 * ⏳🧠🧠 Make an in-macro selection variable that determines whether symbols get fully resolved to single characters or just resolved to LibreOffice-recognized symbols. Also, implement the rule substitution functionality to make that variable useful. E.g.,
   * `SubFullyToSingleChar=False:  "%del " -> "%\delta" -> "%delta"`
   * `SubFullyToSingleChar=True:   "%del " -> "%\delta" -> "%delta" -> "δ"`
