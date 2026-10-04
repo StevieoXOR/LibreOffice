@@ -1,5 +1,5 @@
 REM ** Creation Date: 16Jan2026-19Jan2026
-REM ** Last Updated:  3Feb2026
+REM ** Last Updated:  4Oct2026
 REM ** Macro Programming Language: LibreOffice BASIC
 REM ** MACRO NAME:     LibreOffice Math Formula Snippet Expander
 REM ** MACRO PURPOSE:  Expands shorthand codes into full formula markup,
