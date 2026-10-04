@@ -352,6 +352,13 @@ Function ReplaceAllShortcuts(ByRef sNewFormula As String, ByRef iNumChanged As I
     sNewFormula = ReplaceShortcut(sNewFormula, "%cvec2",    "stack{a # b}",                     iNumChanged,    sRulesUsed)
     sNewFormula = ReplaceShortcut(sNewFormula, "%cvec3",    "stack{a # b # c}",                 iNumChanged,    sRulesUsed)
 
+    sNewFormula = ReplaceShortcut(sNewFormula, "%determinant2",         "%\determinant2",       iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%det2",                 "%\determinant2",       iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%\determinant2",        "%% Determinant of 2x2 matrix%ndet(SquareMatrix)=%nleft lline%n  matrix{a # b ## c # d}%nright rline%n=%n(+a cdot det(d)) + (-b cdot det(c))%n=%nad-bc",          iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%determinant",          "%\genericDeterminant",                 iNumChanged,    sRulesUsed) ' Requires trailing space if rule is re-ordered
+    sNewFormula = ReplaceShortcut(sNewFormula, "%det",                  "%\genericDeterminant",                 iNumChanged,    sRulesUsed) ' Requires trailing space if rule is re-ordered
+    sNewFormula = ReplaceShortcut(sNewFormula, "%\genericDeterminant",  "%% Determinant%ndet(SquareMatrix)=%nleft lline%n  matrix{<?>}%nright rline",            iNumChanged,    sRulesUsed)
+
     sNewFormula = ReplaceShortcut(sNewFormula, "%integral", "int from{a} to{b} f(x) dx",        iNumChanged,    sRulesUsed)
     sNewFormula = ReplaceShortcut(sNewFormula, "%sum",      "sum from{i=1} to{n} a_i",          iNumChanged,    sRulesUsed)
     sNewFormula = ReplaceShortcut(sNewFormula, "%lim",      "lim from{x toward infinity} f(x)", iNumChanged,    sRulesUsed)
@@ -664,7 +671,7 @@ Sub ListAvailableShortcuts()
     Dim saMsgFormat(7)    As String
     Dim saMsgSpacing(10)  As String
     Dim saMsgSoloOperators(5)   As String
-    Dim saMsgMatrix(9)   As String
+    Dim saMsgMatrix(11)   As String
     Dim saMsgVector(4)   As String
     Dim saMsgCases(3)    As String
     Dim saMsgSets(6)     As String
@@ -715,16 +722,18 @@ Sub ListAvailableShortcuts()
     saMsgSoloOperators(5) = "> %nullary>=  -->   `ge`"
     ' saMsgSoloOperators(6) = vbNewLine
 
-    saMsgMatrix(0) = "Matrix Shortcuts"
-    saMsgMatrix(1) = "> %mat2   - 2x2 matrix"
-    saMsgMatrix(2) = "> %mat3   - 3x3 matrix"
-    saMsgMatrix(3) = "> %mat4   - 4x4 matrix"
-    saMsgMatrix(4) = "> %mat2x3 - 2x3 matrix"
-    saMsgMatrix(5) = "> %mat3x2 - 3x2 matrix"
-    saMsgMatrix(6) = "> %idmat2 - 2x2 identity matrix"
-    saMsgMatrix(7) = "> %idmat3 - 3x3 identity matrix"
-    saMsgMatrix(8) = "> %idmat4 - 4x4 identity matrix"
-    saMsgMatrix(9) = vbNewLine
+    saMsgMatrix(0)  = "Matrix Shortcuts"
+    saMsgMatrix(1)  = "> %mat2   - 2x2 matrix"
+    saMsgMatrix(2)  = "> %mat3   - 3x3 matrix"
+    saMsgMatrix(3)  = "> %mat4   - 4x4 matrix"
+    saMsgMatrix(4)  = "> %mat2x3 - 2x3 matrix"
+    saMsgMatrix(5)  = "> %mat3x2 - 3x2 matrix"
+    saMsgMatrix(6)  = "> %idmat2 - 2x2 identity matrix"
+    saMsgMatrix(7)  = "> %idmat3 - 3x3 identity matrix"
+    saMsgMatrix(8)  = "> %idmat4 - 4x4 identity matrix"
+    saMsgMatrix(9)  = "> %det2, %determinant2 - Determinant of a 2x2 matrix"
+    saMsgMatrix(10) = "> '%det ', '%determinant ' - Determinant of a generic matrix"
+    saMsgMatrix(11) = vbNewLine
 
     saMsgVector(0) = "Vector Shortcuts"
     saMsgVector(1) = "> %binom - Binomial coefficient ('choose')"
