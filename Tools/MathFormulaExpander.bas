@@ -328,7 +328,7 @@ Function ReplaceAllShortcuts(ByRef sNewFormula As String, ByRef iNumChanged As I
     REM **   the next expansion: "%THETA" -> "%THETATA" -> "%THETATATA" -> "%THETATATATA", ...
 
 
-    Dim saTemp(10) As String    ' sa = String array
+    Dim saTemp(12) As String    ' sa = String array
     Dim sTemp      As String
     Dim vbNewLine  As String
     Dim vbDubQwo  As String
@@ -344,7 +344,7 @@ Function ReplaceAllShortcuts(ByRef sNewFormula As String, ByRef iNumChanged As I
     sNewFormula = ReplaceShortcut(sNewFormula, "%mat4",     "left [%nmatrix{%n   a # b # c # d%n## e # f # g # h%n## i # j # k # l%n## m # n # o # p}%nright ]", iNumChanged,    sRulesUsed)
 
     ' Identity Matrices (IdMat)
-    sNewFormula = ReplaceShortcut(sNewFormula, "%idmat2",   "left [%nmatrix{%n   1 # 0%n## 1 # 0%n}%nright ]",           iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%idmat2",   "left [%nmatrix{%n   1 # 0%n## 0 # 1%n}%nright ]",           iNumChanged,    sRulesUsed)
     sNewFormula = ReplaceShortcut(sNewFormula, "%idmat3",   "left [%nmatrix{%n   1 # 0 # 0%n## 0 # 1 # 0%n## 0 # 0 # 1}%nright ]", iNumChanged,    sRulesUsed)
     sNewFormula = ReplaceShortcut(sNewFormula, "%idmat4",   "left [%nmatrix{%n   1 # 0 # 0 # 0%n## 0 # 1 # 0 # 0%n## 0 # 0 # 1 # 0%n## 0 # 0 # 0 # 1}%nright ]", iNumChanged,    sRulesUsed)
 
@@ -365,21 +365,78 @@ Function ReplaceAllShortcuts(ByRef sNewFormula As String, ByRef iNumChanged As I
     sNewFormula = ReplaceShortcut(sNewFormula, "%irt3",     "frac{1}{sqrt{3}}",                 iNumChanged,    sRulesUsed)
     sNewFormula = ReplaceShortcut(sNewFormula, "%invrt3",   "sqrt{frac{1}{3}}",                 iNumChanged,    sRulesUsed)
 
+    ' Set Theory Shortcuts
+    sNewFormula = ReplaceShortcut(sNewFormula, "%real#s",          "%\setR",                    iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%realnums",        "%\setR",                    iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%setreals",        "%\setR",                    iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%setreal",         "%\setR",                    iNumChanged,    sRulesUsed) ' Requires trailing space if rule is re-ordered
+    sNewFormula = ReplaceShortcut(sNewFormula, "%realsset",        "%\setR",                    iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%realset",         "%\setR",                    iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%reals",           "%\setR",                    iNumChanged,    sRulesUsed) ' Requires trailing space if rule is re-ordered
+    sNewFormula = ReplaceShortcut(sNewFormula, "%real",            "%\setR",                    iNumChanged,    sRulesUsed) ' Requires trailing space if rule is re-ordered
+    sNewFormula = ReplaceShortcut(sNewFormula, "%\setR",           "setR",                      iNumChanged,    sRulesUsed)
+    
+    sNewFormula = ReplaceShortcut(sNewFormula, "%complex#s",       "%\setC",                    iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%complexnums",     "%\setC",                    iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%complex",         "%\setC",                    iNumChanged,    sRulesUsed) ' Requires trailing space if rule is re-ordered
+    sNewFormula = ReplaceShortcut(sNewFormula, "%complexset",      "%\setC",                    iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%setcomplex",      "%\setC",                    iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%setcomp",         "%\setC",                    iNumChanged,    sRulesUsed) ' Requires trailing space if rule is re-ordered
+    sNewFormula = ReplaceShortcut(sNewFormula, "%\setC",           "setC",                      iNumChanged,    sRulesUsed)
+    
+    sNewFormula = ReplaceShortcut(sNewFormula, "%intnums",         "%\setZ",                    iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%int#s",           "%\setZ",                    iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%integers",        "%\setZ %% Ex: -5, 0, 5%n",  iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%integer",         "%\setZ %% Ex: -5, 0, 5%n",  iNumChanged,    sRulesUsed) ' Requires trailing space if rule is re-ordered
+    sNewFormula = ReplaceShortcut(sNewFormula, "%ints",            "%\setZ %% Ex: -5, 0, 5%n",  iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%int",             "%\setZ %% Ex: -5, 0, 5%n",  iNumChanged,    sRulesUsed) ' Requires trailing space if rule is re-ordered
+    sNewFormula = ReplaceShortcut(sNewFormula, "%setintegers",     "%\setZ",                    iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%setinteger",      "%\setZ",                    iNumChanged,    sRulesUsed) ' Requires trailing space if rule is re-ordered
+    sNewFormula = ReplaceShortcut(sNewFormula, "%setints",         "%\setZ",                    iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%setint",          "%\setZ",                    iNumChanged,    sRulesUsed) ' Requires trailing space if rule is re-ordered
+    sNewFormula = ReplaceShortcut(sNewFormula, "%\setZ",           "setZ",                      iNumChanged,    sRulesUsed)
+    
+    sNewFormula = ReplaceShortcut(sNewFormula, "%setrationalnums", "%\setQ",                    iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%setrational#s",   "%\setQ",                    iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%setrationals",    "%\setQ",                    iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%rationals",       "%\setQ",                    iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%rational",        "%\setQ",                    iNumChanged,    sRulesUsed) ' Requires trailing space if rule is re-ordered
+    sNewFormula = ReplaceShortcut(sNewFormula, "%setrational",     "%\setQ",                    iNumChanged,    sRulesUsed) ' Requires trailing space if rule is re-ordered
+    sNewFormula = ReplaceShortcut(sNewFormula, "%setratnl",        "%\setQ",                    iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%setrat",          "%\setQ",                    iNumChanged,    sRulesUsed) ' Requires trailing space if rule is re-ordered
+    sNewFormula = ReplaceShortcut(sNewFormula, "%\setQ",           "setQ",                      iNumChanged,    sRulesUsed)
+    
+    sNewFormula = ReplaceShortcut(sNewFormula, "%setnaturalnums",  "%\setN",                    iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%setnatural#s",    "%\setN",                    iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%setnaturals",     "%\setN",                    iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%naturals",        "%\setN",                    iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%natural",         "%\setN",                    iNumChanged,    sRulesUsed) ' Requires trailing space if rule is re-ordered
+    sNewFormula = ReplaceShortcut(sNewFormula, "%setnatural",      "%\setN",                    iNumChanged,    sRulesUsed) ' Requires trailing space if rule is re-ordered
+    sNewFormula = ReplaceShortcut(sNewFormula, "%setnatrl",        "%\setN",                    iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%setnat",          "%\setN",                    iNumChanged,    sRulesUsed) ' Requires trailing space if rule is re-ordered
+    sNewFormula = ReplaceShortcut(sNewFormula, "%\setN",           "setN",                      iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%dne",          "%doesnotexist",               iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%DNE",          "%doesnotexist",               iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%doesnotexist", "notexists",                   iNumChanged,    sRulesUsed)
+
+
     sNewFormula = ReplaceShortcut(sNewFormula, "%pw2",          "%cases2",                      iNumChanged,    sRulesUsed)
     sNewFormula = ReplaceShortcut(sNewFormula, "%piecewise2",   "%cases2",                      iNumChanged,    sRulesUsed)
-    sNewFormula = ReplaceShortcut(sNewFormula, "%cases2",       "left {%n  stack{a, x>0 # b, x <= 0}%n right none",   iNumChanged,    sRulesUsed)
+    sNewFormula = ReplaceShortcut(sNewFormula, "%cases2",       "bold left lbrace   nbold{%n  stack{a, x>0 # b, x <= 0}%n}right none",   iNumChanged,    sRulesUsed)
 
     saTemp(0) = "%% Piecewise Function 4"
     saTemp(1) = "stack{%theta`=` # ` # `}"
-    saTemp(2) = "size *3.75{\lbrace}"
-    saTemp(3) = "  stack{"
-    saTemp(4) = "    {x,```i>0}"
-    saTemp(5) = "  # {y,```i=0}"
-    saTemp(6) = "  # {z,```i<0}"
-    saTemp(7) = "  # {%alpha,`i notin setR}"
-    saTemp(8) = "  # {size *2.5{~}}"
-    saTemp(9) = "  }"
-    saTemp(10) = "``````"
+    saTemp(2) = "size *4.15{\lbrace}"
+    saTemp(3) = "%% bold left lbrace   nbold{  %% This makes a thin, nearly invisible brace, but it does scale without the need for an extra, scaled empty item in the stack"
+    saTemp(4) = "  stack{"
+    saTemp(5) = "    {x,```i>0}"
+    saTemp(6) = "  # {y,```i=0}"
+    saTemp(7) = "  # {z,```i<0}"
+    saTemp(8) = "  # {%alpha,`i notin setR}"
+    saTemp(9) = "  # {size *2.5{~}}"
+    saTemp(10) = "  }"
+    saTemp(11) = "%% }right none  %% Must be used with the `left` line above"
+    saTemp(12) = "``````"
     ' Add %n in between each array element while concatenating the array elements into a single String
     sTemp = Join(saTemp, "%n")
     sNewFormula = ReplaceShortcut(sNewFormula, "%pw4",          sTemp,   iNumChanged,    sRulesUsed)
@@ -610,6 +667,7 @@ Sub ListAvailableShortcuts()
     Dim saMsgMatrix(9)   As String
     Dim saMsgVector(4)   As String
     Dim saMsgCases(3)    As String
+    Dim saMsgSets(6)     As String
     Dim saMsgAlgebra(7)  As String
     Dim saMsgCalculus(5) As String
     Dim saMsgSymbol(19)  As String
@@ -696,6 +754,14 @@ Sub ListAvailableShortcuts()
     saMsgCalculus(5) = "> %partial, %part  -  partial derivative  ∂f/∂x"
     ' saMsgCalculus(6) = vbNewLine
 
+    saMsgSets(0) = "Set Theory Shortcuts"
+    saMsgSets(1) = "> '%real ', %reals, %setreal, %setreals, %realset, %realsset, %realnums, %real#s  -  setR"
+    saMsgSets(2) = "> '%complex ', %setcomp, %setcomplex, %complexset, %complexnums, %complex#s  -  setC"
+    saMsgSets(3) = "> '%int ', %ints, '%integer ', %integers, '%setint ', %setints, '%setinteger ', %setintegers, %intnums, %int#s  -  setZ"
+    saMsgSets(4) = "> '%rational ', %rationals, '%setrat ', %setratnl, '%setrational ', %setrationals, %setrationalnums, %setrational#s  -  setQ"
+    saMsgSets(5) = "> '%natural ', %naturals, '%setnat ', %setnatrl, '%setnatural ', %setnaturals, %setnaturalnums, %setnatural#s  -  setN"
+    saMsgSets(6) = "> %dne, %DNE, %doesnotexist  -  notexists"
+
     saMsgSymbol(0)  = "Greek Symbol Shortcuts"
     saMsgSymbol(1)  = "> '%al ', '%alp '"+vbTab+vbTab+vbTab+vbTab+vbTab+vbTab+"-> %alpha"
     saMsgSymbol(2)  = "> %Al, %Alp, '%AL ', '%ALP ' -> %ALPHA"
@@ -748,9 +814,10 @@ Sub ListAvailableShortcuts()
     sMessagePg2 = Join(saMsgMatrix,  vbNewLine) & Join(saMsgVector,  vbNewLine) & Join(saMsgCases,    vbNewLine)
     sMessagePg2 =                   sMessagePg2 & Join(saMsgAlgebra, vbNewLine) & Join(saMsgCalculus, vbNewLine)
 
-    MsgBox sMessagePg1, MB_ICONINFORMATION, "Formula Shortcuts (1/4) - Format, Newline/Tab/Space, 0-arg Operators"
-    MsgBox sMessagePg2, MB_ICONINFORMATION, "Formula Shortcuts (2/4) - Matrix, Vector, Cases, Algebra, Calculus"
-    MsgBox Join(saMsgSymbol,  vbNewLine), MB_ICONINFORMATION, "Formula Shortcuts (3/4) - Greek Symbol"
-    MsgBox Join(saMsgQuantum, vbNewLine), MB_ICONINFORMATION, "Formula Shortcuts (4/4) - Quantum"
+    MsgBox sMessagePg1, MB_ICONINFORMATION, "Formula Shortcuts (1/5) - Format, Newline/Tab/Space, 0-arg Operators"
+    MsgBox sMessagePg2, MB_ICONINFORMATION, "Formula Shortcuts (2/5) - Matrix, Vector, Cases, Algebra, Calculus"
+    MsgBox Join(saMsgSets,    vbNewLine), MB_ICONINFORMATION, "Formula Shortcuts (3/5) - Set Theory"
+    MsgBox Join(saMsgSymbol,  vbNewLine), MB_ICONINFORMATION, "Formula Shortcuts (4/5) - Greek Symbol"
+    MsgBox Join(saMsgQuantum, vbNewLine), MB_ICONINFORMATION, "Formula Shortcuts (5/5) - Quantum"
     
 End Sub
