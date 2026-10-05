@@ -136,6 +136,40 @@ See [MS-Word-Math_AutoCorrect-README.md](./MS-Word-Math_AutoCorrect-README.md)
 Yes!  
 Just press `ESC` (escape) or `ENTER` (enter/return) on your keyboard for each popup dialog box that you want to close out without having to carefully move your mouse to each of the big `X`s.
 * This also applies to MS Word too.
+
+## I'm just using the predefined shortcuts you've made. Anything I should watch out for?
+Yes.  
+***Don't*** get in the habit of storing shortcuts (e.g., `%idmat2`) inside a Formula Editor box, at least if you intend for them to *never* be expanded/substituted.  
+In the off chance that you press the Substitute keybind while inside the Formula Editor box, it will substitute (read: *"delete"*) your shortcut for the expanded version of that shortcut or any shorcut that accidentally exists *within* your shortcut (e.g., if you've made a typo in the shortcut's name, or if you are planning on adding a new shortcut that you decided to temporarily write down inside the box).  
+
+Example:  
+* You're storing shortcuts (that you plan to later add to the macro/code file) inside your Formula Editor box because you want the result to be rendered, so you write the following text inside the Formula Editor:  
+```
+%mat4ref
+%mat4REF
+%mat4rowechelon
+%mat4rowechelonform
+
+newline
+
+%mat4uppertriangular
+%mat4upper
+%mat4uprtri
+%mat4upr
+
+newline
+left [
+INSERT UPPER TRIANGULAR MATRIX HERE
+%mat4  # I'll modify this matrix's contents after I expand this formula shortcut
+right ]
+_{"elements are labeled "a" through "p", replacing some letters with 0s."}
+```
+* You then decide you want to grab a 4x4 matrix using the pre-existing `%mat4` shortcut, so you run the substitute macro.
+* After pressing Substitute (keybind, or button, etc), you realize that EVERY instance of `%mat4` in each of your written-down-in-box shortcuts has been substituted with the ENTIRE 4x4 matrix, causing an illegible mess of formula text and also of messy visibly rendered matrices.
+
+Ways to prevent this:
+* Ensure that each rule you add contains an ending/trailing space character (e.g., `%mat4 ` instead of `%mat4`).
+* Use *many* Formula Editor boxes (rather than just one Formula Editor box), each storing just one shortcut, to minimize the damage if you *do* accidentally press the substitute button/keybind/macro.
 <br>
 <br>
 
