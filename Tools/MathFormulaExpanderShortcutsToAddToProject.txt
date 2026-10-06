@@ -1,0 +1,824 @@
+
+# SHORTCUT 1 (Sarruc's method of finding the determinant of a 3x3 matrix)
+%matsarrucmethod
+%matsarruc
+%sarrucmethod
+%sarruc
+%det3wraparound
+%det3sarruc
+%det3
+
+  |||
+  VVV
+
+"Sarruc's method of finding the determinant of a 3x3 matrix:"
+newline
+
+"" det(A)
+newline
+"" `=`
+newline
+
+""
+left lline
+matrix{
+   a # b # c
+## d # e # f
+## g # h # i
+}
+right rline
+
+
+
+%% Start line#2
+newline
+""
+->
+~
+
+left lline
+matrix{
+   a # b # c
+## d # e # f
+## g # h # i
+}
+right rline
+matrix{
+   a # b # `
+## d # e # `
+## g # h # `
+}
+
+
+
+%% Start line#3
+newline
+->
+~
+
+left [
+left lline
+matrix{
+   +\[a\] # +(b) # +\{c\}
+## d # \[e\] # (f)
+## g # h # \[i\]
+}
+right rline
+matrix{
+   a # b # `
+## \{d\} # e # `
+## (g) # \{h\} # `
+}
+right ]
+
+~
+,
+~
+
+left [
+left lline
+matrix{
+   a # b # c
+## d # e # `lt f gt`
+## g # `lt h gt` # (i)
+}
+right rline
+matrix{
+   -`lt a gt` # -(b) # `
+## (d) # e # `
+## g # h # `
+}
+right ]
+
+
+
+
+%% Start line#4
+
+newline
+""=
+~
+
+left [
+left lline
+matrix{
+   color blue +a # color red +b # color green +c
+## d # color blue e # color red f
+## g # h # color blue i
+}
+right rline
+matrix{
+   a # b # `
+## color green d # e # `
+## color red g # color green h # `
+}
+right ]
+
+~
+,
+~
+
+left [
+left lline
+matrix{
+   a # b # c
+## d # e # color brown f
+## g # color brown h # color cyan i
+}
+right rline
+matrix{
+   color brown -a # color cyan -b # `
+## color cyan d # e # `
+## g # h # `
+}
+right ]
+
+
+
+
+%% Start line#5
+newline
+
+"" ->``` +aei + bfg + cdh - afh - bdi - ceg
+newline
+"" =~    +aei - afh - bdi + bfg + cdh - ceg
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# SHORTCUT 2 (Formula for finding the inverse of a 2x2 matrix)
+%mat2inverse
+%mat2inv
+
+
+  |||
+  VVV
+
+
+"Formula for finding the inverse of a 2x2 matrix:"
+newline
+
+%% Remember:   Definition of Inverse (for matrices):  A A^{-1} = I
+
+"    If "
+A = left [
+matrix{
+   a # b
+## c # d
+}
+right ]
+
+
+", then "
+
+A^{-1}
+=
+frac{1}{ad-bc}
+left [
+matrix{
+   d # -b
+## -c # a
+}
+right ]
+newline
+
+"" size * 0.75{
+  stack{
+    "> The main diagonal "swaps positions"but"preserves sign.
+  # "> The other diagonal "preserves positions"but"swaps sign.
+  # "> If the determinant is 0, then that original matrix "(A)" is "not"invertible, "
+  # "   so this formula (which has a situation where you might divide by zero) "
+  # "   doesn't apply since the matrix isn't invertible anyway."
+  }
+ }
+newline
+newline
+newline
+
+
+
+
+
+
+
+
+# SHORTCUT 3 (Definition of the Inverse of a Matrix)
+%matinversedefinition
+%matinversedef
+%matinverseproperty
+%matinverse
+%matinv
+
+
+  |||
+  VVV
+
+%% Definition of the Inverse of a Matrix
+
+"Q: How do we verify that an inverted matrix that we find is "italic{actually}" an inverse?"
+newline
+"A: You ensure that the following (bolded) line holds true!"
+newline
+"   " bold{A A^{-1} ~=~ A^{-1} A ~=~ I}
+newline
+"   " A A^{-1} = I "   "italic{"and simultaneously"}"    "A^{-1} A = I     size * 0.75"      (Equivalent to above line)"
+newline
+"   " MatrixA cdot MatrixA^{Inverse} ~=~ MatrixA^{Inverse} cdot MatrixA ~=~ IdentityMatrix     size * 0.75"      (Equivalent to above line)"
+newline
+"" size * 0.75{"> The "cdot" corresponds to matrix multiplication, NOT to elementwise multiplication."}
+newline
+"" size * 0.75{"> Note: \"Inverse\" is sometimes NOT the same as \"Left Inverse\", and is sometimes NOT the same as \"Right Inverse\"."}
+
+newline
+
+
+
+
+
+
+
+
+
+
+
+
+
+# SHORTCUT 4 (Determinant of 3x3 matrix)
+%detmat3
+
+
+  |||
+  VVV
+
+
+%% Determinant of 3x3 matrix
+left lline
+matrix{
+   a # b # c
+## d # e # f
+## g # h # i
+}
+right rline
+
+~~=~
+
+(+a)
+
+cdot
+
+left lline
+matrix{
+   [~] # ` # `
+## ` # e # f
+## ` # h # i
+}
+right rline
+
++
+
+(-b)
+
+cdot
+
+left lline
+matrix{
+   ` # [~] # `
+## d # ` # f
+## g # ` # i
+}
+right rline
+
++
+
+(+c)
+
+cdot
+
+left lline
+matrix{
+   ` # ` # [~]
+## d # e # `
+## g # h # `
+}
+right rline
+
+
+
+newline
+~~~~~=
+
+
+aei - afh - bdi + bfg + cdh - ceg
+
+
+
+
+
+
+
+
+
+
+
+
+# SHORTCUT 5 (REF and UpperTriangularMatrix)
+
+%mat4ref
+%mat4REF
+%mat4rowechelon
+%mat4rowechelonform
+
+newline
+
+%mat4uppertriangular
+%mat4upper
+%mat4uprtri
+%mat4upr
+
+
+  |||
+  VVV
+
+
+%% REF = Row Echelon Form
+%%     = Upper Triangular form
+%%     = Values that aren't forced to be zero in the upper right half of the matrix elements, but all values in the lower left half are forced to be zero; the major diagonal (top-left corner to bottom-right corner) has all typically-non-zero values, not all zero values.
+%% REF is NOT the same thing as RREF!!! ("REF" vs "Reduced REF")
+
+newline
+left [
+matrix{
+   a # b # c # d
+## 0 # f # g # h
+## 0 # 0 # k # l
+## 0 # 0 # 0 # p}
+right ]
+_{"elements are labeled "a" through "p", replacing some letters with 0s."}
+
+newline
+left [
+matrix{
+   a # b # c # d
+## 0 # e # f # g
+## 0 # 0 # h # i
+## 0 # 0 # 0 # j}
+right ]
+_{"elements are labeled "a" through "j", in order, no gaps."}
+
+
+
+newline
+""
+left [
+matrix{
+   8 # 7 # 1 # 4
+## 0 # 0.2 # 5 # 7
+## 0 # 0 # 6 # 8
+## 0 # 0 # 0 # 5}
+right ]
+_{"Example of matrix in REF (not RREF!) form"}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# SHORTCUT 6 (Lower Triangular Matrix)
+
+%mat4lowertriangular
+%mat4lower
+%mat4lwrtri
+%mat4lwr
+
+
+  |||
+  VVV
+
+
+%% Lower Triangular Matrix (4x4 in this case)
+newline
+left [
+matrix{
+   a # 0 # 0 # 0
+## e # f # 0 # 0
+## i # j # k # 0
+## m # n # o # p}
+right ]
+_{"elements are labeled "a" through "p", replacing some letters with 0s."}
+
+newline
+left [
+matrix{
+   a # 0 # 0 # 0
+## b # c # 0 # 0
+## d # e # f # 0
+## g # h # i # j}
+right ]
+_{"elements are labeled "a" through "j", in order, no gaps."}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# SHORTCUT 7 (2x2 Permutation Matrix)
+
+%mat2permutation
+%mat2permute
+
+
+  |||
+  VVV
+
+
+%% 2x2 (Pure) Permutation Matrix
+%% This is the only 2x2 permutation matrix that performs ONLY permutation and no other operation (e.g., stretching/contraction/shearing/dimensional-collapse).
+%% For larger matrices (e.g., 3x3, 4x4, 5x5, ...), FAR more permutation matrices exist.
+
+left lline
+matrix{0 # 1 ## 1 # 0}
+right rline
+
+newline
+
+
+
+
+
+
+# SHORTCUT 8 (3x3 Permutation Matrix example)
+
+%mat3permutationexample
+%mat3permutation
+%mat3permute12
+%mat3swap12
+
+
+  |||
+  VVV
+
+%% 3x3 Permutation Matrix Example
+newline
+left [
+matrix{
+   1 # 0 # 0
+## 0 # 1 # 0
+## 0 # 0 # 1}
+right ]
+_{"3x3 Identity Matrix"}
+
+->~~
+
+left [
+matrix{
+   color blue 0 # color blue 1 # color blue 0
+## color red 1  # color red  0 # color red  0
+## 0 # 0 # 1}
+right ]
+_{
+  stack{
+    "Example of 3x3 permutation matrix."
+  # "Rows have been swapped, NOT columns."
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+# SHORTCUT 9 (4x4 Permutation Matrix Example)
+
+%mat4permutation
+%mat4permute
+
+%matpermutationexample
+%matpermutation
+%matpermuteexample
+%matpermute
+
+
+  |||
+  VVV
+
+
+%% 4x4 Permutation Matrix Example
+%% Permutation matrices always start out as Identity matrices.
+%% * Each element of I is either 1 or 0: Main diagonal is all 1s, and all non-main-diagonal elements are 0s.
+%% Starting from the I matrix, you swap its *rows* (not columns, though that can achieve the same effect)
+%%   , in whatever fashion you like, to get a permutation matrix.
+%% In the below example:
+%% * Red   row was originally row3 (2nd from bottom).
+%% * Green row was originally row1 (top row).
+%% * Blue  row was originally row2 (2nd from top).
+
+left [
+matrix{
+   color red   0 # color red   0 # color red   1 # color red   0
+## color green 1 # color green 0 # color green 0 # color green 0
+## color blue  0 # color blue  1 # color blue  0 # color blue  0
+## 0 # 0 # 0 # 1}
+right ]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# SHORTCUT 10 (Determinant of matrix, where matrix is both 4x4 AND in REF format)
+
+%mat4determinanttrick
+%mat4dettrick
+%mat4determinantshortcut
+%mat4detshortcut
+%mat4determinantref
+%mat4refdeterminant
+%mat4detref
+%mat4refdet
+
+
+  |||
+  VVV
+
+
+startingMatrix
+=
+M
+=
+left [
+matrix{
+   a # b # c # d
+## 0 # f # g # h
+## 0 # 0 # k # l
+## 0 # 0 # 0 # p}
+right ]
+
+
+
+newline
+"Going along the leftmost column (because it has a ton of zeros that will cancel out further operations):"
+
+newline
+
+""
+left lline M right rline
+
+~=~
+
++a
+cdot
+left lline
+matrix{
+   ~ # ~ # ~ # ~
+## ~ # f # g # h
+## ~ # 0 # k # l
+## ~ # 0 # 0 # p}
+right rline
+
+~+~
+-0
+
+left lline
+matrix{
+   ~ # b # c # d
+## ~ # ~ # ~ # ~
+## ~ # 0 # k # l
+## ~ # 0 # 0 # p}
+right rline
+
+~+~
+
+0
+cdot
+left lline
+matrix{
+   ~ # b # c # d
+## ~ # f # g # h
+## ~ # ~ # ~ # ~
+## ~ # 0 # 0 # p}
+right rline
+
+~+~
+-0
+left lline
+matrix{
+   ~ # b # c # d
+## ~ # f # g # h
+## ~ # 0 # k # l
+## ~ # ~ # ~ # ~}
+right rline
+
+
+
+newline
+""
+~=~
+
++a
+left lline
+matrix{
+    f # g # h
+##  0 # k # l
+##  0 # 0 # p}
+right rline
+
+~+~
+
+-0+0-0
+
+
+newline
+""
+~=~
+
+a
+cdot
+left lline
+matrix{
+    f # g # h
+##  0 # k # l
+##  0 # 0 # p}
+right rline
+
+
+newline
+""
+~=~
+
+a cdot f cdot k cdot p
+
+
+
+
+
+
+
+
+
+
+
+
+
+#SHORTCUT 11 (Left Inverse of a Matrix)
+
+%matleftinverse
+%matleftinv
+%matlinverse
+%matlinv
+
+
+  |||
+  VVV
+
+
+%% Left Inverse of a Matrix
+""X^{-1} ` Y
+~=~
+(X^T X)^{-1}  X^T  ` Y
+newline
+~~~~~~~~=~
+  {
+    left (
+      (X^T X)^{-1}_{"IsNowASquareMatrix!"}  X^T_"TransposedToAllowCompatibleMatrixMultiplication"
+    right )
+  }
+    underbrace {"NOT the inverse of X, but IS the Left Inverse of X since there's another matrix to the right"}
+  Y
+newline
+
+
+newline
+{"" X^{-1} ~=~ (X'X)^{-1} X'}
+  underbrace{"Another way to write the Inverse of matrix X"}
+
+
+
+
+
+
+
+
+
+
+#SHORTCUT 12 (Right Inverse of a Matrix)
+
+%matrightinverse
+%matrightinv
+%matrinverse
+%matrinv
+
+
+  |||
+  VVV
+
+
+%% Right Inverse of a Matrix
+""Y ` X^{-1}
+~=~
+Y `  
+left (
+  (X^T X)^{-1}  X^T
+right )
+newline
+~~~~~~~~=~
+  Y
+  {
+    left (
+      (X^T X)^{-1}_{"IsNowASquareMatrix!"}  X^T_"TransposedToAllowCompatibleMatrixMultiplication"
+    right )
+  }
+    underbrace {"NOT the inverse of X, but IS the Right Inverse of X since there's another matrix to the left"}
+newline
+
+
+newline
+{"" X^{-1} ~=~ (X'X)^{-1} X'}
+  underbrace{"Another way to write the Inverse of matrix X"}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
