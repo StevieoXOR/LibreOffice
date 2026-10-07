@@ -127,8 +127,9 @@ If there exists an ability to support arbitrarily-deep nested OLE objects (and a
 ```
            [Main Writer Doc]
                   |
-// Will house all elements belonging to what we can treat as a single Formula object
-          [Inner Writer Doc]
+// Will house all elements belonging to what we can treat as a single Formula object.
+// This specific level isn't truly necessary, but it does keep the main Writer doc tidier.
+          [Inner WriterDoc/MathObj]
                   |
           _______/|\_______
          /        |        \
