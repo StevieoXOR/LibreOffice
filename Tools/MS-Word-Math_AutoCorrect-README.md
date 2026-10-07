@@ -92,4 +92,65 @@ The closest you can get to chaining multiple `Math AutoCorrect` rules together *
 * This non-limitation is due to this project's reliance on *sequential* (non-parallel) calls to perform RegEx substitution (at the cost of <sub>unnoticeably</sub> slower substitutions), rather than using a hashtable/global LUT (Lookup Table) of each rule *along with a guarantee that all rules in the rule database are mutually exclusive/deterministic-when-substituting/non-conflicting*.
   * Note: Though **the set of all *calls*** to a RegEx replace function (in this project) occurs sequentially, **each individual/standalone rule (i.e., RegEx replacement)** can still be allowed to compute (i.e., search and replace) in parallel, <sub>which is likely ***only*** beneficial for ***very large*** substitution searches/inputs ***(that happen within a single rule)***.</sub>
     * However, this project uses the default `LO Basic` RegEx library functions, so whether or not each individual RegEx action is performed in parallel is up to the `LO Basic` programming language, not to some specialized implementation done by this project.
+<br>
+<br>
+
+
+
+
+
+### Are there any equation-related drawbacks to replacing *MS Word* with *LO Math*?
+Yes.  
+
+The problem is that LO Math is incapable of applying a highlighter-style background to Formula text, where MS Word does not have this problem.  
+
+Additionally, that drawback *cannot* be fixed by a user without creating a new macro/extension/fork to LibreOffice.  
+
+In both LO Writer (note: *not* LO Math\*) and MS Word, **highlight** can be applied to the *entire* object (i.e., not just individual entries).  
+* \*`not LO Math`: This is due to a Math OLE Object not being aware that it is embedded inside a Writer document, and therefore highlighting its \[i.e., the Math Object's\] background is *not* an option.  
+  The background highlighting functionality is a capability of *LO Writer*; **LO Math lacks this highlighting capability.**  
+* <img alt="Picture showing a 3x3 matrix along with parenthetically grouped formal objects in MS Word where each element can have its text be colored and each element can have a highlighted background, and an overall object (that encompasses children entries) can also have a highlighted background." src="Assets/Word_Math_ColoredAndHighlightedMatrixEntries_HighlightedBkgd.png" width=400 height=200>
+* <img alt="Picture showing a 3x3 matrix in LO Math (& the view in Writer) where each element's text can be colored and no individual element has a background highlight (due to not being implemented in LO Math), but whole OLE object has a highlighted background." src="Assets/LO_Math_ColoredAndNONHighlightedMatrixEntries_HighlightedBkgd.png" width=500 height=300>
+
+
+
+However, for *individual* entries, LO Math and MS Word equations differ in capability:
+
+* MS Word can **highlight** individual entries of a matrix *and* **color** individual entries in that matrix.  
+  * <img alt="Picture showing a 3x3 matrix in MS Word where each element can be colored text and each element can have a highlighted background" src="Assets/Word_Math_ColoredAndHighlightedMatrixEntries.png" width=800 height=400>
+* LO Math can only **color** individual entries in a matrix. **Highlighting individual entries is not supported in LO Math.**
+  * <img alt="Picture showing a 3x3 matrix in LO Math (& the view in Writer) where each element can be colored text but no element can have a highlighted background due to lack of support" src="Assets/LO_Math_ColoredAndNONHighlightedMatrixEntries.png" width=800 height=400>  
+
+**I have not found a workaround in *LO Math* nor *LO Writer* for allowing per-element *highlighting* (not just background highlighting).**  
+If there exists an ability to support arbitrarily-deep nested OLE objects (and assuming that all types of OLE objects can be embedded in all other types of OLE objects), then one could have a Writer document with a Math OLE object (main/overall equation) with multiple Writer documents embedded (on a sibling-level, not further/recursively nested) inside the Math object, and each embedded Writer doc can have a single Math OLE object inside, which you can then color the background of each when inside the embedded Writer above it  - acting as a highlight.
+* Diagram of nesting:
+```
+           [Main Writer Doc]
+                  |
+// Will house all elements belonging to what we can treat as a single Formula object
+          [Inner Writer Doc]
+                  |
+          _______/|\_______
+         /        |        \
+// Treat as single Math element, like one element of a matrix.
+// Having three nested-at-depth-2 Writer documents means we can have a matrix with 3 elements that are each highlightable and colorable.
+     /            |            \
+[WriterDoc]  [WriterDoc]  [WriterDoc]  // Can set bkgd highlight of each element here, but not text color.
+    |            |             |
+ [MathObj]    [MathObj]    [MathObj]  // Can set text color of each element here, but not bkgd highlight.
+```
+* However, after testing it, I discovered two things:
+  * A LO Writer document that contains a Math OLE object ***cannot*** have another Writer document inside that Math OLE object. I.e., `WriterDoc->MathObj->WriterDoc` is illegal due to the innermost part. There is no existing way to insert a LO Writer document inside *any* Math OLE Object, even when going to `Customization` and altering the toolbar's list of available/selectable commands. The `Insert OLE Object` command simply does not exist when inside even a standalone `LO Math` application window.
+  * A LO Writer document *can* contain an embedded LO Writer document, but that inner LO Writer document ***cannot*** have another Writer document inside it. I.e., `WriterDoc->WriterDoc->WriterDoc` is illegal due to the innermost part.
+  * <img alt="Picture of failing to insert an InnerInner Writer Doc from the user being in the Inner Writer Doc focus, due to a grayed out `Insert OLE Object` box after clicking through the toolbar's `Insert`." src="Assets/LO_Writer_SinglyNestedDoc_FailedInsertionOfDoublyNestedDoc.png" width=800 height=600>
+  * Curiously though, the inner Writer document is editable.
+    * Steps to create an inner document: First, save a LO Writer document (that you want to embed in another doc) as a template. Second, open a new LO Writer document, then Toolbar->`Insert`->`OLE Object`->`OLE Object...`->`Create from file`->`Search`->Navigate to the previously saved template (if you can't find it, then check for it inside `C:\Users\<YOUR-COMPUTER-USERNAME>\AppData\Roaming\LibreOffice\4\user\template`) and double-click it to embed it into the already-open Writer document -> Ensure the boxes named `Link to file` and `Display as icon` are unchecked -> Click `OK`.
+    * <img alt="Picture showing a Writer document that is being displayed inside an outer Writer document. The 'focus' is on editing the main (outer) document, not the inner document." src="Assets/WriterDocEmbeddedInWriterDoc-FocusIsEditingOuterDoc.webp" width=1000 height=400>
+    * <img alt="Picture showing a Writer document that is being displayed inside an outer Writer document. The 'focus' is on editing the inner (embedded) document, not the outer/main document." src="Assets/WriterDocEmbeddedInWriterDoc-FocusIsEditingInnerDoc.webp" width=1000 height=400>
+<br>
+<br>
+
+
+
+
 
