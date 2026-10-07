@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE toolbar:toolbar PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "toolbar.dtd">
+<toolbar:toolbar xmlns:toolbar="http://openoffice.org/2001/toolbar" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <toolbar:toolbaritem xlink:href=".uno:GraphicFilterToolbox"/>
+ <toolbar:toolbarseparator/>
+ <toolbar:toolbaritem xlink:href=".uno:GrafMode"/>
+ <toolbar:toolbarseparator/>
+ <toolbar:toolbaritem xlink:href=".uno:Crop"/>
+ <toolbar:toolbarseparator/>
+ <toolbar:toolbaritem xlink:href=".uno:FlipVertical"/>
+ <toolbar:toolbaritem xlink:href=".uno:FlipHorizontal"/>
+ <toolbar:toolbaritem xlink:href=".uno:RotateLeft"/>
+ <toolbar:toolbaritem xlink:href=".uno:RotateRight"/>
+ <toolbar:toolbaritem xlink:href=".uno:ToggleObjectRotateMode"/>
+ <toolbar:toolbaritem xlink:href=".uno:Rotate180" toolbar:visible="false"/>
+ <toolbar:toolbaritem xlink:href=".uno:RotateReset"/>
+ <toolbar:toolbarseparator/>
+ <toolbar:toolbaritem xlink:href=".uno:GrafTransparence"/>
+ <toolbar:toolbarseparator/>
+ <toolbar:toolbaritem xlink:href=".uno:ColorSettings"/>
+ <toolbar:toolbarseparator/>
+ <toolbar:toolbaritem xlink:href=".uno:InsertCaptionDialog"/>
+ <toolbar:toolbaritem xlink:href=".uno:GraphicDialog"/>
+</toolbar:toolbar>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE toolbar:toolbar PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "toolbar.dtd">
+<toolbar:toolbar xmlns:toolbar="http://openoffice.org/2001/toolbar" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <toolbar:toolbarseparator/>
+ <toolbar:toolbaritem xlink:href=".uno:DesignerDialog" toolbar:visible="false"/>
+ <toolbar:toolbaritem xlink:href=".uno:StyleApply" toolbar:visible="false"/>
+ <toolbar:toolbaritem xlink:href=".uno:StyleUpdateByExample" toolbar:visible="false"/>
+ <toolbar:toolbaritem xlink:href=".uno:StyleNewByExample" toolbar:visible="false"/>
+ <toolbar:toolbaritem xlink:href=".uno:EditStyle" toolbar:visible="false"/>
+ <toolbar:toolbaritem xlink:href=".uno:CharFontName" toolbar:visible="false"/>
+ <toolbar:toolbarseparator/>
+ <toolbar:toolbaritem xlink:href=".uno:FontHeight" toolbar:visible="false"/>
+ <toolbar:toolbaritem xlink:href=".uno:Grow" toolbar:visible="false"/>
+ <toolbar:toolbaritem xlink:href=".uno:Shrink" toolbar:visible="false"/>
+ <toolbar:toolbarseparator/>
+ <toolbar:toolbaritem xlink:href=".uno:TitleParaStyle"/>
+ <toolbar:toolbaritem xlink:href=".uno:SubtitleParaStyle"/>
+ <toolbar:toolbaritem xlink:href=".uno:Heading1ParaStyle" toolbar:text="Heading ~1"/>
+ <toolbar:toolbaritem xlink:href=".uno:Heading2ParaStyle"/>
+ <toolbar:toolbaritem xlink:href=".uno:Heading3ParaStyle"/>
+ <toolbar:toolbaritem xlink:href=".uno:Heading4ParaStyle"/>
+ <toolbar:toolbaritem xlink:href=".uno:Heading5ParaStyle"/>
+ <toolbar:toolbaritem xlink:href=".uno:Heading6ParaStyle"/>
+ <toolbar:toolbarseparator/>
+ <toolbar:toolbaritem xlink:href=".uno:DefaultParaStyle"/>
+ <toolbar:toolbaritem xlink:href=".uno:TextBodyParaStyle" toolbar:visible="false"/>
+ <toolbar:toolbaritem xlink:href=".uno:PreformattedParaStyle"/>
+ <toolbar:toolbaritem xlink:href=".uno:QuoteParaStyle"/>
+ <toolbar:toolbarseparator/>
+ <toolbar:toolbaritem xlink:href=".uno:DefaultCharStyle" toolbar:visible="false"/>
+ <toolbar:toolbaritem xlink:href=".uno:EmphasisCharStyle" toolbar:visible="false"/>
+ <toolbar:toolbaritem xlink:href=".uno:StrongEmphasisCharStyle" toolbar:visible="false"/>
+ <toolbar:toolbaritem xlink:href=".uno:QuoteCharStyle" toolbar:visible="false"/>
+ <toolbar:toolbaritem xlink:href=".uno:SourceCharStyle" toolbar:visible="false"/>
+ <toolbar:toolbaritem xlink:href=".uno:StyleApply?Style:string=User Entry&amp;FamilyName:string=CharacterStyles" toolbar:text="User" toolbar:visible="false"/>
+ <toolbar:toolbarseparator/>
+ <toolbar:toolbaritem xlink:href=".uno:Bold" toolbar:visible="false"/>
+ <toolbar:toolbaritem xlink:href=".uno:Italic" toolbar:visible="false"/>
+ <toolbar:toolbaritem xlink:href=".uno:Underline" toolbar:visible="false"/>
+ <toolbar:toolbaritem xlink:href=".uno:Strikeout" toolbar:visible="false"/>
+ <toolbar:toolbarseparator/>
+ <toolbar:toolbaritem xlink:href=".uno:SuperScript" toolbar:visible="false"/>
+ <toolbar:toolbaritem xlink:href=".uno:SubScript" toolbar:visible="false"/>
+ <toolbar:toolbarseparator/>
+ <toolbar:toolbaritem xlink:href=".uno:Color" toolbar:visible="false"/>
+ <toolbar:toolbaritem xlink:href=".uno:CharBackColor" toolbar:visible="false"/>
+ <toolbar:toolbarseparator/>
+ <toolbar:toolbaritem xlink:href=".uno:ResetAttributes" toolbar:visible="false"/>
+ <toolbar:toolbarseparator/>
+ <toolbar:toolbaritem xlink:href=".uno:LeftPara" toolbar:visible="false"/>
+ <toolbar:toolbaritem xlink:href=".uno:CenterPara" toolbar:visible="false"/>
+ <toolbar:toolbaritem xlink:href=".uno:RightPara" toolbar:visible="false"/>
+ <toolbar:toolbaritem xlink:href=".uno:JustifyPara" toolbar:visible="false"/>
+ <toolbar:toolbarseparator/>
+ <toolbar:toolbaritem xlink:href=".uno:BulletListStyle"/>
+ <toolbar:toolbaritem xlink:href=".uno:NumberListStyle"/>
+ <toolbar:toolbaritem xlink:href=".uno:AlphaListStyle"/>
+ <toolbar:toolbaritem xlink:href=".uno:AlphaLowListStyle"/>
+ <toolbar:toolbaritem xlink:href=".uno:RomanListStyle"/>
+ <toolbar:toolbaritem xlink:href=".uno:RomanLowListStyle"/>
+ <toolbar:toolbaritem xlink:href=".uno:RemoveBullets"/>
+ <toolbar:toolbarseparator/>
+ <toolbar:toolbaritem xlink:href=".uno:IncrementIndent" toolbar:visible="false"/>
+ <toolbar:toolbaritem xlink:href=".uno:DecrementIndent" toolbar:visible="false"/>
+ <toolbar:toolbarseparator/>
+ <toolbar:toolbaritem xlink:href=".uno:LineSpacing" toolbar:visible="false"/>
+ <toolbar:toolbaritem xlink:href=".uno:Spacing" toolbar:visible="false"/>
+ <toolbar:toolbaritem xlink:href=".uno:ParaspaceIncrease" toolbar:visible="false"/>
+ <toolbar:toolbaritem xlink:href=".uno:ParaspaceDecrease" toolbar:visible="false"/>
+</toolbar:toolbar>

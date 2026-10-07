@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE toolbar:toolbar PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "toolbar.dtd">
+<toolbar:toolbar xmlns:toolbar="http://openoffice.org/2001/toolbar" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <toolbar:toolbaritem xlink:href=".uno:ExtrusionToggle"/>
+ <toolbar:toolbarseparator/>
+ <toolbar:toolbaritem xlink:href=".uno:ExtrusionTiltDown"/>
+ <toolbar:toolbaritem xlink:href=".uno:ExtrusionTiltUp"/>
+ <toolbar:toolbaritem xlink:href=".uno:ExtrusionTiltLeft"/>
+ <toolbar:toolbaritem xlink:href=".uno:ExtrusionTiltRight"/>
+ <toolbar:toolbarseparator/>
+ <toolbar:toolbaritem xlink:href=".uno:ExtrusionDepthFloater"/>
+ <toolbar:toolbaritem xlink:href=".uno:ExtrusionDirectionFloater"/>
+ <toolbar:toolbaritem xlink:href=".uno:ExtrusionLightingFloater"/>
+ <toolbar:toolbaritem xlink:href=".uno:ExtrusionSurfaceFloater"/>
+ <toolbar:toolbaritem xlink:href=".uno:Extrusion3DColor"/>
+</toolbar:toolbar>

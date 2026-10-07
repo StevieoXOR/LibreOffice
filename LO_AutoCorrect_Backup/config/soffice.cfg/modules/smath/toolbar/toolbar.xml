@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE toolbar:toolbar PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "toolbar.dtd">
+<toolbar:toolbar xmlns:toolbar="http://openoffice.org/2001/toolbar" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <toolbar:toolbaritem xlink:href=".uno:ZoomIn"/>
+ <toolbar:toolbaritem xlink:href=".uno:ZoomOut"/>
+ <toolbar:toolbaritem xlink:href=".uno:Zoom100Percent"/>
+ <toolbar:toolbaritem xlink:href=".uno:ZoomOptimal"/>
+ <toolbar:toolbarseparator/>
+ <toolbar:toolbaritem xlink:href=".uno:Draw"/>
+ <toolbar:toolbarseparator/>
+ <toolbar:toolbaritem xlink:href=".uno:ParaLeftToRight"/>
+ <toolbar:toolbaritem xlink:href=".uno:ParaRightToLeft"/>
+ <toolbar:toolbarseparator/>
+ <toolbar:toolbaritem xlink:href=".uno:FormelCursor"/>
+ <toolbar:toolbaritem xlink:href=".uno:SymbolCatalogue"/>
+ <toolbar:toolbarseparator/>
+ <toolbar:toolbaritem xlink:href="vnd.sun.star.script:Standard.Module1.ListAvailableShortcuts?language=Basic&amp;location=application" toolbar:text="ListMathShortcuts"/>
+ <toolbar:toolbaritem xlink:href="vnd.sun.star.script:Standard.Module1.Main_ExpandFormulaShortcuts?language=Basic&amp;location=application" toolbar:text="Apply_FormulaShortcuts"/>
+</toolbar:toolbar>
