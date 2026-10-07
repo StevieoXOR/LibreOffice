@@ -125,7 +125,23 @@ like converting (i.e., substituting):
 This is what I started out doing before I switched to LibreOffice Writer!  
 
 See [MS-Word-Math_AutoCorrect-README.md](./MS-Word-Math_AutoCorrect-README.md)  
+* Also see that same resource if you want:  
+  * tips on understanding how equations get parsed.  
+  * some differences/comparisons between MS Word and LO Writer/LO Math.  
 <br>
+<br>
+
+## Are there any equation-related drawbacks to replacing *MS Word* with *LO Math*?
+Yes.  
+
+One problem I've found so far is that LO Math is incapable of applying a highlighter-style background to Formula text, where MS Word does not have this problem.  
+
+Additionally, that drawback *cannot* be fixed by a user without creating a new macro/extension/fork to LibreOffice.  
+
+See [MS-Word-Math_AutoCorrect-README.md](./MS-Word-Math_AutoCorrect-README.md) for further explanation with visual examples.  
+<br>
+<br>
+
 
 ## What does this LO project/macro act on, or modify?
 * This *does not* substitute the visual-only representation of the LO Math Formula.  
